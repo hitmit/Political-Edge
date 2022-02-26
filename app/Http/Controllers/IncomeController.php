@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Transaction;
 use App\Models\Project;
 use Illuminate\Http\Request;
@@ -17,9 +18,9 @@ class IncomeController extends Controller
      */
     public function index()
     {
-        $query = Transaction::where('type' => 'income');
+        $query = Transaction::where('type', 'income');
         if (!auth()->getUser()->is_admin) {
-            $query->where("user_id" => Auth::user()->id])
+            $query->where("user_id", Auth::user()->id);
         }
         $incomes = $query->paginate(10);
         return view("income.manage-income", compact("incomes"));
@@ -37,7 +38,7 @@ class IncomeController extends Controller
             $users = User::all();
         }
         $projects = Project::all();
-        return view("income.add-income", compact("projects"));
+        return view("income.add-income", compact("projects", "users"));
     }
 
     /**

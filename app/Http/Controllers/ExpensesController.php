@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Transaction;
 use App\Models\Project;
 use Illuminate\Http\Request;
@@ -17,12 +18,12 @@ class ExpensesController extends Controller
      */
     public function index()
     {
-        $query = Transaction::where('type' => 'expense');
+        $query = Transaction::where('type', 'expense');
         if (!auth()->getUser()->is_admin) {
-            $query->where("user_id" => Auth::user()->id])
+            $query->where("user_id", Auth::user()->id);
         }
         $expenses = $query->paginate(10);
-        return view("expenses.manage-expenses", compact(["expenses"]));
+        return view("expenses.manage-expenses", compact("expenses"));
     }
 
     /**
@@ -37,7 +38,7 @@ class ExpensesController extends Controller
         if (auth()->getUser()->is_admin) {
             $users = User::all();
         }
-        return view("expenses.add-expense", compact("projects"));
+        return view("expenses.add-expense", compact("projects", "users"));
     }
 
     /**
