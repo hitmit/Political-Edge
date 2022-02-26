@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateExpenseTable extends Migration
+class CreateTransactionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,14 +15,14 @@ class CreateExpenseTable extends Migration
     {
         // id	date	time	project_id	type	user_id	amount	remark	created_at	updated_at	
 
-        Schema::create('expense', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->date("date");
             $table->time("time");
             $table->string("project_id");
             $table->string("amount");
-            $table -> integer("type");
-            $table -> integer("user_id");
+            $table->integer("type");
+            $table->integer("user_id");
             $table->string("remark")->nullable();
             $table->timestamps();
         });

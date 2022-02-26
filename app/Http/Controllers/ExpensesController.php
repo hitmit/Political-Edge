@@ -2,31 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ExpenseModel;
-use App\Models\ProjectModel;
+use App\Models\Transaction;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use phpDocumentor\Reflection\Project;
 
 class ExpensesController extends Controller
 {
-    /**FF
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     public function index()
     {
-        $expenses = ExpenseModel::where(['type' => 'expense', "user_id" => Auth::user()->id])->paginate(4);
-        foreach ($expenses as $expense) {
-            $project_id = $expense->id;
-            // dd($project_id);
+        $query = Transaction::where('type' => 'expense');
+        if (!auth()->getUser()->is_admin) {
+            $query->where("user_id" => Auth::user()->id])
         }
+        $expenses = $query->paginate(10);
         return view("expenses.manage-expenses", compact(["expenses"]));
     }
 
@@ -37,7 +32,11 @@ class ExpensesController extends Controller
      */
     public function create()
     {
-        $projects = ProjectModel::paginate(4);
+        $projects = Project::all();
+        $users = [];
+        if (auth()->getUser()->is_admin) {
+            $users = User::all();
+        }
         return view("expenses.add-expense", compact("projects"));
     }
 
@@ -54,18 +53,21 @@ class ExpensesController extends Controller
             "time" => "required",
             // "remark" => "required",
             "project" => "required",
-            "amt" => "required"
+            "amount" => "required"
         ]);
 
-        $expense = new ExpenseModel;
+        $expense = new Transaction;
 
         $expense->date = $request->date;
         $expense->time = $request->time;
         $expense->remark = $request->remark;
         $expense->project_id = $request->project;
         $expense->type = "expense";
-        $expense->amount = $request->amt;
+        $expense->amount = $request->amount;
         $expense->user_id =  Auth::user()->id;
+        if ($request->user_id) {
+            $expense->user_id = $reqest->user_id;
+        }
         $expense->save();
         return redirect(route("expenses.index"))->with("status", "Expenses addedd successfully");
     }
@@ -89,12 +91,13 @@ class ExpensesController extends Controller
      */
     public function edit($id)
     {
-        $expenses = ExpenseModel::find($id);
-        $projects = ProjectModel::all();
-        return view("expenses.edit", array(
-            "expense" => $expenses,
-            "projects" => $projects
-        ));
+        $users = [];
+        if (auth()->getUser()->is_admin) {
+            $users = User::all();
+        }
+        $expense = Transaction::find($id);
+        $projects = Project::all();
+        return view("expenses.edit", compact("expense", "projects"));
     }
 
     /**
@@ -109,18 +112,19 @@ class ExpensesController extends Controller
         $request->validate([
             'date' => 'required',
             "time" => "required",
-            // "remark" => "required",
             "project" => "required",
-            "amt" => "required"
+            "amount" => "required"
         ]);
-
-        ExpenseModel::where(['id' => $id, 'type' => 'expense', 'user_id' => Auth::user()->id])->update([
-            "date" => $request->date,
-            "time" => $request->time,
-            "remark" => $request->remark,
-            "project_id" => $request->project,
-            "amount" => $request->amt
-        ]);
+        $transaction = Transaction::find($id);
+        $transaction->date = $request->date;
+        $transaction->time = $request->time;
+        $transaction->remark = $request->remark;
+        $transaction->project_id = $request->project;
+        $transaction->amount = $request->amount;
+        if ($request->user_id) {
+            $transaction->user_id = $request->user_id;
+        }
+        $transaction->save();
 
         return redirect(route("expenses.index"))->with("status", "Expenses updated successfully");
     }
@@ -133,7 +137,7 @@ class ExpensesController extends Controller
      */
     public function destroy($id)
     {
-        ExpenseModel::where(['id' => $id, 'type' => 'expense', 'user_id' => Auth::user()->id])->delete();
-        return Redirect::back()->with("status", "Project delete successfully");
+        Transaction::where(['id' => $id, 'type' => 'expense', 'user_id' => Auth::user()->id])->delete();
+        return Redirect::back()->with("status", "Expense delete successfully");
     }
 }

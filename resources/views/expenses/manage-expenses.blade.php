@@ -29,7 +29,7 @@
                                 <tbody>
                                     @foreach ($expenses as $expense)
                                         <tr>
-                                            <td>{{ $expense->project_id }}</td>
+                                            <td>{{ $expense->project()->first()->name }}</td>
                                             <td>&#x20B9;{{ $expense->amount }}</td>
                                             <th>{{ $expense->remark }}</th>
                                             <td>{{ $expense->date }}</td>

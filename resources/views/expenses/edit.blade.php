@@ -41,7 +41,7 @@
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Select Project</label>
                                 <select class="form-control @error('project') is-invalid @enderror"
-                                    id="exampleFormControlSelect1" name="project">
+                                    name="project">
                                     <option selected disabled>Select your Project</option>
                                     @foreach ($projects as $name)
                                         <option value="{{ $name->name }}">{{ $name->name }}</option>
@@ -53,19 +53,35 @@
                                     </span>
                                 @enderror
                             </div>
+                            @if ($users && !empty($users)) 
+                                <div class="form-group">
+                                    <label for="user_id">Select User</label>
+                                    <select class="form-control @error('user_id') is-invalid @enderror" name="user_id">
+                                        <option selected disabled>Select User</option>
+                                        @foreach ($users as $user)
+                                            <option value="{{ $user->id }}" @if($user->id == $expense->user_id 'selected' @endif)>{{ $user->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('user_id')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            @endif
                             <div class="form-group">
                                 <label for="exampleInputNumber1">Income Amount</label>
-                                <input type="number" class="form-control @error('amt') is-invalid @enderror"
-                                    id="exampleInputNumber1" id="amt" value="{{ $expense->amount }}" name="amt"
+                                <input type="number" class="form-control @error('amount') is-invalid @enderror"
+                                     id="amount" value="{{ $expense->amount }}" name="amount"
                                     Placeholder="Enter Income Amount">
-                                @error('amt')
+                                @error('amount')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="exampleFormControlTextarea1">Remark*</label>
+                                <label for="exampleFormControlTextarea1">Remark</label>
                                 <textarea class="form-control @error('remark') is-invalid @enderror"
                                     id="exampleFormControlTextarea1" name="remark"
                                     rows="5">{{ $expense->remark }}</textarea>
@@ -78,14 +94,6 @@
 
                             <button type="submit" class="btn btn-primary mr-2">Submit</button>
                         </form>
-
-                        @if ($errors->any())
-                            @foreach ($errors->all() as $item)
-                                <div class="alert alert-primary" role="alert">
-                                    <strong>{{ $item }}}</strong>
-                                </div>
-                            @endforeach
-                        @endif
                     </div>
                 </div>
             </div>

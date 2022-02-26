@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ExpenseModel;
-use App\Models\IncomeModel;
-use App\Models\ProjectModel;
+use App\Models\Transaction;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -18,7 +17,11 @@ class IncomeController extends Controller
      */
     public function index()
     {
-        $incomes = ExpenseModel::where(['type' => 'income', "user_id" => Auth::user()->id])->paginate(4);
+        $query = Transaction::where('type' => 'income');
+        if (!auth()->getUser()->is_admin) {
+            $query->where("user_id" => Auth::user()->id])
+        }
+        $incomes = $query->paginate(10);
         return view("income.manage-income", compact("incomes"));
     }
 
@@ -29,7 +32,11 @@ class IncomeController extends Controller
      */
     public function create()
     {
-        $projects = ProjectModel::all();
+        $users = [];
+        if (auth()->getUser()->is_admin) {
+            $users = User::all();
+        }
+        $projects = Project::all();
         return view("income.add-income", compact("projects"));
     }
 
@@ -46,7 +53,7 @@ class IncomeController extends Controller
             "time" => "required",
             // "remark" => "required",
             "project" => "required",
-            "amt" => "required"
+            "amount" => "required"
         ]);
 
         $income = new ExpenseModel;
@@ -55,8 +62,11 @@ class IncomeController extends Controller
         $income->time = $request->time;
         $income->remark = $request->remark;
         $income->project_id = $request->project;
-        $income->amount = $request->amt;
+        $income->amount = $request->amount;
         $income->user_id = Auth::user()->id;
+        if ($request->user_id) {
+            $income->user_id = $reqest->user_id;
+        }
         $income->type = "income";
         $income->save();
         return redirect(route("income.index"))->with("status", "Income addedd successfully");
@@ -81,12 +91,14 @@ class IncomeController extends Controller
      */
     public function edit($id)
     {
-        $incomes = ExpenseModel::find($id);
-        $projects = ProjectModel::all();
-        return view("income.edit", array(
-            "income" => $incomes,
-            "projects" => $projects
-        ));
+        $users = [];
+        if (auth()->getUser()->is_admin) {
+            $users = User::all();
+        }
+        $income = Transaction::find($id);
+        $projects = Project::all();
+        return view("income.edit", compact("income",
+            "projects"));
     }
 
     /**
@@ -102,16 +114,18 @@ class IncomeController extends Controller
             'date' => 'required',
             "time" => "required",
             "project" => "required",
-            "amt" => "required"
+            "amount" => "required"
         ]);
-
-        ExpenseModel::where(["id" => $id, "type" => "income", 'user_id' => Auth::user()->id])->update([
-            "date" => $request->date,
-            "time" => $request->time,
-            "remark" => $request->remark,
-            "project_id" => $request->project,
-            "amount" => $request->amt
-        ]);
+        $transaction = Transaction::find($id);
+        $transaction->date = $request->date;
+        $transaction->time = $request->time;
+        $transaction->remark = $request->remark;
+        $transaction->project_id = $request->project;
+        $transaction->amount = $request->amount;
+        if ($request->user_id) {
+            $transaction->user_id = $request->user_id;
+        }
+        $transaction->save();
 
         return redirect(route("income.index"))->with("status", "Expenses updated successfully");
     }
@@ -124,7 +138,7 @@ class IncomeController extends Controller
      */
     public function destroy($id)
     {
-        ExpenseModel::where(['id' => $id, 'type' => 'income', 'user_id' => Auth::user()->id])->delete();
-        return Redirect::back()->with("status", "Project delete successfully");
+        Transaction::where(['id' => $id, 'type' => 'income', 'user_id' => Auth::user()->id])->delete();
+        return Redirect::back()->with("status", "Income delete successfully");
     }
 }

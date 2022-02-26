@@ -52,19 +52,35 @@
                                     </span>
                                 @enderror
                             </div>
+                            @if ($users && !empty($users)) 
+                                <div class="form-group">
+                                    <label for="user_id">Select User</label>
+                                    <select class="form-control @error('user_id') is-invalid @enderror" name="user_id">
+                                        <option selected disabled>Select User</option>
+                                        @foreach ($users as $user)
+                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('user_id')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            @endif
                             <div class="form-group">
                                 <label for="exampleInputNumber1">Income Amount</label>
-                                <input type="number" class="form-control @error('amt') is-invalid @enderror"
-                                    id="exampleInputNumber1" id="amt" value="{{ old('amt') }}" name="amt"
+                                <input type="number" class="form-control @error('amount') is-invalid @enderror"
+                                     id="amount" value="{{ old('amount') }}" name="amount"
                                     Placeholder="Enter Income Amount">
-                                @error('amt')
+                                @error('amount')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="exampleFormControlTextarea1">Remark*</label>
+                                <label for="exampleFormControlTextarea1">Remark</label>
                                 <textarea class="form-control @error('remark') is-invalid @enderror"
                                     id="exampleFormControlTextarea1" name="remark"
                                     rows="5">{{ old('remark') }}</textarea>

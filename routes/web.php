@@ -17,21 +17,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get("/", function(){
+  if (auth()->guest()) {
+    return redirect()->route("login");
+  } else {
+    return redirect()->route("home");
+  }
+});
+
+Auth::routes(['register' => false]);
+
+Route::middleware(['auth'])->group(function () {
+  Route::get("home", [HomeController::class, "index"])->name("home");
+  Route::resource('/income', App\Http\Controllers\IncomeController::class);
+  Route::resource("/expenses",App\Http\Controllers\ExpensesController::class);
+});
+
+Route::middleware(['auth', 'admin'])->group(function () {
+  Route::resource('/project', App\Http\Controllers\ProjectController::class);
+  Route::resource("/users", App\Http\Controllers\UserControler::class);
+});
 
 
-Route::get("dashboard", [HomeController::class, "index"])->name("home");
-
-Route::resource('/project', App\Http\Controllers\ProjectController::class);
-Route::resource('/income', App\Http\Controllers\IncomeController::class);
-Route::resource("/users", App\Http\Controllers\UserControler::class);
-// Route::resource("/EXPENSES")
-Route::resource("/expenses",App\Http\Controllers\ExpensesController::class);
 
 
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

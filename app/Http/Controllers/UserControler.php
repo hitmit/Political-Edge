@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -15,13 +14,9 @@ class UserControler extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     public function index()
     {
-        $users = User::paginate(5);
+        $users = User::paginate(10);
         return view("users.manage-user", compact('users'));
     }
 
@@ -91,7 +86,22 @@ class UserControler extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $rules = [
+            'email' => 'required|email',
+            'phone' => 'required|min:11|numeric',
+            'name' => 'required|max:120',
+        ];
+        $account = User::find($id);
+        if ($account->email != $request->email) {
+            $rules['email'] = 'required|email|unique:users,email';
+        }
+        if ($request->password) {
+            $rules['password'] = ['required', 'string', 'min:8', 'confirmed'];
+        }
+        $this->validate($request, $rules);
+        $account->fill($request->all());
+        $account->save();
+        return redirect(route("users.index"))->with("status", "User added successfully");
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProjectModel;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -13,13 +13,9 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     public function index()
     {
-        $projects = ProjectModel::paginate(5);
+        $projects = Project::paginate(10);
         return view('projects.manage-project', compact('projects'));
     }
 
@@ -41,7 +37,11 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        $project = new ProjectModel;
+        $this->validate($request, [
+            "name" => 'required',
+            "status" => 'required|integer',
+        ]);
+        $project = new Project;
         $project->name = $request->name;
         $project->status = $request->status;
         $project->save();
@@ -68,8 +68,8 @@ class ProjectController extends Controller
     public function edit($id)
     {
 
-        $project = ProjectModel::find($id);
-        return view("projects.edit", array("project" => $project));
+        $project = Project::find($id);
+        return view("projects.edit", compact('project'));
     }
 
     /**
@@ -81,12 +81,12 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|max:120',
-            "status" => "required"
+        $this->validate($request, [
+            "name" => 'required',
+            "status" => 'required|integer',
         ]);
-
-        ProjectModel::where('id', $request->id)->update([
+        
+        Project::where('id', $request->id)->update([
             'name' => $request->name,
             "status" => $request->status
         ]);
@@ -101,7 +101,7 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        ProjectModel::find($id)->delete();
+        Project::find($id)->delete();
         return Redirect::back()->with("status", "Project delete successfully");
     }
 }

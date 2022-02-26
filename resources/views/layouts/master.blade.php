@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <div class="main-wrapper">
+    <div id="app" class="main-wrapper">
         @include('include.sidebar')
         <div class="page-wrapper">
             @include('include.header')

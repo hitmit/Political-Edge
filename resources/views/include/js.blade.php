@@ -13,6 +13,26 @@
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <!-- custom js for this page -->
 <!-- choose one -->
-    <script src="{{ asset('assets/js/template.js') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        var body = $('body');
+        var mainWrapper = $('.main-wrapper');
+        var footer = $('footer');
+        var sidebar = $('.sidebar');
+        var navbar = $('.navbar').not('.top-navbar');
+        // Sidebar toggle to sidebar-folded
+        $('.sidebar-toggler').on('click', function(e) {
+            $(this).toggleClass('active');
+            $(this).toggleClass('not-active');
+            if (window.matchMedia('(min-width: 992px)').matches) {
+                e.preventDefault();
+                body.toggleClass('sidebar-folded');
+            } else if (window.matchMedia('(max-width: 991px)').matches) {
+                e.preventDefault();
+                body.toggleClass('sidebar-open');
+            }
+        });
+    });
+</script>
 <!-- plugin js for this page -->
 @stack("js")

@@ -5,8 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProjectModel extends Model
+class Transaction extends Model
 {
     use HasFactory;
-    protected $table = "project";
+
+    public function project()
+    {
+        return $this->belongsTo(\App\Model\Project::class, 'project_id');
+    }
 }
