@@ -29,6 +29,8 @@ Auth::routes(['register' => false]);
 
 Route::middleware(['auth'])->group(function () {
   Route::get("home", [HomeController::class, "index"])->name("home");
+  Route::get("update-password", [HomeController::class, "getUpdatePassword"])->name("get.update.password");
+  Route::post("update-password", [HomeController::class, "setUpdatePassword"])->name("set.update.password");
   Route::resource('/income', App\Http\Controllers\IncomeController::class);
   Route::resource("/expenses",App\Http\Controllers\ExpensesController::class);
 });
@@ -36,6 +38,7 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
   Route::resource('/project', App\Http\Controllers\ProjectController::class);
   Route::resource("/users", App\Http\Controllers\UserControler::class);
+  Route::resource("/category", App\Http\Controllers\CategoryController::class);
 });
 
 

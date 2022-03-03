@@ -22,7 +22,6 @@
                                         <th>Expenses</th>
                                         <th>Remark</th>
                                         <th>Date</th>
-                                        <th>Time</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -33,7 +32,6 @@
                                             <td>&#x20B9;{{ $expense->amount }}</td>
                                             <th>{{ $expense->remark }}</th>
                                             <td>{{ $expense->date }}</td>
-                                            <td>{{ $expense->time }}</td>
                                             <td>
                                                 <a href="{{ route('expenses.edit', $expense->id) }}"
                                                     class="edit btn btn-primary"><i class="fa fa-pencil"

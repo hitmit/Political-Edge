@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Transaction;
 use App\Models\Project;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -38,7 +39,9 @@ class ExpensesController extends Controller
         if (auth()->getUser()->is_admin) {
             $users = User::all();
         }
-        return view("expenses.add-expense", compact("projects", "users"));
+        $categories = Category::all();
+        
+        return view("expenses.add-expense", compact("projects", "users", "categories"));
     }
 
     /**
@@ -51,23 +54,22 @@ class ExpensesController extends Controller
     {
         $request->validate([
             'date' => 'required',
-            "time" => "required",
-            // "remark" => "required",
+            "category_id" => "required",
             "project" => "required",
-            "amount" => "required"
+            "amount" => "required|confirmed"
         ]);
 
         $expense = new Transaction;
 
         $expense->date = $request->date;
-        $expense->time = $request->time;
         $expense->remark = $request->remark;
         $expense->project_id = $request->project;
+        $expense->category_id = $request->category_id;
         $expense->type = "expense";
         $expense->amount = $request->amount;
         $expense->user_id =  Auth::user()->id;
         if ($request->user_id) {
-            $expense->user_id = $reqest->user_id;
+            $expense->user_id = $request->user_id;
         }
         $expense->save();
         return redirect(route("expenses.index"))->with("status", "Expenses addedd successfully");
@@ -98,7 +100,8 @@ class ExpensesController extends Controller
         }
         $expense = Transaction::find($id);
         $projects = Project::all();
-        return view("expenses.edit", compact("expense", "projects"));
+        $categories = Category::all();
+        return view("expenses.edit", compact("expense", "projects", "categories"));
     }
 
     /**
@@ -112,14 +115,14 @@ class ExpensesController extends Controller
     {
         $request->validate([
             'date' => 'required',
-            "time" => "required",
             "project" => "required",
-            "amount" => "required"
+            "category_id" => "required",
+            "amount" => "required|confirmed"
         ]);
         $transaction = Transaction::find($id);
         $transaction->date = $request->date;
-        $transaction->time = $request->time;
         $transaction->remark = $request->remark;
+        $transaction->category_id = $request->category_id;
         $transaction->project_id = $request->project;
         $transaction->amount = $request->amount;
         if ($request->user_id) {

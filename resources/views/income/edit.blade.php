@@ -25,20 +25,6 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputTime">Time</label>
-                                <div class="input-group date timepicker" id="datetimepickerExample"
-                                    data-target-input="nearest">
-                                    <input type="time" class="form-control @error('time') is-invalid @enderror"
-                                        value="{{ $income->time }}" name="time" value="{{ old('time') }}"
-                                        data-target="#datetimepickerExample" />
-                                    @error('time')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group">
                                 <label for="exampleFormControlSelect1">Select Project</label>
                                 <select class="form-control @error('project') is-invalid @enderror"
                                     id="exampleFormControlSelect1" name="project">
@@ -53,13 +39,13 @@
                                     </span>
                                 @enderror
                             </div>
-                            @if ($users && !empty($users)) 
+                            @if (!empty($users)) 
                                 <div class="form-group">
                                     <label for="user_id">Select User</label>
                                     <select class="form-control @error('user_id') is-invalid @enderror" name="user_id">
                                         <option selected disabled>Select User</option>
                                         @foreach ($users as $user)
-                                            <option value="{{ $user->id }}" @if($user->id == $expense->user_id 'selected' @endif)>{{ $user->name }}</option>
+                                            <option value="{{ $user->id }}" @if($user->id == $expense->user_id) 'selected' @endif)>{{ $user->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('user_id')
@@ -73,8 +59,19 @@
                                 <label for="exampleInputNumber1">Income Amount</label>
                                 <input type="number" class="form-control @error('amount') is-invalid @enderror"
                                     id="amount" value="{{ $income->amount }}" name="amount"
-                                    Placeholder="Enter Income Amount">
+                                    Placeholder="Enter Amount">
                                 @error('amount')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="amount_confirmation">Confirm Amount</label>
+                                <input type="number" class="form-control @error('amount') is-invalid @enderror"
+                                     id="amount_confirmation" value="{{ old('amount_confirmation') }}" name="amount_confirmation"
+                                    Placeholder="Confirm Amount">
+                                @error('amount_confirmation')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

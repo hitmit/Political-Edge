@@ -51,22 +51,20 @@ class IncomeController extends Controller
     {
         $request->validate([
             'date' => 'required',
-            "time" => "required",
             // "remark" => "required",
             "project" => "required",
-            "amount" => "required"
+            "amount" => "required|confirmed"
         ]);
 
-        $income = new ExpenseModel;
+        $income = new Transaction;
 
         $income->date = $request->date;
-        $income->time = $request->time;
         $income->remark = $request->remark;
         $income->project_id = $request->project;
         $income->amount = $request->amount;
         $income->user_id = Auth::user()->id;
         if ($request->user_id) {
-            $income->user_id = $reqest->user_id;
+            $income->user_id = $request->user_id;
         }
         $income->type = "income";
         $income->save();
@@ -113,13 +111,11 @@ class IncomeController extends Controller
     {
         $request->validate([
             'date' => 'required',
-            "time" => "required",
             "project" => "required",
-            "amount" => "required"
+            "amount" => "required|confirmed"
         ]);
         $transaction = Transaction::find($id);
         $transaction->date = $request->date;
-        $transaction->time = $request->time;
         $transaction->remark = $request->remark;
         $transaction->project_id = $request->project;
         $transaction->amount = $request->amount;

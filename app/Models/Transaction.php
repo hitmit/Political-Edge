@@ -11,6 +11,11 @@ class Transaction extends Model
 
     public function project()
     {
-        return $this->belongsTo(\App\Model\Project::class, 'project_id');
+        return $this->belongsTo(\App\Models\Project::class, 'project_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'user_id');
     }
 }

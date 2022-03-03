@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Project;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
-class ProjectController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::paginate(10);
-        return view('projects.manage-project', compact('projects'));
+        $categories = Category::paginate(10);
+        return view('category.index', compact('categories'));
     }
 
     /**
@@ -26,7 +26,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('projects.add-project');
+        return view('category.create');
     }
 
     /**
@@ -39,15 +39,11 @@ class ProjectController extends Controller
     {
         $this->validate($request, [
             "name" => 'required',
-            'expected_revenue' => "required",
-            "status" => 'required|integer',
         ]);
-        $project = new Project;
-        $project->name = $request->name;
-        $project->expected_revenue = $request->expected_revenue;
-        $project->status = $request->status;
-        $project->save();
-        return redirect(route("project.index"))->with("status", "Project added successfully");
+        $category = new Category;
+        $category->name = $request->name;
+        $category->save();
+        return redirect(route("category.index"))->with("status", "Category added successfully");
     }
 
     /**
@@ -58,8 +54,7 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $project = Project::find($id);
-        return view('projects.show', compact('project'));
+        
     }
 
     /**
@@ -71,8 +66,8 @@ class ProjectController extends Controller
     public function edit($id)
     {
 
-        $project = Project::find($id);
-        return view("projects.edit", compact('project'));
+        $category = Category::find($id);
+        return view("category.edit", compact('category'));
     }
 
     /**
@@ -86,16 +81,12 @@ class ProjectController extends Controller
     {
         $this->validate($request, [
             "name" => 'required',
-            'expected_revenue' => "required",
-            "status" => 'required|integer',
         ]);
         
-        Project::where('id', $request->id)->update([
+        Category::where('id', $request->id)->update([
             'name' => $request->name,
-            'expected_revenue' => $request->expected_revenue,
-            "status" => $request->status
         ]);
-        return redirect(route("project.index"))->with("status", "Project updated successfully");
+        return redirect(route("category.index"))->with("status", "Category updated successfully");
     }
 
     /**
@@ -106,7 +97,7 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        Project::find($id)->delete();
-        return Redirect::back()->with("status", "Project delete successfully");
+        Category::find($id)->delete();
+        return Redirect::back()->with("status", "Category delete successfully");
     }
 }

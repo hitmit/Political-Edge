@@ -26187,6 +26187,21 @@ input:-webkit-autofill:hover {
         margin-left: 0;
         width: 100%
     }
+    footer {
+    padding: 5px !important;
+}
+.footer p {
+    font-size: 10px;
+    margin-bottom: 0;
+}
+.add-row .card-title {
+    font-size: 15px;
+    width: 100%;
+}
+a.add-element {
+    float: right;
+    font-size: 14px;
+}
 }
 
 body,

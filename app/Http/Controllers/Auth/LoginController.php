@@ -37,4 +37,13 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    protected function redirectTo()
+    {
+        if(!auth()->getUser()->is_admin){
+            return '/income/create';
+        }else {
+            return RouteServiceProvider::HOME;
+        }   
+    }
 }

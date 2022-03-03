@@ -19,21 +19,7 @@
                     <span class="link-title">Dashboard</span>
                 </a>
             </li>
-            <li class="nav-item nav-category">Manage Income</li>
-            <li class="nav-item">
-                <a href="{{ route('income.index') }}" class="nav-link">
-                    <i class="link-icon" data-feather="calendar"></i>
-                    <span class="link-title">Manage Income</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('income.create') }}" class="nav-link">
-                    <i class="link-icon" data-feather="credit-card"></i>
-                    <span class="link-title">Add Income</span>
-                </a>
-            </li>
-
-
+            
             @if (auth()->getUser()->is_admin)
                 <li class="nav-item nav-category">Manage Project</li>
                 <li class="nav-item">
@@ -49,6 +35,21 @@
                     </a>
                 </li>
             @endif
+            <li class="nav-item nav-category">Manage Receivables</li>
+            <li class="nav-item">
+                <a href="{{ route('income.index') }}" class="nav-link">
+                    <i class="link-icon" data-feather="calendar"></i>
+                    <span class="link-title">Manage Receivables</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('income.create') }}" class="nav-link">
+                    <i class="link-icon" data-feather="credit-card"></i>
+                    <span class="link-title">Add Receivables</span>
+                </a>
+            </li>
+
+
             <li class="nav-item nav-category">Manage Expenses</li>
             <li class="nav-item">
                 <a href="{{ route('expenses.index') }}" class="nav-link">
@@ -64,6 +65,20 @@
             </li>
             
             @if (auth()->getUser()->is_admin)
+                <li class="nav-item nav-category">Manage Category</li>
+                <li class="nav-item">
+                    <a href="{{ route('category.index') }}" class="nav-link">
+                        <i class="link-icon" data-feather="calendar"></i>
+                        <span class="link-title">Manage Category</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('category.create') }}" class="nav-link">
+                        <i class="link-icon" data-feather="credit-card"></i>
+                        <span class="link-title">Add Category</span>
+                    </a>
+                </li>
+                
                 <li class="nav-item nav-category">Manage Users</li>
                 <li class="nav-item">
                     <a href="{{ route('users.index') }}" class="nav-link">

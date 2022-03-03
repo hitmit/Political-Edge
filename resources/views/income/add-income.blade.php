@@ -16,21 +16,8 @@
                                 <label for="exampleInputDate">Date</label>
                                 <div class="input-group date datepicker" id="datePickerExample">
                                     <input type="date" class="form-control @error('date') is-invalid @enderror" name="date"
-                                        value="{{ old('date') }}">
+                                 id="date">
                                     @error('date')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputTime">Time</label>
-                                <div class="input-group date timepicker" id="datetimepickerExample"
-                                    data-target-input="nearest">
-                                    <input type="time" class="form-control @error('time') is-invalid @enderror" name="time"
-                                        value="{{ old('time') }}" data-target="#datetimepickerExample" />
-                                    @error('time')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -69,11 +56,22 @@
                                 </div>
                             @endif
                             <div class="form-group">
-                                <label for="exampleInputNumber1">Income Amount</label>
+                                <label for="exampleInputNumber1"> Amount</label>
                                 <input type="number" class="form-control @error('amount') is-invalid @enderror"
                                      id="amount" value="{{ old('amount') }}" name="amount"
-                                    Placeholder="Enter Income Amount">
+                                    Placeholder="Enter Amount">
                                 @error('amount')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="amount_confirmation">Confirm Amount</label>
+                                <input type="number" class="form-control @error('amount') is-invalid @enderror"
+                                     id="amount_confirmation" value="{{ old('amount_confirmation') }}" name="amount_confirmation"
+                                    Placeholder="Confirm Amount">
+                                @error('amount_confirmation')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -103,3 +101,30 @@
 
     </div>
 @endsection
+@push('js')
+<script>
+function getDate() {
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth()+1; //January is 0!
+  var yyyy = today.getFullYear();
+
+  if(dd<10) {
+      dd = '0'+dd
+  } 
+
+  if(mm<10) {
+      mm = '0'+mm
+  } 
+
+  today =  yyyy + '-' + mm + '-' + dd;
+  console.log(today);
+  document.getElementById("date").value = today;
+}
+
+
+$(document).ready(function() {
+  getDate();
+});
+</script>
+@endpush

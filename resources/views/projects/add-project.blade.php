@@ -12,10 +12,19 @@
                         <form class="forms-sample" action="{{ route('project.store') }}" method="POST">
                             @csrf
                             <div class="form-group">
-                                <label for="name">Add Project Name</label>
+                                <label for="name">Project Name</label>
                                 <input id="name" class="form-control @error('name') is-invalid @enderror" name="name"
                                     value="{{ old('name') }}" type="text">
                                 @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Expected Revenue</label>
+                                <input id="exp-rev" class="form-control @error('expected_revenue') is-invalid @enderror" value="{{ old('expected_revenue') }}" name="expected_revenue" type="text">
+                                @error('expected_revenue')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

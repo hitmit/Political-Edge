@@ -17,20 +17,24 @@
                                     <tr>
                                         <th>Project Name</th>
                                         <th>Income</th>
+                                        @if(auth()->getUser()->is_admin)
+                                            <th>User</th>
+                                        @endif
                                         <th>Remark</th>
                                         <th>Date</th>
-                                        <th>Time</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($incomes as $income)
                                         <tr>
-                                            <td>{{ $expense->project()->first()->name }}</td>
+                                            <td>{{ $income->project()->first()->name }}</td>
                                             <td>&#x20B9;{{ $income->amount }}</td>
-                                            <th>{{ $income->remark }}</th>
+                                            @if(auth()->getUser()->is_admin)
+                                                <td>{{ $income->user()->first()->name }}</td>
+                                            @endif
+                                            <td>{{ $income->remark }}</td>
                                             <td>{{ $income->date }}</td>
-                                            <td>{{ $income->time }}</td>
                                             <td>
                                                 <a href="{{ route('income.edit', $income->id) }}"
                                                     class="edit btn btn-primary"><i class="fa fa-pencil"

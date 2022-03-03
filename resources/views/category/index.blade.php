@@ -8,18 +8,15 @@
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card add-row">
                     <div class="card-body">
-                        <h6 class="card-title">Manage Project <a href="{{ route('project.create') }}"
-                                class="add-element add-element btn btn-primary">Add Project</a></h6>
+                        <h6 class="card-title">Manage Category <a href="{{ route('category.create') }}"
+                                class="add-element add-element btn btn-primary">Add Category</a></h6>
 
                         <div class="table-responsive">
                             <table id="dataTableExample" class="table text-center">
                                 <thead>
                                     <tr>
                                         <th>Sr.no</th>
-                                        <th>Project Name</th>
-                                        <th>Expected Revenue</th>
-                                        <th>Status</th>
-                                        <th>Date & Time</th>
+                                        <th>Category Name</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -27,29 +24,17 @@
                                     @php
                                         $i = 1;
                                     @endphp
-                                    @foreach ($projects as $project)
+                                    @foreach ($categories as $category)
                                         <tr>
                                             <td>{{ $i }}</td>
-                                            <td>{{ $project->name }}</td>
-                                            <td>{{ $project->expected_revenue }}</td>
+                                            <td>{{ $category->name }}</td>
                                             <td>
-                                                @if ($project->status)
-                                                    <span class="badge badge-success">Active</span>
-                                                @else
-                                                    <span class="badge badge-danger">Inactive</span>
-                                                @endif
-                                            </td>
-                                            <td>{{ $project->created_at }}</td>
-                                            <td>
-                                                <a href="{{ route('project.edit', $project->id) }}"
+                                                <a href="{{ route('category.edit', $category->id) }}"
                                                     class="edit btn btn-primary"><i class="fa fa-pencil"
                                                         aria-hidden="true"></i></a>
-                                                {{-- <a href="{{ route('project.destroy', $project->id) }}"
-                                                    onclick="return confirm('Are your sure to delete')"
-                                                    class="delete btn btn-danger"><i class="fa fa-trash"
-                                                        aria-hidden="true"></i></a> --}}
+                                               
 
-                                                        <form class="my-2" action="{{ route('project.destroy', $project->id) }}"
+                                                        <form class="my-2" action="{{ route('category.destroy', $category->id) }}"
                                                             method="POST">
                                                             @csrf
                                                             @method("DELETE")
@@ -71,7 +56,7 @@
 
 
                     <div class="card-footer">
-                        {{ $projects->links() }}
+                        {{ $categories->links() }}
                     </div>
                 </div>
             </div>
