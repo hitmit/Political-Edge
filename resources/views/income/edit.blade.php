@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    Political edge | Update Income
+    Clever App | Update Receivables
 @endsection
 @section('content')
     <div class="page-content">
@@ -8,7 +8,7 @@
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card add-row">
                     <div class="card-body">
-                        <h6 class="card-title">Update Income Details</h6>
+                        <h6 class="card-title">Update Receivables Details</h6>
                         <form class="forms-sample" action="{{ route('income.update', $income->id) }}" method="POST">
                             @csrf
                             @method('PATCH')
@@ -29,8 +29,8 @@
                                 <select class="form-control @error('project') is-invalid @enderror"
                                     id="exampleFormControlSelect1" name="project">
                                     <option selected disabled>Select your Project</option>
-                                    @foreach ($projects as $name)
-                                        <option value="{{ $name->name }}">{{ $name->name }}</option>
+                                    @foreach ($projects as $project)
+                                        <option value="{{ $project->id }}" @if($project->id == $income->project_id) 'selected' @endif>{{ $project->name }}</option>
                                     @endforeach
                                 </select>
                                 @error('project')
@@ -45,7 +45,7 @@
                                     <select class="form-control @error('user_id') is-invalid @enderror" name="user_id">
                                         <option selected disabled>Select User</option>
                                         @foreach ($users as $user)
-                                            <option value="{{ $user->id }}" @if($user->id == $expense->user_id) 'selected' @endif)>{{ $user->name }}</option>
+                                            <option value="{{ $user->id }}" @if($user->id == $income->user_id) 'selected' @endif)>{{ $user->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('user_id')
@@ -56,7 +56,7 @@
                                 </div>
                             @endif
                             <div class="form-group">
-                                <label for="exampleInputNumber1">Income Amount</label>
+                                <label for="exampleInputNumber1">Amount</label>
                                 <input type="number" class="form-control @error('amount') is-invalid @enderror"
                                     id="amount" value="{{ $income->amount }}" name="amount"
                                     Placeholder="Enter Amount">

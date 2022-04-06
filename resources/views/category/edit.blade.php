@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    Political edge | Edit Category
+    Clever App | Edit Category
 @endsection
 @section('content')
     <div class="page-content">

@@ -18,4 +18,9 @@ class Transaction extends Model
     {
         return $this->belongsTo(\App\Models\User::class, 'user_id');
     }
+
+    public function category()
+    {
+        return $this->belongsTo(\App\Models\Category::class, 'category_id');
+    }
 }

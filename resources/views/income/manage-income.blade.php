@@ -1,22 +1,23 @@
 @extends('layouts.master')
 @section('title')
-    Political edge | Add Income
+    Clever App | Add Receivables
 @endsection
 @section('content')
     <div class="page-content">
+        @include('include/error')
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card add-row">
                     <div class="card-body">
-                        <h6 class="card-title">Manage Income <a href="{{ route('income.create') }}"
-                                class="add-element btn btn-primary">Add Income</a></h6>
+                        <h6 class="card-title">Manage Receivables <a href="{{ route('income.create') }}"
+                                class="add-element btn btn-primary">Add Receivables</a></h6>
 
                         <div class="table-responsive">
                             <table id="dataTableExample" class="table">
                                 <thead>
                                     <tr>
                                         <th>Project Name</th>
-                                        <th>Income</th>
+                                        <th>Receivables</th>
                                         @if(auth()->getUser()->is_admin)
                                             <th>User</th>
                                         @endif
@@ -29,7 +30,7 @@
                                     @foreach ($incomes as $income)
                                         <tr>
                                             <td>{{ $income->project()->first()->name }}</td>
-                                            <td>&#x20B9;{{ $income->amount }}</td>
+                                            <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $income->amount)) }}</td>
                                             @if(auth()->getUser()->is_admin)
                                                 <td>{{ $income->user()->first()->name }}</td>
                                             @endif

@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    Political edge | Add Income
+    Clever App | Update Expenses
 @endsection
 @section('content')
     <div class="page-content">
@@ -24,13 +24,13 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label for="exampleFormControlSelect1">Select Project</label>
                                 <select class="form-control @error('project') is-invalid @enderror"
                                     name="project">
                                     <option disabled>Select your Project</option>
                                     @foreach ($projects as $project)
-                                        <option value="{{ $project->name }}" @if($project->id == $expense->project_id) 'selected' @endif>{{ $project->name }}</option>
+                                        <option value="{{ $project->id }}" @if($project->id == $expense->project_id) 'selected' @endif>{{ $project->name }}</option>
                                     @endforeach
                                 </select>
                                 @error('project')
@@ -38,7 +38,7 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>
+                            </div> -->
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Select Category</label>
                                 <select class="form-control @error('category_id') is-invalid @enderror"

@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    Political edge | Add User
+     Clever App | Add User
 @endsection
 @section('content')
     <div class="page-content">
@@ -23,9 +23,9 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="email">Email</label>
+                                    <label for="email">Username</label>
                                     <input id="email" class="form-control @error('email') is-invalid @enderror" name="email"
-                                        type="email" value="{{ old('email') }}">
+                                        type="text" value="{{ old('email') }}">
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

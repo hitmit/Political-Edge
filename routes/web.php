@@ -25,7 +25,7 @@ Route::get("/", function(){
   }
 });
 
-Auth::routes(['register' => false]);
+Auth::routes(['register' => false, 'reset' => false]);
 
 Route::middleware(['auth'])->group(function () {
   Route::get("home", [HomeController::class, "index"])->name("home");
@@ -33,10 +33,12 @@ Route::middleware(['auth'])->group(function () {
   Route::post("update-password", [HomeController::class, "setUpdatePassword"])->name("set.update.password");
   Route::resource('/income', App\Http\Controllers\IncomeController::class);
   Route::resource("/expenses",App\Http\Controllers\ExpensesController::class);
+  Route::get("show-project/{id}", [HomeController::class, "showProject"])->name("project.show");
+  
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
-  Route::resource('/project', App\Http\Controllers\ProjectController::class);
+  Route::resource('/project', App\Http\Controllers\ProjectController::class)->except(['show']);
   Route::resource("/users", App\Http\Controllers\UserControler::class);
   Route::resource("/category", App\Http\Controllers\CategoryController::class);
 });

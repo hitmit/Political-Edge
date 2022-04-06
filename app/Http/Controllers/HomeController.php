@@ -20,13 +20,14 @@ class HomeController extends Controller
     {
         $projects = Project::orderBy('created_at', 'Desc')->get();
         $total_expense = Transaction::where('type', 'expense')->sum('amount');
+        $total_expected_revenue = Project::sum('expected_revenue');
         $total_income = Transaction::where('type', 'income')->sum('amount');
         if (auth()->getUser()->is_admin) {
             $users = User::orderBy('created_at', 'Desc')->get();
         } else {
             $users = User::where('id', auth()->getUser()->id)->get();
         }
-        return view('dashboard.index', compact('projects', 'users', 'total_expense', 'total_income'));
+        return view('dashboard.index', compact('projects', 'users', 'total_expense', 'total_income', "total_expected_revenue"));
     }
 
     public function getUpdatePassword()
@@ -44,5 +45,17 @@ class HomeController extends Controller
         User::find(auth()->user()->id)->update(['password'=> Hash::make($request->password)]);
         return redirect()->route("get.update.password")->withMessage("Password change successfully.");
         
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showProject($id)
+    {
+        $project = Project::find($id);
+        return view('projects.show', compact('project'));
     }
 }

@@ -1,11 +1,10 @@
 @extends('layouts.master')
 @section('title')
-    Political edge | Add Income
+    Clever App | Manage Expenses
 @endsection
 @section('content')
     <div class="page-content">
-
-
+        @include('include/error')
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card add-row">
@@ -18,7 +17,7 @@
                                 <thead>
                                     <tr>
                                         {{-- <th>Sr.no</th> --}}
-                                        <th>Project Name</th>
+                                       <th>Category Name</th>
                                         <th>Expenses</th>
                                         <th>Remark</th>
                                         <th>Date</th>
@@ -28,8 +27,8 @@
                                 <tbody>
                                     @foreach ($expenses as $expense)
                                         <tr>
-                                            <td>{{ $expense->project()->first()->name }}</td>
-                                            <td>&#x20B9;{{ $expense->amount }}</td>
+                                            <td>{{ $expense->category()->first()->name }}</td>
+                                            <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $expense->amount)) }}</td>
                                             <th>{{ $expense->remark }}</th>
                                             <td>{{ $expense->date }}</td>
                                             <td>

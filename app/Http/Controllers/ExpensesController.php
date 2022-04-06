@@ -55,7 +55,7 @@ class ExpensesController extends Controller
         $request->validate([
             'date' => 'required',
             "category_id" => "required",
-            "project" => "required",
+            // "project" => "required",
             "amount" => "required|confirmed"
         ]);
 
@@ -63,7 +63,7 @@ class ExpensesController extends Controller
 
         $expense->date = $request->date;
         $expense->remark = $request->remark;
-        $expense->project_id = $request->project;
+        // $expense->project_id = $request->project;
         $expense->category_id = $request->category_id;
         $expense->type = "expense";
         $expense->amount = $request->amount;
@@ -115,7 +115,7 @@ class ExpensesController extends Controller
     {
         $request->validate([
             'date' => 'required',
-            "project" => "required",
+            // "project" => "required",
             "category_id" => "required",
             "amount" => "required|confirmed"
         ]);
@@ -123,7 +123,7 @@ class ExpensesController extends Controller
         $transaction->date = $request->date;
         $transaction->remark = $request->remark;
         $transaction->category_id = $request->category_id;
-        $transaction->project_id = $request->project;
+        // $transaction->project_id = $request->project;
         $transaction->amount = $request->amount;
         if ($request->user_id) {
             $transaction->user_id = $request->user_id;
@@ -141,7 +141,7 @@ class ExpensesController extends Controller
      */
     public function destroy($id)
     {
-        Transaction::where(['id' => $id, 'type' => 'expense', 'user_id' => Auth::user()->id])->delete();
+        Transaction::where(['id' => $id, 'type' => 'expense'])->delete();
         return Redirect::back()->with("status", "Expense delete successfully");
     }
 }

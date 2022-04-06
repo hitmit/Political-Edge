@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    Political edge | Add Income
+    Clever App | Add Receivables
 @endsection
 @section('content')
     <div class="page-content">
@@ -8,7 +8,7 @@
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card add-row">
                     <div class="card-body">
-                        <h6 class="card-title">Add Income</h6>
+                        <h6 class="card-title">Add Receivables</h6>
                         <form class="forms-sample" action="{{ route('income.store') }}" method="POST">
                             @csrf
                             <!-- Date and time picker with disbaled dates -->

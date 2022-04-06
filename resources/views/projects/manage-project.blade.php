@@ -1,9 +1,10 @@
 @extends('layouts.master')
 @section('title')
-    Political edge | Add Income
+     Clever App | Manage Project
 @endsection
 @section('content')
     <div class="page-content">
+        @include('include/error')
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card add-row">
@@ -12,13 +13,12 @@
                                 class="add-element add-element btn btn-primary">Add Project</a></h6>
 
                         <div class="table-responsive">
-                            <table id="dataTableExample" class="table text-center">
+                            <table id="dataTableExample" class="table">
                                 <thead>
                                     <tr>
                                         <th>Sr.no</th>
                                         <th>Project Name</th>
                                         <th>Expected Revenue</th>
-                                        <th>Status</th>
                                         <th>Date & Time</th>
                                         <th>Action</th>
                                     </tr>
@@ -31,15 +31,9 @@
                                         <tr>
                                             <td>{{ $i }}</td>
                                             <td>{{ $project->name }}</td>
-                                            <td>{{ $project->expected_revenue }}</td>
-                                            <td>
-                                                @if ($project->status)
-                                                    <span class="badge badge-success">Active</span>
-                                                @else
-                                                    <span class="badge badge-danger">Inactive</span>
-                                                @endif
-                                            </td>
-                                            <td>{{ $project->created_at }}</td>
+                                            <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $project->expected_revenue)) }}</td>
+                                          
+                                            <td>{{ date("Y-m-d", strtotime($project->created_at)) }}</td>
                                             <td>
                                                 <a href="{{ route('project.edit', $project->id) }}"
                                                     class="edit btn btn-primary"><i class="fa fa-pencil"

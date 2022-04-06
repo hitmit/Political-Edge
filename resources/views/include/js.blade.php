@@ -4,10 +4,10 @@
     feather.replace()
 </script>
 <!-- core:js -->
-<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('public/js/app.js') }}"></script>
 <!-- endinject -->
 <!-- plugin js for this page -->
-<script src="{{ asset('assets/vendors/progressbar.js/progressbar.min.js') }}"></script>
+<script src="{{ asset('public/assets/vendors/progressbar.js/progressbar.min.js') }}"></script>
 
 <!-- plugin js for this page -->
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
@@ -31,6 +31,20 @@
                 e.preventDefault();
                 body.toggleClass('sidebar-open');
             }
+        });
+    });
+    $(document).on('click', '.btn-modal', function(e) {
+        e.preventDefault();
+        var container = $(this).data('container');
+
+        $.ajax({
+            url: $(this).data('href'),
+            dataType: 'html',
+            success: function(result) {
+                $(container)
+                    .html(result)
+                    .modal('show');
+            },
         });
     });
 </script>

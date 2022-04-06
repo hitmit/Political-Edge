@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    Political edge | Add Income
+    Clever App | Add Income
 @endsection
 @section('content')
     <div class="page-content">
@@ -24,7 +24,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label for="exampleFormControlSelect1">Select Project</label>
                                 <select class="form-control @error('project') is-invalid @enderror"
                                     id="exampleFormControlSelect1" name="project">
@@ -38,7 +38,7 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>
+                            </div> -->
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Select Category</label>
                                 <select class="form-control @error('category_id') is-invalid @enderror"

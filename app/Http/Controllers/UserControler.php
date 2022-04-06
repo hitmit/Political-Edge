@@ -38,12 +38,16 @@ class UserControler extends Controller
      */
     public function store(Request $request)
     {
+        $messages = [
+            "email.required" => 'Username field is required',
+            "email.unique" => 'Username already taken',
+        ];
         $validate = $request->validate([
-            'email' => 'required|email|unique:users,email',
-            'phone' => 'required|min:11|numeric',
+            'email' => 'required|unique:users,email',
+            // 'phone' => 'required|min:11|numeric',
             'name' => 'required|max:120',
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        ], $messages);
 
 
         $user = new User;
@@ -87,21 +91,30 @@ class UserControler extends Controller
     public function update(Request $request, $id)
     {
         $rules = [
-            'email' => 'required|email',
-            'phone' => 'required|min:11|numeric',
+            'email' => 'required',
+            // 'phone' => 'required|min:11|numeric',
             'name' => 'required|max:120',
         ];
         $account = User::find($id);
         if ($account->email != $request->email) {
-            $rules['email'] = 'required|email|unique:users,email';
+            $rules['email'] = 'required|unique:users,email';
         }
         if ($request->password) {
             $rules['password'] = ['required', 'string', 'min:8', 'confirmed'];
         }
-        $this->validate($request, $rules);
-        $account->fill($request->all());
+        $messages = [
+            "email.required" => 'Username field is required',
+            "email.unique" => 'Username already taken',
+        ];
+        $this->validate($request, $rules, $messages);
+        $account->email = $request->email;
+        $account->phone = $request->phone;
+        $account->name = $request->name;
+        if ($request->password) {
+            $account->password = Hash::make($request->password);    
+        }
         $account->save();
-        return redirect(route("users.index"))->with("status", "User added successfully");
+        return redirect(route("users.index"))->with("status", "User updated successfully");
     }
 
     /**
@@ -112,6 +125,6 @@ class UserControler extends Controller
      */
     public function destroy($id)
     {
-        //
+        return redirect(route("users.index"));
     }
 }

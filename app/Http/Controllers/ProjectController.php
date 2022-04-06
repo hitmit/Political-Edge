@@ -40,26 +40,12 @@ class ProjectController extends Controller
         $this->validate($request, [
             "name" => 'required',
             'expected_revenue' => "required",
-            "status" => 'required|integer',
         ]);
         $project = new Project;
         $project->name = $request->name;
         $project->expected_revenue = $request->expected_revenue;
-        $project->status = $request->status;
         $project->save();
         return redirect(route("project.index"))->with("status", "Project added successfully");
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $project = Project::find($id);
-        return view('projects.show', compact('project'));
     }
 
     /**
@@ -87,13 +73,11 @@ class ProjectController extends Controller
         $this->validate($request, [
             "name" => 'required',
             'expected_revenue' => "required",
-            "status" => 'required|integer',
         ]);
         
         Project::where('id', $request->id)->update([
             'name' => $request->name,
             'expected_revenue' => $request->expected_revenue,
-            "status" => $request->status
         ]);
         return redirect(route("project.index"))->with("status", "Project updated successfully");
     }
@@ -106,7 +90,12 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        Project::find($id)->delete();
-        return Redirect::back()->with("status", "Project delete successfully");
+        $project = Project::find($id);
+        if ($project->transections()->count()) {
+            return Redirect::back()->with("error", "Project hsa income and expense associated so it can't be deleted.");
+        } else {
+            $project->delete();
+            return Redirect::back()->with("status", "Project delete successfully");
+        }
     }
 }

@@ -5,7 +5,9 @@
 .bg-gray {
     background: #d0453e2e;
 }
-
+.form-check-primary {
+    margin-left: 20px;
+}
 .add-row .card-title {
      font-size: 18px;
     width: 100%;
@@ -87,11 +89,76 @@ thead tr th{
     padding-bottom: 10px;
     padding-top: 20px;
 }
+.project-details {
+    display: inline-block;
+    width: 100%;
+}
+.bb-box {
+    display: inline-block;
+    width: 33%;
+    text-align: right;
+    margin-bottom: 10px;
+}
+.sidebar {
+ 
+    overflow-y: auto;
+}
+.txt-r{
+    text-align:right;
+}
+/*
+ *  STYLE 3
+ */
+
+::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 14%);
+    background-color: #f9fafb;
+}
+
+::-webkit-scrollbar
+{
+	width: 6px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+	background-color: #9e9e9e70;
+}
+.txt-r .col h6 {
+    color: #959797;
+    font-size: 12px;
+        line-height: 18px;
+}
+p.num-pt {
+    font-weight: 600;
+}
 @media (max-width:991px) {
     .footer {
         margin-left: 0;
         width: 100%
     }
+    .txt-r .col h6 {
+   
+    max-width: 70px;
+}
+    .bb-box {
+    display: inline-block;
+    width: 32%;
+    text-align: left;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding-right: 10px;
+}
+.txt-r {
+    text-align: left;
+    margin: 10px 0px;
+}
+.txt-r .col {
+    padding: 0;
+    padding-right: 15px;
+}
     footer {
     padding: 5px !important;
 }
@@ -107,4 +174,8 @@ a.add-element {
     float: right;
     font-size: 14px;
 }
+}
+
+.cursor-pointer{
+    cursor: pointer;
 }

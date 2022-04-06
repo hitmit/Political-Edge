@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    Political edge | Manage User
+    Clever App | Manage User
 @endsection
 @section('content')
     <div class="page-content">
@@ -12,16 +12,16 @@
                                 class="add-element add-element btn btn-primary">Add User</a></h6>
 
 
-                    </div>
+                    
                     <div class="table-responsive">
                         <table id="dataTableExample" class="table">
                             <thead>
                                 <tr>
                                     <th>Sr.no</th>
-                                    <th>User Name</th>
-                                    <th>Email</th>
+                                    <th>Name</th>
+                                    <th>Username</th>
                                     <th>Mobile</th>
-                                    <th>TimeStamp</th>
+                                    <th>Created</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -39,7 +39,7 @@
                                         <td>
                                             <a href="{{ route('users.edit', $user->id) }}" class="edit btn btn-primary"><i
                                                     class="fa fa-pencil" aria-hidden="true"></i></a>
-                                            <form class="my-2"
+                                            <!--<form class="my-2"
                                                 action="{{ route('users.destroy', $user->id) }}" method="POST">
                                                 @csrf
                                                 @method("DELETE")
@@ -47,7 +47,7 @@
                                                     onclick="return confirm('Are you sure want to delete')"
                                                     class="delete btn btn-danger"><i class="fa fa-trash"
                                                         aria-hidden="true"></i></button>
-                                            </form>
+                                            </form>-->
                                         </td>
                                         </td>
                                     </tr>
@@ -61,7 +61,7 @@
                     <div class="card-footer">
                         {{ $users->links() }}
                     </div>
-
+</div>
                 </div>
             </div>
         </div>

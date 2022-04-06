@@ -135,7 +135,7 @@ class IncomeController extends Controller
      */
     public function destroy($id)
     {
-        Transaction::where(['id' => $id, 'type' => 'income', 'user_id' => Auth::user()->id])->delete();
+        Transaction::where(['id' => $id, 'type' => 'income'])->delete();
         return Redirect::back()->with("status", "Income delete successfully");
     }
 }

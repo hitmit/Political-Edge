@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    Political edge | Add Income
+     Clever App | Update Project
 @endsection
 @section('content')
     <div class="page-content">
@@ -36,17 +36,6 @@
                                     </span>
                                 @enderror
                             </div>
-                            <div class="form-group">
-                                <label for="name">Status</label>
-                                <select class="form-control" name="status">
-                                    <option>--Select Status--</option>
-                                    <option value="1" @if ($project->status) {{ 'selected' }} @endif>Acive
-                                    </option>
-                                    <option value="0" @if (!$project->status) {{ 'selected' }} @endif>Inactive
-                                    </option>
-                                </select>
-                            </div>
-
                             <button type="submit" class="btn btn-primary mr-2">Submit</button>
                         </form>
                     </div>

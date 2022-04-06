@@ -1,9 +1,10 @@
 @extends('layouts.master')
 @section('title')
-    Political edge | Add Income
+    Clever App | Add Income
 @endsection
 @section('content')
     <div class="page-content">
+        @include('include/error')
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card add-row">
@@ -12,7 +13,7 @@
                                 class="add-element add-element btn btn-primary">Add Category</a></h6>
 
                         <div class="table-responsive">
-                            <table id="dataTableExample" class="table text-center">
+                            <table id="dataTableExample" class="table">
                                 <thead>
                                     <tr>
                                         <th>Sr.no</th>

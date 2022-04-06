@@ -2,7 +2,7 @@
 <nav class="sidebar">
     <div class="sidebar-header">
         <a href="index.php" class="sidebar-brand">
-            <img src="{{ asset('assets/images/pe-logo.png') }}"></span>
+            <img src="{{ asset('public/assets/images/lock.png') }}"></span>
         </a>
         <div class="sidebar-toggler not-active">
             <span></span>

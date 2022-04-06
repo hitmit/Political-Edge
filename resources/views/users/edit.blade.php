@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    Political edge | Add Income
+     Clever App | Update User
 @endsection
 @section('content')
     <div class="page-content">
@@ -9,7 +9,8 @@
                 <div class="card add-row">
                     <div class="card-body">
                         <h6 class="card-title">Update User Details</h6>
-                        <form id="signupForm" action="{{ route('users.store') }}" method="POST">
+                        <form id="signupForm" action="{{ route('users.update', $user->id) }}" method="POST">
+                            @method('PATCH')
                             @csrf
                             <fieldset>
                                 <div class="form-group">
@@ -23,9 +24,9 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="email">Email</label>
+                                    <label for="email">Username</label>
                                     <input id="email" class="form-control @error('email') is-invalid @enderror" name="email"
-                                        type="email" value="{{ $user->email }}">
+                                        type="text" value="{{ $user->email }}">
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -48,7 +49,7 @@
                                     <label for="password">Password</label>
                                     <input id="password" type="password"
                                         class="form-control @error('password') is-invalid @enderror" name="password"
-                                        required autocomplete="new-password">
+                                        autocomplete="new-password">
 
                                     @error('password')
                                         <span class="invalid-feedback" role="alert">
@@ -60,7 +61,7 @@
                                 <div class="form-group">
                                     <label for="confirm_password">Confirm password</label>
                                     <input id="password-confirm" type="password" class="form-control"
-                                        name="password_confirmation" required autocomplete="new-password">
+                                        name="password_confirmation" autocomplete="new-password">
                                 </div>
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Submit') }}
