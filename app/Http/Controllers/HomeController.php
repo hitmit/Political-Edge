@@ -29,14 +29,13 @@ class HomeController extends Controller
         $a1_of_90 = Transaction::where(['user_id' => 6, 'type' => 'income'])->sum('amount');
         $a2_of_90 = Transaction::where('user_id', '!=', 6)->where('type', 'income')->sum('amount');
 
-        // 90 % of A1
+        // 90% of total received account
         $a1 = ($a1_of_90 * 90) / 100;
-
-        // 90 % of A2
+        // 90% of total all other user
         $a2 = ($a2_of_90 * 90) / 100;
-
-        // 90 % of Total received(sum of above of 2)
-        $a3 = (($a1 + $a2) * 90) / 100;
+        // sum of above 2
+        $a3 = ($a1 + $a2);// 1443585.24
+        // dd($a3);
 
         // B1 Total expense by account
         $b1 = Transaction::where(['user_id' => 6, 'type' => 'expense'])->sum('amount');
@@ -44,17 +43,26 @@ class HomeController extends Controller
         // B2 Total Expense of other user account
         $b2 = Transaction::where('user_id', '!=', 6)->where('type', 'expense')->sum('amount');
 
-        // B3 Expenses(Sum of above 2)
+        // Sum of above 2
         $b3 = $b1 + $b2;
 
-        // get the value of c3
+        // diffrence of A1 and B1
+        $c1 = $a1 - $b1;
+        // diffrence of A2 and B2
+        $c2 = $a2 - $b2;
+        // diffrence of A3 and B3
         $c3 = $a3 - $b3;
+
+
+
+
+
         if (auth()->getUser()->is_admin) {
             $users = User::orderBy('created_at', 'Desc')->get();
         } else {
             $users = User::where('id', auth()->getUser()->id)->get();
         }
-        return view('dashboard.index', compact('projects', 'users', 'total_expense', 'total_income', "total_expected_revenue","a3","b3","c3"));
+        return view('dashboard.index', compact('projects', 'users', 'total_expense', 'total_income', "total_expected_revenue", "a3", "b3", "c3"));
     }
 
     public function getUpdatePassword()
