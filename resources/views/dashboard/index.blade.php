@@ -12,6 +12,49 @@ setlocale(LC_MONETARY,"en_IN");
         <div class="col-lg-12 col-xl-12 stretch-card">
             <div class="card add-row">
                 <div class="card-header">
+                    <h6 class="card-title">Account other total</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>A</th>
+                                    <td>
+                                        {{ ($a3 * 2) / 3 }}
+                                    </td>
+                                    <td>
+                                        {{ ($b3 * 2) / 3 }}
+                                    </td>
+                                    <td>
+                                        {{ ($c3 * 2) / 3 }}
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>B</th>
+                                    <td>
+                                        {{ ($a3 * 1) / 3 }}
+                                    </td>
+                                    <td>
+                                        {{ ($b3 * 1) / 3 }}
+                                    </td>
+                                    <td>
+                                        {{ ($c3 * 1) / 3 }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row  mb-4">
+        <div class="col-lg-12 col-xl-12 stretch-card">
+            <div class="card add-row">
+                <div class="card-header">
                     <div class="row">
                         <div class="col-lg-2 col-12">
                             <h6 class="card-title">Users</h6>

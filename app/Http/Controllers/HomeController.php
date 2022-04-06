@@ -18,16 +18,43 @@ class HomeController extends Controller
      */
     public function index()
     {
+
+
         $projects = Project::orderBy('created_at', 'Desc')->get();
         $total_expense = Transaction::where('type', 'expense')->sum('amount');
         $total_expected_revenue = Project::sum('expected_revenue');
         $total_income = Transaction::where('type', 'income')->sum('amount');
+
+        // get value of A1
+        $a1_of_90 = Transaction::where(['user_id' => 6, 'type' => 'income'])->sum('amount');
+        $a2_of_90 = Transaction::where('user_id', '!=', 6)->where('type', 'income')->sum('amount');
+
+        // 90 % of A1
+        $a1 = ($a1_of_90 * 90) / 100;
+
+        // 90 % of A2
+        $a2 = ($a2_of_90 * 90) / 100;
+
+        // 90 % of Total received(sum of above of 2)
+        $a3 = (($a1 + $a2) * 90) / 100;
+
+        // B1 Total expense by account
+        $b1 = Transaction::where(['user_id' => 6, 'type' => 'expense'])->sum('amount');
+
+        // B2 Total Expense of other user account
+        $b2 = Transaction::where('user_id', '!=', 6)->where('type', 'expense')->sum('amount');
+
+        // B3 Expenses(Sum of above 2)
+        $b3 = $b1 + $b2;
+
+        // get the value of c3
+        $c3 = $a3 - $b3;
         if (auth()->getUser()->is_admin) {
             $users = User::orderBy('created_at', 'Desc')->get();
         } else {
             $users = User::where('id', auth()->getUser()->id)->get();
         }
-        return view('dashboard.index', compact('projects', 'users', 'total_expense', 'total_income', "total_expected_revenue"));
+        return view('dashboard.index', compact('projects', 'users', 'total_expense', 'total_income', "total_expected_revenue","a3","b3","c3"));
     }
 
     public function getUpdatePassword()
@@ -38,13 +65,12 @@ class HomeController extends Controller
     public function setUpdatePassword(Request $request)
     {
         $this->validate($request, [
-           "old_password" => ['required', new MatchOldPassword], 
-           "password" => "required|string|min:8|confirmed", 
+            "old_password" => ['required', new MatchOldPassword],
+            "password" => "required|string|min:8|confirmed",
         ]);
 
-        User::find(auth()->user()->id)->update(['password'=> Hash::make($request->password)]);
+        User::find(auth()->user()->id)->update(['password' => Hash::make($request->password)]);
         return redirect()->route("get.update.password")->withMessage("Password change successfully.");
-        
     }
 
     /**
