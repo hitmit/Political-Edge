@@ -89,6 +89,11 @@
                                             </td>
                                         </tr>
                                     @endforeach
+                                    @if ($expenses->isEmpty())
+                                        <tr colspan="6">
+                                            <td> No expense founds</td>
+                                        </tr>
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
