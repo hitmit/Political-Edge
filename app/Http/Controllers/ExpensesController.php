@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExpenseExport;
 use App\Models\User;
 use App\Models\Transaction;
 use App\Models\Project;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Symfony\Component\Console\Input\Input;
@@ -18,16 +20,13 @@ class ExpensesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        /**
-         * get category
-         */
+
         $categorys = Category::all();
         $query = Transaction::where('type', 'expense');
-        /**
-         * getting the username
-         */
+
         $user_id = Transaction::where('type', 'expense')->pluck('user_id');
         $username = User::whereIN('id', $user_id)->get();
 
@@ -46,7 +45,11 @@ class ExpensesController extends Controller
         if (request()->filled('start_date') && request()->filled('end_date')) {
             $query->whereBetween('date', [request('start_date'), request('end_date')]);
         }
+
         $query->orderBy('created_at', 'desc');
+        if (request()->filled('export')) {
+            return Excel::download(new ExpenseExport($query), 'expenses.xlsx');
+        }
         $expenses = $query->paginate(50);
 
         return view("expenses.manage-expenses", compact("expenses", 'categorys'));
@@ -168,22 +171,5 @@ class ExpensesController extends Controller
     {
         Transaction::where(['id' => $id, 'type' => 'expense'])->delete();
         return Redirect::back()->with("status", "Expense delete successfully");
-    }
-
-    /*
-    * filter expense
-    */
-
-    public function filter()
-    {
-
-        $query = Transaction::where('type', 'expense');
-
-        if (!auth()->getUser()->is_admin) {
-            $query->where("user_id", Auth::user()->id);
-        }
-        // $expenses = $query->whereBetween('created_at', $request->date)->paginate(50);
-
-        return view("expenses.manage-expenses", compact("expenses"));
     }
 }

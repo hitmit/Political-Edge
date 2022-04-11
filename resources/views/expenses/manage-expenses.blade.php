@@ -16,30 +16,39 @@
                         <form action="{{ route('expenses.index') }}" method="GET">
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <h6>
-                                        <select name="category" id="category" class="form-control ">
-                                            <option value="">--Select category--</option>
-                                            @foreach ($categorys as $category)
-                                                @if (request()->has('category') && request('category') == $category->id)
-                                                    <option selected value="{{ $category->id }}">
+                                    <label for="category">Category</label>
+                                    <select name="category" id="category" class="form-control ">
+                                        <option value="">--Select category--</option>
+                                        @foreach ($categorys as $category)
+                                            @if (request()->has('category') && request('category') == $category->id)
+                                                <option selected value="{{ $category->id }}">
                                                 @else
-                                                    <option value="{{ $category->id }}">
-                                                @endif
-                                                {{ $category->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </h6>
+                                                <option value="{{ $category->id }}">
+                                            @endif
+                                            {{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="col-sm-2">
-                                    <h6><input type="date" value="{{request('start_date') ? request('start_date') : ''}}" name="start_date" class="form-control "></h6>
+                                    <label for="start data">Start Date</label>
+                                    <input type="date" value="{{ request('start_date') ? request('start_date') : '' }}"
+                                        name="start_date" class="form-control ">
                                 </div>
                                 <div class="col-sm-2">
-                                    <h6><input type="date" value="{{request('start_date') ? request('start_date') : ''}}" name="end_date" class="form-control "></h6>
+                                    <label for="start data">End Date</label>
+                                    <input type="date" value="{{ request('end_date') ? request('end_date') : '' }}"
+                                        name="end_date" class="form-control ">
+                                </div>
+                                <div class="col-sm-1">
+                                    <label for="start data">Filter</label>
+                                    <input type="submit" value="Filter" class="btn btn-primary form-control ">
                                 </div>
 
-                                <div class="col-sm-4">
-                                    <button class="btn btn-primary">Filter</button>
+                                <div class="col-sm-1">
+                                    <label for="start data">Export</label>
+                                    <input type="submit" name="export" value="Export" class="btn btn-success form-control ">
                                 </div>
+
                             </div>
                         </form>
                         <div class="table-responsive my-2">
