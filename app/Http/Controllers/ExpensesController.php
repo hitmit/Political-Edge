@@ -9,6 +9,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Symfony\Component\Console\Input\Input;
 
 class ExpensesController extends Controller
 {
@@ -19,12 +20,36 @@ class ExpensesController extends Controller
      */
     public function index()
     {
+        /**
+         * get category
+         */
+        $categorys = Category::all();
         $query = Transaction::where('type', 'expense');
+        /**
+         * getting the username
+         */
+        $user_id = Transaction::where('type', 'expense')->pluck('user_id');
+        $username = User::whereIN('id', $user_id)->get();
+
         if (!auth()->getUser()->is_admin) {
             $query->where("user_id", Auth::user()->id);
         }
-        $expenses = $query->paginate(10);
-        return view("expenses.manage-expenses", compact("expenses"));
+        if (request()->filled('category')) {
+            $query->where('category_id', request()->get('category'));
+        }
+        if (request()->filled('start_date') && !request()->filled('end_date')) {
+            $query->where('date', '>=', request('start_date'));
+        }
+        if (request()->filled('end_date') && !request()->filled('start_date')) {
+            $query->where('date', '<=', request('end_date'));
+        }
+        if (request()->filled('start_date') && request()->filled('end_date')) {
+            $query->whereBetween('date', [request('start_date'), request('end_date')]);
+        }
+        $query->orderBy('created_at', 'desc');
+        $expenses = $query->paginate(50);
+
+        return view("expenses.manage-expenses", compact("expenses", 'categorys'));
     }
 
     /**
@@ -40,7 +65,7 @@ class ExpensesController extends Controller
             $users = User::all();
         }
         $categories = Category::all();
-        
+
         return view("expenses.add-expense", compact("projects", "users", "categories"));
     }
 
@@ -143,5 +168,22 @@ class ExpensesController extends Controller
     {
         Transaction::where(['id' => $id, 'type' => 'expense'])->delete();
         return Redirect::back()->with("status", "Expense delete successfully");
+    }
+
+    /*
+    * filter expense
+    */
+
+    public function filter()
+    {
+
+        $query = Transaction::where('type', 'expense');
+
+        if (!auth()->getUser()->is_admin) {
+            $query->where("user_id", Auth::user()->id);
+        }
+        // $expenses = $query->whereBetween('created_at', $request->date)->paginate(50);
+
+        return view("expenses.manage-expenses", compact("expenses"));
     }
 }
