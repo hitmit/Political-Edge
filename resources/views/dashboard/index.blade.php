@@ -12,36 +12,42 @@ setlocale(LC_MONETARY,"en_IN");
         <div class="col-lg-12 col-xl-12 stretch-card">
             <div class="card add-row">
                 <div class="card-header">
-                    <h6 class="card-title">Account other total</h6>
+                    <h6 class="card-title">Status</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>A</th>
-                                    <td>
-                                        {{ ($a3 * 2) / 3 }}
-                                    </td>
-                                    <td>
-                                        {{ ($b3 * 2) / 3 }}
-                                    </td>
-                                    <td>
-                                        {{ ($c3 * 2) / 3 }}
-                                    </td>
+                                    <th></th>
+                                    <th>Acc</th>
+                                    <th>Others</th>
+                                    <th>Total</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
+                                    <th>A</th>
+                                    <td>
+                                        {{ str_replace(["INR", ".00"], "", money_format("%i", (($a3 * 2) / 3))) }}
+                                    </td>
+                                    <td>
+                                        {{ str_replace(["INR", ".00"], "", money_format("%i", (($b3 * 2) / 3))) }}
+                                    </td>
+                                    <td>
+                                        {{ str_replace(["INR", ".00"], "", money_format("%i", (($c3 * 2) / 3))) }}
+                                    </td>
+                                </tr>
+                                <tr>
                                     <th>B</th>
                                     <td>
-                                        {{ ($a3 * 1) / 3 }}
+                                        {{ str_replace(["INR", ".00"], "", money_format("%i", (($a3 * 1) / 3))) }}
                                     </td>
                                     <td>
-                                        {{ ($b3 * 1) / 3 }}
+                                        {{ str_replace(["INR", ".00"], "", money_format("%i", (($b3 * 1) / 3))) }}
                                     </td>
                                     <td>
-                                        {{ ($c3 * 1) / 3 }}
+                                        {{ str_replace(["INR", ".00"], "", money_format("%i", (($c3 * 1) / 3))) }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -59,20 +65,6 @@ setlocale(LC_MONETARY,"en_IN");
                         <div class="col-lg-2 col-12">
                             <h6 class="card-title">Users</h6>
                         </div>
-                        @if (auth()->getUser()->is_admin)
-                            <div class="col-lg-10 col-12">
-                                <div class="row txt-r">
-                                    <div class="col">
-                                        <h6 class="">A (2/3)</h6>
-                                        <p class="num-pt">{{ str_replace(["INR", ".00"], "", money_format("%i", (($total_income-$total_expense)*2)/3)) }}</p>
-                                    </div>
-                                    <div class="col">
-                                        <h6 class="">B (1/3)</h6>
-                                        <p class="num-pt">{{ str_replace(["INR", ".00"], "", money_format("%i", (($total_income-$total_expense)*1)/3)) }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
                     </div>
                 </div>
                 <div class="card-body">

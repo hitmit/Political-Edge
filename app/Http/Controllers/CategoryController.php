@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaction;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -42,6 +43,7 @@ class CategoryController extends Controller
         ]);
         $category = new Category;
         $category->name = $request->name;
+        $category->status = $request->status;
         $category->save();
         return redirect(route("category.index"))->with("status", "Category added successfully");
     }
@@ -85,6 +87,7 @@ class CategoryController extends Controller
         
         Category::where('id', $request->id)->update([
             'name' => $request->name,
+            'status' => $request->status,
         ]);
         return redirect(route("category.index"))->with("status", "Category updated successfully");
     }
@@ -97,7 +100,12 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        Category::find($id)->delete();
-        return Redirect::back()->with("status", "Category delete successfully");
+        $count = Transaction::where("category_id", $id)->count();
+        if ($count) {
+            return Redirect::back()->with("error", "Can't delete category because data exists for this category");
+        } else {
+            Category::find($id)->delete();
+            return Redirect::back()->with("status", "Category delete successfully");
+        }
     }
 }

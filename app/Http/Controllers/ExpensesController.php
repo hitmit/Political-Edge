@@ -39,8 +39,8 @@ class ExpensesController extends Controller
         if (auth()->getUser()->is_admin) {
             $users = User::all();
         }
-        $categories = Category::all();
-        
+        $categories = Category::where("status", 1)->get();
+
         return view("expenses.add-expense", compact("projects", "users", "categories"));
     }
 

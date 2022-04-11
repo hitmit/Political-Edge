@@ -27,31 +27,33 @@ class HomeController extends Controller
 
         // get value of A1
         $a1_of_90 = Transaction::where(['user_id' => 6, 'type' => 'income'])->sum('amount');
-        $a2_of_90 = Transaction::where('user_id', '!=', 6)->where('type', 'income')->sum('amount');
+        $a2_of_90 = Transaction::where('user_id', 6)->where('type', 'expense')->sum('amount');
 
         // 90% of total received account
         $a1 = ($a1_of_90 * 90) / 100;
         // 90% of total all other user
-        $a2 = ($a2_of_90 * 90) / 100;
+        $a2 = $a2_of_90;
         // sum of above 2
-        $a3 = ($a1 + $a2);// 1443585.24
+        $a3 = ($a1 - $a2);// 1443585.24
         // dd($a3);
 
         // B1 Total expense by account
-        $b1 = Transaction::where(['user_id' => 6, 'type' => 'expense'])->sum('amount');
+        $b1_of_90 = Transaction::where('user_id', '!=', 6)->where('type', 'income')->sum('amount');
 
+        $b1 = ($b1_of_90 * 90) / 100;
+        
         // B2 Total Expense of other user account
         $b2 = Transaction::where('user_id', '!=', 6)->where('type', 'expense')->sum('amount');
 
         // Sum of above 2
-        $b3 = $b1 + $b2;
+        $b3 = $b1 - $b2;
 
         // diffrence of A1 and B1
-        $c1 = $a1 - $b1;
+        $c1 = $a1 + $b1;
         // diffrence of A2 and B2
-        $c2 = $a2 - $b2;
+        $c2 = $a2 + $b2;
         // diffrence of A3 and B3
-        $c3 = $a3 - $b3;
+        $c3 = $c1 - $c2;
 
 
 

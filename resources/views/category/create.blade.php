@@ -21,6 +21,13 @@
                                     </span>
                                 @enderror
                             </div>
+                            <div class="form-group">
+                                <label for="status">Status</label>
+                                <select name="status" class="form-control">
+                                    <option value="1">Active</option>
+                                    <option value="0">In-Active</option>
+                                </select>
+                            </div>
                             <button type="submit" class="btn btn-primary mr-2">Submit</button>
                         </form>
                     </div>
