@@ -6,13 +6,9 @@
     <div class="page-content">
         @include('include/error')
         <div class="row">
-            <div class="col-md-12 grid-margin stretch-card">
+            <div class="col-md-6 grid-margin stretch-card">
                 <div class="card add-row">
                     <div class="card-body">
-                        <h6 class="card-title">Manage Expenses <a href="{{ route('expenses.create') }}"
-                                class="add-element btn btn-primary">Add Expenses</a> </h6>
-                        {{-- <a style="margin-right: 10px" href="{{ route('expenses.download.excel') }}"
-                                class="add-element btn btn-primary">Download Expenses</a> --}}
                         <form action="{{ route('expenses.index') }}" method="GET">
                             <div class="row">
                                 <div class="col-sm-4">
@@ -29,28 +25,52 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-4">
                                     <label for="start data">Start Date</label>
                                     <input type="date" value="{{ request('start_date') ? request('start_date') : '' }}"
                                         name="start_date" class="form-control ">
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-4">
                                     <label for="start data">End Date</label>
                                     <input type="date" value="{{ request('end_date') ? request('end_date') : '' }}"
                                         name="end_date" class="form-control ">
                                 </div>
-                                <div class="col-sm-1">
+                                <div class="col-sm-3 my-3">
                                     <label for="start data">Filter</label>
                                     <input type="submit" value="Filter" class="btn btn-primary form-control ">
                                 </div>
-
-                                <div class="col-sm-1">
+                                <div class="col-sm-3 my-3">
+                                    <label for="start data">Reset Filter</label>
+                                    <a href="{{ route('expenses.index') }}" class="btn btn-primary form-control ">Reset
+                                        Filter</a>
+                                </div>
+                                <div class="col-sm-3 my-3">
                                     <label for="start data">Export</label>
                                     <input type="submit" name="export" value="Export" class="btn btn-success form-control ">
                                 </div>
 
                             </div>
                         </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 grid-margin stretch-card">
+                <div class="card add-row">
+                    <div class="card-body">
+                        <div id="piechart" style="width: 500px; height: 250px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card add-row">
+                    <div class="card-body">
+                        <h6 class="card-title">Manage Expenses <a href="{{ route('expenses.create') }}"
+                                class="add-element btn btn-primary">Add Expenses</a> </h6>
+
+
                         <div class="table-responsive my-2">
                             <table id="dataTableExample" class="table">
                                 <thead>
@@ -107,3 +127,29 @@
         </div>
     </div>
 @endsection
+
+@push('chartJs')
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            var data = google.visualization.arrayToDataTable([
+                ['Category', 'Amount'],
+                <?php echo $chartData;?>
+            ]);
+
+            var options = {
+                title: 'My Daily Activities'
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+            chart.draw(data, options);
+        }
+    </script>
+@endpush
