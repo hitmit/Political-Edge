@@ -22,6 +22,11 @@ setlocale(LC_MONETARY,"en_IN");
                                     <th>Acc</th>
                                     <th>Others</th>
                                     <th>Total</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
                                     <th>A</th>
                                     <td>
                                         {{ round(($a3 * 2) / 3) }}
@@ -33,30 +38,16 @@ setlocale(LC_MONETARY,"en_IN");
                                         {{ round(($c3 * 2) / 3) }}
                                     </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th>A</th>
-                                    <td>
-                                        {{ str_replace(["INR", ".00"], "", money_format("%i", (($a3 * 2) / 3))) }}
-                                    </td>
-                                    <td>
-                                        {{ str_replace(["INR", ".00"], "", money_format("%i", (($b3 * 2) / 3))) }}
-                                    </td>
-                                    <td>
-                                        {{ str_replace(["INR", ".00"], "", money_format("%i", (($c3 * 2) / 3))) }}
-                                    </td>
-                                </tr>
                                 <tr>
                                     <th>B</th>
                                     <td>
-                                        {{ str_replace(["INR", ".00"], "", money_format("%i", (($a3 * 1) / 3))) }}
+                                        {{ round(($a3 * 1) / 3) }}
                                     </td>
                                     <td>
-                                        {{ str_replace(["INR", ".00"], "", money_format("%i", (($b3 * 1) / 3))) }}
+                                        {{ round(($b3 * 1) / 3) }}
                                     </td>
                                     <td>
-                                        {{ str_replace(["INR", ".00"], "", money_format("%i", (($c3 * 1) / 3))) }}
+                                        {{ round(($c3 * 1) / 3) }}
                                     </td>
                                 </tr>
                             </tbody>
