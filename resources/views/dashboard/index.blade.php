@@ -5,7 +5,6 @@
 @section('content')
 @php
 setlocale(LC_MONETARY,"en_IN");
-
 @endphp
 <div class="page-content dashboard">
     <div class="row  mb-4">
@@ -23,6 +22,16 @@ setlocale(LC_MONETARY,"en_IN");
                                     <th>Acc</th>
                                     <th>Others</th>
                                     <th>Total</th>
+                                    <th>A</th>
+                                    <td>
+                                        {{ round(($a3 * 2) / 3) }}
+                                    </td>
+                                    <td>
+                                        {{ round(($b3 * 2) / 3) }}
+                                    </td>
+                                    <td>
+                                        {{ round(($c3 * 2) / 3) }}
+                                    </td>
                                 </tr>
                             </thead>
                             <tbody>
