@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\User;
 use App\Models\Transaction;
+use App\Models\Transfer;
+use App\Models\TransferAmount;
 use App\Rules\MatchOldPassword;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
@@ -34,7 +37,7 @@ class HomeController extends Controller
         // 90% of total all other user
         $a2 = ($a2_of_90 * 90) / 100;
         // sum of above 2
-        $a3 = ($a1 + $a2);// 1443585.24
+        $a3 = ($a1 + $a2); // 1443585.24
         // dd($a3);
 
         // B1 Total expense by account
@@ -54,15 +57,19 @@ class HomeController extends Controller
         $c3 = $a3 - $b3;
 
 
-
-
+        /**
+         * amount transfer
+        */
+        
+        $total_amount_reduce = Transfer::where('sender_id',Auth()->user()->id)->sum('amount_send');
+        $receiver_id = Transfer::select('receiver_id','amount_send')->get()->toArray();
 
         if (auth()->getUser()->is_admin) {
             $users = User::orderBy('created_at', 'Desc')->get();
         } else {
             $users = User::where('id', auth()->getUser()->id)->get();
         }
-        return view('dashboard.index', compact('projects', 'users', 'total_expense', 'total_income', "total_expected_revenue", "a3", "b3", "c3"));
+        return view('dashboard.index', compact('projects', 'users', 'total_expense', 'total_income', "total_expected_revenue", "a3", "b3", "c3","total_amount_reduce","receiver_id"));
     }
 
     public function getUpdatePassword()
