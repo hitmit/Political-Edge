@@ -95,10 +95,10 @@ setlocale(LC_MONETARY,"en_IN");
                                     <tr>
                                         <td>{{ ++$key }}</td>
                                         <td>{{ $user->name }}</td>
-                                        <td>{{ $incomes }}</td>
-                                        <td>{{ $user->totalReceived() - $user->totalSend() }}</td>
-                                        <td>{{ $expenses }}</td>
-                                        <td>{{ $incomes - $expenses }}
+                                        <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $incomes)) }}</td>
+                                        <td>{{ str_replace(["INR", ".00"], "", money_format("%i", ($user->totalReceived() - $user->totalSend()))) }}</td>
+                                        <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $expenses)) }}</td>
+                                        <td>{{ str_replace(["INR", ".00"], "", money_format("%i", ($incomes - $expenses))) }}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -122,16 +122,16 @@ setlocale(LC_MONETARY,"en_IN");
                                 @if (auth()->getUser()->is_admin)
                                     <div class="col">
                                         <h6 class="">Expected Revenue</h6>
-                                        <p class="num-pt">{{ $total_expected_revenue }}</p>
+                                        <p class="num-pt">{{ str_replace(["INR", ".00"], "", money_format("%i", $total_expected_revenue)) }}</p>
                                     </div>
                                     <div class="col">
                                         <h6 class="">Total Receivables</h6>
-                                        <p class="num-pt">{{ $total_income }}</p>
+                                        <p class="num-pt">{{ str_replace(["INR", ".00"], "", money_format("%i", $total_income)) }}</p>
                                     </div>
 
                                     <div class="col">
                                         <h6 class="">Total Balance</h6>
-                                        <p class="num-pt">{{ $total_expected_revenue - $total_income }}</p>
+                                        <p class="num-pt">{{ str_replace(["INR", ".00"], "", money_format("%i", ($total_expected_revenue - $total_income))) }}</p>
                                     </div>
                                 @endif
                             </div>
@@ -184,32 +184,25 @@ setlocale(LC_MONETARY,"en_IN");
                                                     data-href="{{ route('project.show', $project->id) }}">{{ $project->name }}</span>
                                             </td>
                                             @if (auth()->getUser()->is_admin)
-                                                <td>{{ $exrev }}
-                                                </td>
+                                                <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $exrev)) }}</td>
                                             @endif
-                                            <td>{{ $incomes }}
-                                            </td>
-                                            <td>{{ $balance }}
+                                            <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $incomes)) }}</td>
+                                            <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $balance)) }}
                                             </td>
                                         </tr>
                                     @else
-                                        @if ($incomes)
-                                            <tr>
-                                                <td>{{ ++$key }}</td>
-                                                <td><span class="cursor-pointer btn-modal"
-                                                        data-container=".transection_modal"
-                                                        data-href="{{ route('project.show', $project->id) }}">{{ $project->name }}</span>
-                                                </td>
-                                                @if (auth()->getUser()->is_admin)
-                                                    <td>{{ $exrev }}
-                                                    </td>
-                                                @endif
-                                                <td>{{ $incomes }}
-                                                </td>
-                                                <td>{{ $balance }}
-                                                </td>
-                                            </tr>
-                                        @endif
+                                        <tr>
+                                            <td>{{ ++$key }}</td>
+                                            <td><span class="cursor-pointer btn-modal"
+                                                    data-container=".transection_modal"
+                                                    data-href="{{ route('project.show', $project->id) }}">{{ $project->name }}</span>
+                                            </td>
+                                            @if (auth()->getUser()->is_admin)
+                                                <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $exrev)) }}</td>
+                                            @endif
+                                            <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $incomes)) }}</td>
+                                            <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $balance)) }}</td>
+                                        </tr>
                                     @endif
                                 @endforeach
                             </tbody>

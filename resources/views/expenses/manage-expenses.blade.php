@@ -8,50 +8,40 @@
         <div class="row">
             <div class="col-md-6 grid-margin stretch-card">
                 <div class="card add-row">
-                    <div class="card-body">
-                        <form action="{{ route('expenses.index') }}" method="GET">
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="category">Category</label>
-                                    <select name="category" id="category" class="form-control ">
-                                        <option value="">--Select category--</option>
-                                        @foreach ($categorys as $category)
-                                            @if (request()->has('category') && request('category') == $category->id)
-                                                <option selected value="{{ $category->id }}">
-                                                @else
-                                                <option value="{{ $category->id }}">
-                                            @endif
-                                            {{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-sm-4">
-                                    <label for="start data">Start Date</label>
-                                    <input type="date" value="{{ request('start_date') ? request('start_date') : '' }}"
-                                        name="start_date" class="form-control ">
-                                </div>
-                                <div class="col-sm-4">
-                                    <label for="start data">End Date</label>
-                                    <input type="date" value="{{ request('end_date') ? request('end_date') : '' }}"
-                                        name="end_date" class="form-control ">
-                                </div>
-                                <div class="col-sm-3 my-3">
-                                    <label for="start data">Filter</label>
-                                    <input type="submit" value="Filter" class="btn btn-primary form-control ">
-                                </div>
-                                <div class="col-sm-3 my-3">
-                                    <label for="start data">Reset Filter</label>
-                                    <a href="{{ route('expenses.index') }}" class="btn btn-primary form-control ">Reset
-                                        Filter</a>
-                                </div>
-                                <div class="col-sm-3 my-3">
-                                    <label for="start data">Export</label>
-                                    <input type="submit" name="export" value="Export" class="btn btn-success form-control ">
-                                </div>
-
+                    <form action="{{ route('expenses.index') }}" method="GET">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="category">Category</label>
+                                <select name="category" id="category" class="form-control ">
+                                    <option value="">--Select category--</option>
+                                    @foreach ($categorys as $category)
+                                        @if (request()->has('category') && request('category') == $category->id)
+                                            <option selected value="{{ $category->id }}">
+                                            @else
+                                            <option value="{{ $category->id }}">
+                                        @endif
+                                        {{ $category->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                        </form>
-                    </div>
+                            <div class="form-group">
+                                <label for="start data">Start Date</label>
+                                <input type="date" value="{{ request('start_date') ? request('start_date') : '' }}"
+                                    name="start_date" class="form-control ">
+                            </div>
+                            <div class="form-group">
+                                <label for="start data">End Date</label>
+                                <input type="date" value="{{ request('end_date') ? request('end_date') : '' }}"
+                                    name="end_date" class="form-control ">
+                            </div>
+                            <div class="card-footer">
+                                <input type="submit" value="Filter" class="btn btn-primary ">
+                                <a href="{{ route('expenses.index') }}" class="btn btn-danger">Reset
+                                    Filter</a>
+                                <input type="submit" name="export" value="Export" class="btn btn-success">
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="col-md-6 grid-margin stretch-card">
