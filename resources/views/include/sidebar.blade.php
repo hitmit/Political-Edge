@@ -2,7 +2,7 @@
 <nav class="sidebar">
     <div class="sidebar-header">
         <a href="index.php" class="sidebar-brand">
-            <img src="{{ asset('assets/images/lock.png') }}"></span>
+            <img src="{{ asset('public/assets/images/lock.png') }}"></span>
         </a>
         <div class="sidebar-toggler not-active">
             <span></span>
@@ -83,13 +83,13 @@
                 <li class="nav-item">
                     <a href="{{ route('transfer.index') }}" class="nav-link">
                         <i class="link-icon" data-feather="calendar"></i>
-                        <span class="link-title">Transfers Records</span>
+                        <span class="link-title">Manage Transfer</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('transfer.create') }}" class="nav-link">
                         <i class="link-icon" data-feather="calendar"></i>
-                        <span class="link-title">Transfers Amount</span>
+                        <span class="link-title">Add Transfer</span>
                     </a>
                 </li>
                 {{-- <li class="nav-item">

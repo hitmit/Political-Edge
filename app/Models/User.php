@@ -51,10 +51,13 @@ class User extends Authenticatable
     }
 
 
-    public function totalTrasfers()
+    public function totalSend()
     {
-        $total_send = Transfer::where("sender_id", $this->id)->sum("amount_send");
-        $total_received = Transfer::where("receiver_id", $this->id)->sum("amount_send");
-        return $total_send - $total_received;
+        return Transfer::where("sender_id", $this->id)->sum("amount_send");
+    }
+
+    public function totalReceived()
+    {
+        return Transfer::where("receiver_id", $this->id)->sum("amount_send");
     }
 }

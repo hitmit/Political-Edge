@@ -30,7 +30,7 @@ class TransferController extends Controller
      */
     public function create()
     {
-        $users = User::all();
+        $users = User::where('id', '!=', auth()->user()->id)->get();
         return view('transfer.create',compact('users'));
     }
 
@@ -43,53 +43,16 @@ class TransferController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'user'=>'required',
-            'amount'=>'required',
+            'receiver_id'=>'required',
+            'amount_send'=>'required',
         ]);
 
-        $user_id = Auth::user()->id;
         $transfer = new Transfer();
-        $transfer->sender_id = $user_id;
-        $transfer->amount_send = $request->amount;
-        $transfer->receiver_id = $request->user;
+        $transfer->fill($request->all());
+        $transfer->sender_id = auth()->getUser()->id;
         $transfer->save();
 
-
-        return redirect()->route('transfer.index');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        return redirect()->route('transfer.index')->withMessage("Amount Transfered sucessfully!!");
     }
 
     /**
@@ -100,6 +63,8 @@ class TransferController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $transfer = Transfer::find($id);
+        $transfer->delete();
+        return redirect()->back()->with("status", "Transfer delete successfully");
     }
 }

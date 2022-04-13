@@ -96,7 +96,7 @@ setlocale(LC_MONETARY,"en_IN");
                                         <td>{{ ++$key }}</td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $incomes }}</td>
-                                        <td>{{ $user->totalTrasfers() }}</td>
+                                        <td>{{ $user->totalReceived() - $user->totalSend() }}</td>
                                         <td>{{ $expenses }}</td>
                                         <td>{{ $incomes - $expenses }}
                                         </td>

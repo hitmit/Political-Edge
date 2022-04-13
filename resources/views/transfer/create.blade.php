@@ -17,19 +17,14 @@
                                     <label for="exampleInputDate">Users</label>
                                     <div class="input-group" id="user">
 
-                                        <select name="user" id="user"
-                                            class="form-control @error('user') is-invalid @enderror">
+                                        <select name="receiver_id" id="user"
+                                            class="form-control @error('receiver_id') is-invalid @enderror">
                                             <option value="">--Select User--</option>
                                             @foreach ($users as $user)
-                                                @if (Auth()->user()->id == $user->id)
-                                                    <option disabled value="{{ $user->id }}">
-                                                    @else
-                                                    <option value="{{ $user->id }}">
-                                                @endif
-                                                {{ $user->name }}</option>
+                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
                                             @endforeach
                                         </select>
-                                        @error('user')
+                                        @error('receiver_id')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -39,9 +34,9 @@
                                 <div class="form-group">
                                     <label for="exampleInputDate">Enter amount</label>
                                     <div class="input-group" id="user">
-                                        <input type="text" class="form-control @error('amount') is-invalid @enderror"
-                                            name="amount" value="{{ old('amount') }}">
-                                        @error('amount')
+                                        <input type="text" class="form-control @error('amount_send') is-invalid @enderror"
+                                            name="amount_send" value="{{ old('amount_send') }}">
+                                        @error('amount_send')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>

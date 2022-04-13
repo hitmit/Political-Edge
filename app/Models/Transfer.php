@@ -11,6 +11,18 @@ class Transfer extends Model
 
     protected $table = 'transfer';
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'sender_id',
+        'amount_send',
+        'receiver_id',
+    ];
+
+
     public function receiver()
     {
         return $this->belongsTo(\App\Models\User::class, 'receiver_id');
