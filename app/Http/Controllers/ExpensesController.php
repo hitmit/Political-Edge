@@ -52,16 +52,34 @@ class ExpensesController extends Controller
         }
         $expenses = $query->paginate(50);
 
-        $categorysChart = Category::all();
+        if(request()->filled('category')){
+            $categorysChart = Category::where('id',request('category'))->get();
+        }else{
+            $categorysChart = Category::all();
+        }
 
 
         $chartLists = "";
         foreach ($categorysChart as $list) {
-            $totalAmount = Transaction::where('category_id', $list->id)->where('type','expense')->sum('amount');
-            $chartLists .= "['" . $list->name . "'," . $totalAmount . "],";
+            $totalAmount = Transaction::where('category_id', $list->id)->where('type','expense');
+
+            if(request()->filled('start_date') && !request()->filled('end_date')){
+                $totalAmount->where('date', '>=', request('start_date'));
+            }
+            if(request()->filled('end_date') && !request()->filled('start_date')){
+                $totalAmount->where('date', '<=', request('end_date'));
+            }
+            if(request()->filled('start_date') && request()->filled('end_date')){
+                $totalAmount->whereBetween('date', [request('start_date'), request('end_date')]);
+            }
+            
+            $chartLists .= "['" . $list->name . "'," . $totalAmount->sum('amount') . "],";
+            
+
         }
 
         $result['chartData'] = rtrim($chartLists, ",");
+        // dd($result);
         return view("expenses.manage-expenses", compact("expenses", 'categorys'), $result);
     }
 
