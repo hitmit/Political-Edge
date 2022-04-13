@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Transfer;
 
 class User extends Authenticatable
 {
@@ -47,5 +48,13 @@ class User extends Authenticatable
     public function transections()
     {
         return $this->hasMany(Transaction::class);
+    }
+
+
+    public function totalTrasfers()
+    {
+        $total_send = Transfer::where("sender_id", $this->id)->sum("amount_send");
+        $total_received = Transfer::where("receiver_id", $this->id)->sum("amount_send");
+        return $total_send - $total_received;
     }
 }

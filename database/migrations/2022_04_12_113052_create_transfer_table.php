@@ -14,9 +14,10 @@ class CreateTransferTable extends Migration
     public function up()
     {
         Schema::create('transfer', function (Blueprint $table) {
-            $table->bigInteger('sender_id')->nullable();
+            $table->id();
+            $table->bigInteger('sender_id')->default(0);
             $table->string('amount_send');
-            $table->bigInteger('receiver_id')->nullable();
+            $table->bigInteger('receiver_id')->default(0);
             $table->timestamps();
         });
     }

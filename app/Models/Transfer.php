@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Transfer extends Model
 {
     use HasFactory;
+
     protected $table = 'transfer';
+
     public function receiver()
     {
         return $this->belongsTo(\App\Models\User::class, 'receiver_id');
