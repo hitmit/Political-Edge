@@ -25,7 +25,7 @@ Route::get("/", function(){
   }
 });
 
-Auth::routes(['register' => false, 'reset' => false]);
+Auth::routes(['register' => true, 'reset' => false]);
 
 Route::middleware(['auth'])->group(function () {
   Route::get("home", [HomeController::class, "index"])->name("home");
@@ -41,6 +41,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
   Route::resource('/project', App\Http\Controllers\ProjectController::class)->except(['show']);
   Route::resource("/users", App\Http\Controllers\UserControler::class);
   Route::resource("/category", App\Http\Controllers\CategoryController::class);
+  Route::resource("/transfer", App\Http\Controllers\TransferController::class);
 });
 
 

@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\User;
 use App\Models\Transaction;
+use App\Models\Transfer;
+use App\Models\TransferAmount;
 use App\Rules\MatchOldPassword;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
@@ -56,15 +59,19 @@ class HomeController extends Controller
         $c3 = $c1 - $c2;
 
 
-
-
+        /**
+         * amount transfer
+        */
+        
+        $total_amount_reduce = Transfer::where('sender_id',Auth()->user()->id)->sum('amount_send');
+        $receiver_id = Transfer::select('receiver_id','amount_send')->get()->toArray();
 
         if (auth()->getUser()->is_admin) {
             $users = User::orderBy('created_at', 'Desc')->get();
         } else {
             $users = User::where('id', auth()->getUser()->id)->get();
         }
-        return view('dashboard.index', compact('projects', 'users', 'total_expense', 'total_income', "total_expected_revenue", "a3", "b3", "c3"));
+        return view('dashboard.index', compact('projects', 'users', 'total_expense', 'total_income', "total_expected_revenue", "a3", "b3", "c3","total_amount_reduce","receiver_id"));
     }
 
     public function getUpdatePassword()
