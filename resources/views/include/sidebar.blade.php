@@ -2,7 +2,7 @@
 <nav class="sidebar">
     <div class="sidebar-header">
         <a href="index.php" class="sidebar-brand">
-            <img src="{{ asset('public/assets/images/lock.png') }}"></span>
+            <img src="{{ asset('assets/images/lock.png') }}"></span>
         </a>
         <div class="sidebar-toggler not-active">
             <span></span>
@@ -78,6 +78,26 @@
                         <span class="link-title">Add Category</span>
                     </a>
                 </li>
+
+                <li class="nav-item nav-category">Manage Transfers</li>
+                <li class="nav-item">
+                    <a href="{{ route('transfer.index') }}" class="nav-link">
+                        <i class="link-icon" data-feather="calendar"></i>
+                        <span class="link-title">Transfers Records</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('transfer.create') }}" class="nav-link">
+                        <i class="link-icon" data-feather="calendar"></i>
+                        <span class="link-title">Transfers Amount</span>
+                    </a>
+                </li>
+                {{-- <li class="nav-item">
+                    <a href="{{ route('category.create') }}" class="nav-link">
+                        <i class="link-icon" data-feather="credit-card"></i>
+                        <span class="link-title">Add Category</span>
+                    </a>
+                </li> --}}
                 
                 <li class="nav-item nav-category">Manage Users</li>
                 <li class="nav-item">
