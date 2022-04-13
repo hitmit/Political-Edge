@@ -21,8 +21,12 @@
                                             class="form-control @error('user') is-invalid @enderror">
                                             <option value="">--Select User--</option>
                                             @foreach ($users as $user)
-                                                <option value="{{ $user->id }}">
-                                                    {{ $user->name }}</option>
+                                                @if (Auth()->user()->id == $user->id)
+                                                    <option disabled value="{{ $user->id }}">
+                                                    @else
+                                                    <option value="{{ $user->id }}">
+                                                @endif
+                                                {{ $user->name }}</option>
                                             @endforeach
                                         </select>
                                         @error('user')
