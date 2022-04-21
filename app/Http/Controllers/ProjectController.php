@@ -118,6 +118,10 @@ class ProjectController extends Controller
         if ($project->transections()->count()) {
             return Redirect::back()->with("error", "Project hsa income and expense associated so it can't be deleted.");
         } else {
+            $delete_assign_project = AssignProject::where('project_id', $id);
+            if ($delete_assign_project->count() > 0) {
+                $delete_assign_project->delete();
+            }
             $project->delete();
             return Redirect::back()->with("status", "Project delete successfully");
         }
