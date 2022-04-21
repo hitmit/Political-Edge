@@ -30,6 +30,20 @@
                                     </span>
                                 @enderror
                             </div>
+                            <div class="form-group">
+                                <label for="users">Users</label><br>
+                                <table >
+                                    @foreach ($users as $user)
+                                        <tr>
+                                            <td style="width: 32%;  padding-bottom: 5px;">
+                                                <input type="checkbox" name="users[]" class="form-check"
+                                                    value="{{ $user->id }}">
+                                            </td>
+                                            <td>{{ $user->name }}</td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            </div>
                             
 
                             <button type="submit" class="btn btn-primary mr-2">Submit</button>
