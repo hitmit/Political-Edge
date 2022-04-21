@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AssignProject;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\User;
@@ -22,8 +23,14 @@ class HomeController extends Controller
     public function index()
     {
 
-
-        $projects = Project::orderBy('created_at', 'Desc')->get();
+        $project_ids = AssignProject::where('user_id', Auth()->user()->id)->pluck('project_id')->toArray();
+        $project_ids = array_unique($project_ids);
+        if(Auth()->user()->is_admin){
+            $projects = Project::orderBy('created_at', 'Desc')->get();           
+        }else{
+            $projects = Project::whereIN('id',$project_ids)->orderBy('created_at', 'Desc')->get();
+        }
+        
         $total_expense = Transaction::where('type', 'expense')->sum('amount');
         $total_expected_revenue = Project::sum('expected_revenue');
         $total_income = Transaction::where('type', 'income')->sum('amount');

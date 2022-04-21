@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AssignProject;
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class ProjectController extends Controller
@@ -26,7 +29,8 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('projects.add-project');
+        $users = User::where('id', '!=', Auth()->user()->id)->get();
+        return view('projects.add-project', compact('users'));
     }
 
     /**
@@ -45,6 +49,14 @@ class ProjectController extends Controller
         $project->name = $request->name;
         $project->expected_revenue = $request->expected_revenue;
         $project->save();
+
+        foreach ($request->users as $user) {
+            $assign_projects  = new AssignProject();
+            $assign_projects->user_id = $user;
+            $assign_projects->project_id = $project->id;
+            $assign_projects->save();
+        }
+
         return redirect(route("project.index"))->with("status", "Project added successfully");
     }
 
@@ -58,7 +70,10 @@ class ProjectController extends Controller
     {
 
         $project = Project::find($id);
-        return view("projects.edit", compact('project'));
+        $users = User::where('id', '!=', Auth()->user()->id)->get();
+        $users_check = AssignProject::where('project_id', $id)->pluck('user_id')->toArray();
+
+        return view("projects.edit", compact('project', 'users', 'users_check'));
     }
 
     /**
@@ -74,11 +89,20 @@ class ProjectController extends Controller
             "name" => 'required',
             'expected_revenue' => "required",
         ]);
-        
+
         Project::where('id', $request->id)->update([
             'name' => $request->name,
             'expected_revenue' => $request->expected_revenue,
         ]);
+        AssignProject::where('project_id', $id)->delete();
+        if ($request->users != null) {
+            foreach ($request->users as $user) {
+                $assign_projects  = new AssignProject();
+                $assign_projects->user_id = $user;
+                $assign_projects->project_id = $id;
+                $assign_projects->save();
+            }
+        }
         return redirect(route("project.index"))->with("status", "Project updated successfully");
     }
 
