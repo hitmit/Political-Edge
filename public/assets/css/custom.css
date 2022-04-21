@@ -179,3 +179,9 @@ a.add-element {
 .cursor-pointer{
     cursor: pointer;
 }
+div#user1 {
+    display: none;
+}
+.mar-15{
+    margin-top:15px;
+}

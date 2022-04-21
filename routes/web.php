@@ -34,6 +34,9 @@ Route::middleware(['auth'])->group(function () {
   Route::resource('/income', App\Http\Controllers\IncomeController::class);
   Route::resource("/expenses",App\Http\Controllers\ExpensesController::class);
   Route::get("show-project/{id}", [HomeController::class, "showProject"])->name("project.show");
+  Route::resource("/transfer", App\Http\Controllers\TransferController::class)->only([
+    'index', 'create', 'store', 'destroy'
+  ]);
   
 });
 
@@ -41,9 +44,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
   Route::resource('/project', App\Http\Controllers\ProjectController::class)->except(['show']);
   Route::resource("/users", App\Http\Controllers\UserControler::class);
   Route::resource("/category", App\Http\Controllers\CategoryController::class);
-  Route::resource("/transfer", App\Http\Controllers\TransferController::class)->only([
-    'index', 'create', 'store', 'destroy'
-  ]);
+  
 });
 
 

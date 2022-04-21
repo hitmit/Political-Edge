@@ -63,6 +63,19 @@
                     <span class="link-title">Add Expenses</span>
                 </a>
             </li>
+            <li class="nav-item nav-category">Manage Transfers</li>
+                <li class="nav-item">
+                    <a href="{{ route('transfer.index') }}" class="nav-link">
+                        <i class="link-icon" data-feather="calendar"></i>
+                        <span class="link-title">Manage Transfer</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('transfer.create') }}" class="nav-link">
+                        <i class="link-icon" data-feather="calendar"></i>
+                        <span class="link-title">Add Transfer</span>
+                    </a>
+                </li>
             
             @if (auth()->getUser()->is_admin)
                 <li class="nav-item nav-category">Manage Category</li>
@@ -79,19 +92,7 @@
                     </a>
                 </li>
 
-                <li class="nav-item nav-category">Manage Transfers</li>
-                <li class="nav-item">
-                    <a href="{{ route('transfer.index') }}" class="nav-link">
-                        <i class="link-icon" data-feather="calendar"></i>
-                        <span class="link-title">Manage Transfer</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('transfer.create') }}" class="nav-link">
-                        <i class="link-icon" data-feather="calendar"></i>
-                        <span class="link-title">Add Transfer</span>
-                    </a>
-                </li>
+                
                 {{-- <li class="nav-item">
                     <a href="{{ route('category.create') }}" class="nav-link">
                         <i class="link-icon" data-feather="credit-card"></i>

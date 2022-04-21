@@ -7,6 +7,7 @@
 setlocale(LC_MONETARY,"en_IN");
 @endphp
 <div class="page-content dashboard">
+   @if (auth()->user()->is_admin)
     <div class="row  mb-4">
         <div class="col-lg-12 col-xl-12 stretch-card">
             <div class="card add-row">
@@ -29,25 +30,25 @@ setlocale(LC_MONETARY,"en_IN");
                                 <tr>
                                     <th>A</th>
                                     <td>
-                                        {{ round(($a3 * 2) / 3) }}
+                                        {{ str_replace(["INR", ".00"], "", money_format("%i", round(($a3 * 2) / 3))) }}
                                     </td>
                                     <td>
-                                        {{ round(($b3 * 2) / 3) }}
+                                        {{ str_replace(["INR", ".00"], "", money_format("%i", round(($b3 * 2) / 3))) }}
                                     </td>
                                     <td>
-                                        {{ round(($c3 * 2) / 3) }}
+                                        {{ str_replace(["INR", ".00"], "", money_format("%i", round(($c3 * 2) / 3))) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>B</th>
                                     <td>
-                                        {{ round(($a3 * 1) / 3) }}
+                                        {{ str_replace(["INR", ".00"], "", money_format("%i", round(($a3 * 1) / 3))) }}
                                     </td>
                                     <td>
-                                        {{ round(($b3 * 1) / 3) }}
+                                        {{ str_replace(["INR", ".00"], "", money_format("%i", round(($b3 * 1) / 3))) }}
                                     </td>
                                     <td>
-                                        {{ round(($c3 * 1) / 3) }}
+                                        {{ str_replace(["INR", ".00"], "", money_format("%i", round(($c3 * 1) / 3))) }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -57,6 +58,7 @@ setlocale(LC_MONETARY,"en_IN");
             </div>
         </div>
     </div>
+    @endif
     <div class="row  mb-4">
         <div class="col-lg-12 col-xl-12 stretch-card">
             <div class="card add-row">
@@ -73,11 +75,11 @@ setlocale(LC_MONETARY,"en_IN");
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>User Name</th>
-                                    <th>Total Receivables</th>
-                                    <th>Internal Transfer</th>
-                                    <th>Total Expenses</th>
-                                    <th>Total Balance</th>
+                                    <th>User</th>
+                                    <th>Receivables</th>
+                                    <th>Internal</th>
+                                    <th>Expenses</th>
+                                    <th>Balance</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -91,14 +93,15 @@ setlocale(LC_MONETARY,"en_IN");
                                             ->transections()
                                             ->where('type', 'expense')
                                             ->sum('amount');
+                                        $transfer = $user->totalReceived() - $user->totalSend();
                                     @endphp
                                     <tr>
                                         <td>{{ ++$key }}</td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $incomes)) }}</td>
-                                        <td>{{ str_replace(["INR", ".00"], "", money_format("%i", ($user->totalReceived() - $user->totalSend()))) }}</td>
+                                        <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $transfer)) }}</td>
                                         <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $expenses)) }}</td>
-                                        <td>{{ str_replace(["INR", ".00"], "", money_format("%i", ($incomes - $expenses))) }}
+                                        <td>{{ str_replace(["INR", ".00"], "", money_format("%i", ($incomes + $transfer - $expenses))) }}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -121,16 +124,16 @@ setlocale(LC_MONETARY,"en_IN");
                             <div class="row txt-r">
                                 @if (auth()->getUser()->is_admin)
                                     <div class="col">
-                                        <h6 class="">Expected Revenue</h6>
+                                        <h6 class="">Expected</h6>
                                         <p class="num-pt">{{ str_replace(["INR", ".00"], "", money_format("%i", $total_expected_revenue)) }}</p>
                                     </div>
                                     <div class="col">
-                                        <h6 class="">Total Receivables</h6>
+                                        <h6 class="">Receivables</h6>
                                         <p class="num-pt">{{ str_replace(["INR", ".00"], "", money_format("%i", $total_income)) }}</p>
                                     </div>
 
                                     <div class="col">
-                                        <h6 class="">Total Balance</h6>
+                                        <h6 class="">Balance</h6>
                                         <p class="num-pt">{{ str_replace(["INR", ".00"], "", money_format("%i", ($total_expected_revenue - $total_income))) }}</p>
                                     </div>
                                 @endif
@@ -144,12 +147,12 @@ setlocale(LC_MONETARY,"en_IN");
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Project Name</th>
+                                    <th>Project</th>
                                     @if (auth()->getUser()->is_admin)
-                                        <th>Total Expected Revenue</th>
+                                        <th>Expected</th>
                                     @endif
-                                    <th>Total Receivables</th>
-                                    <th>Total Balance</th>
+                                    <th>Receivables</th>
+                                    <th>Balance</th>
                                 </tr>
                             </thead>
                             <tbody>

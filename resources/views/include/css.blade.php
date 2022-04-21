@@ -6,6 +6,8 @@
 
 <link rel="stylesheet" href="{{ asset('public/assets/css/style.css') }}">
 <link rel="stylesheet" href="{{ asset('public/assets/css/custom.css') }}">
-<!-- End layout styles -->
-<link rel="shortcut icon" href="{{ asset('public/assets/images/fav.png') }}" />
+<!-- End layout styles 
+<link rel="shortcut icon" href="{{ asset('public/assets/images/fav.png') }}" />-->
+
+<link rel="shortcut icon" href="https://cleverapp.in/pe/public/assets/images/lock.png" />
 @stack('css')
