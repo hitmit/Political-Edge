@@ -7,7 +7,7 @@
 setlocale(LC_MONETARY,"en_IN");
 @endphp
 <div class="page-content dashboard">
-   @if (auth()->user()->is_admin)
+   @if (auth()->user()->role == 'admin')
     <div class="row  mb-4">
         <div class="col-lg-12 col-xl-12 stretch-card">
             <div class="card add-row">
@@ -122,7 +122,7 @@ setlocale(LC_MONETARY,"en_IN");
                         </div>
                         <div class="col-lg-10 col-12">
                             <div class="row txt-r">
-                                @if (auth()->getUser()->is_admin)
+                                @if (auth()->getUser()->role == 'admin')
                                     <div class="col">
                                         <h6 class="">Expected</h6>
                                         <p class="num-pt">{{ str_replace(["INR", ".00"], "", money_format("%i", $total_expected_revenue)) }}</p>
@@ -148,7 +148,7 @@ setlocale(LC_MONETARY,"en_IN");
                                 <tr>
                                     <th>#</th>
                                     <th>Project</th>
-                                    @if (auth()->getUser()->is_admin)
+                                    @if (auth()->getUser()->role == 'admin')
                                         <th>Expected</th>
                                     @endif
                                     <th>Receivables</th>
@@ -165,7 +165,7 @@ setlocale(LC_MONETARY,"en_IN");
                                                 ->transections()
                                                 ->where('type', 'income')
                                                 ->sum('amount');
-                                        if (auth()->getUser()->is_admin) {
+                                        if (auth()->getUser()->role == 'admin') {
                                             $incomes = $project
                                                 ->transections()
                                                 ->where('type', 'income')
@@ -179,14 +179,14 @@ setlocale(LC_MONETARY,"en_IN");
                                         }
                                         
                                     @endphp
-                                    @if (auth()->getUser()->is_admin)
+                                    @if (auth()->getUser()->role == 'admin')
                                         <tr>
                                             <td>{{ ++$key }}</td>
                                             <td><span class="cursor-pointer btn-modal"
                                                     data-container=".transection_modal"
                                                     data-href="{{ route('project.show', $project->id) }}">{{ $project->name }}</span>
                                             </td>
-                                            @if (auth()->getUser()->is_admin)
+                                            @if (auth()->getUser()->role == 'admin')
                                                 <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $exrev)) }}</td>
                                             @endif
                                             <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $incomes)) }}</td>
@@ -200,7 +200,7 @@ setlocale(LC_MONETARY,"en_IN");
                                                     data-container=".transection_modal"
                                                     data-href="{{ route('project.show', $project->id) }}">{{ $project->name }}</span>
                                             </td>
-                                            @if (auth()->getUser()->is_admin)
+                                            @if (auth()->getUser()->role == 'admin')
                                                 <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $exrev)) }}</td>
                                             @endif
                                             <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $incomes)) }}</td>

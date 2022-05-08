@@ -43,8 +43,8 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
   Route::resource('/project', App\Http\Controllers\ProjectController::class)->except(['show']);
   Route::resource("/users", App\Http\Controllers\UserControler::class);
+  Route::resource("/employee", App\Http\Controllers\EmployeeControler::class);
   Route::resource("/category", App\Http\Controllers\CategoryController::class);
-  
 });
 
 

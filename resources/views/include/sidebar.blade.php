@@ -20,7 +20,7 @@
                 </a>
             </li>
             
-            @if (auth()->getUser()->is_admin)
+            @if (auth()->getUser()->role == 'admin')
                 <li class="nav-item nav-category">Manage Project</li>
                 <li class="nav-item">
                     <a href="{{ route('project.index') }}" class="nav-link">
@@ -77,7 +77,7 @@
                     </a>
                 </li>
             
-            @if (auth()->getUser()->is_admin)
+            @if (auth()->getUser()->role == 'admin')
                 <li class="nav-item nav-category">Manage Category</li>
                 <li class="nav-item">
                     <a href="{{ route('category.index') }}" class="nav-link">
@@ -111,6 +111,20 @@
                     <a href="{{ route('users.create') }}" class="nav-link">
                         <i class="link-icon" data-feather="user"></i>
                         <span class="link-title">Add User</span>
+                    </a>
+                </li>
+
+                <li class="nav-item nav-category">Manage Employees</li>
+                <li class="nav-item">
+                    <a href="{{ route('employee.index') }}" class="nav-link">
+                        <i class="link-icon" data-feather="users"></i>
+                        <span class="link-title">Manage Employees</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('employee.create') }}" class="nav-link">
+                        <i class="link-icon" data-feather="user"></i>
+                        <span class="link-title">Add employee</span>
                     </a>
                 </li>
             @endif

@@ -22,7 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'phone',
-        'is_admin',
+        'role',
         'password',
     ];
 
@@ -49,7 +49,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Transaction::class);
     }
-
 
     public function totalSend()
     {

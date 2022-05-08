@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AssignProject;
+use App\Models\UserProject;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\User;
@@ -23,9 +23,9 @@ class HomeController extends Controller
     public function index()
     {
 
-        $project_ids = AssignProject::where('user_id', Auth()->user()->id)->pluck('project_id')->toArray();
+        $project_ids = UserProject::where('user_id', Auth()->user()->id)->pluck('project_id')->toArray();
         $project_ids = array_unique($project_ids);
-        if(Auth()->user()->is_admin){
+        if(Auth()->user()->role == 'admin'){
             $projects = Project::orderBy('created_at', 'Desc')->get();           
         }else{
             $projects = Project::whereIN('id',$project_ids)->orderBy('created_at', 'Desc')->get();
@@ -73,7 +73,7 @@ class HomeController extends Controller
         $total_amount_reduce = Transfer::where('sender_id',Auth()->user()->id)->sum('amount_send');
         $receiver_id = Transfer::select('receiver_id','amount_send')->get()->toArray();
 
-        if (auth()->getUser()->is_admin) {
+        if (auth()->getUser()->role == 'admin') {
             $users = User::orderBy('created_at', 'Desc')->get();
         } else {
             $users = User::where('id', auth()->getUser()->id)->get();

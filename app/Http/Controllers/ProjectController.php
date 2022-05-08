@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AssignProject;
+use App\Models\UserProject;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -51,7 +51,7 @@ class ProjectController extends Controller
         $project->save();
 
         foreach ($request->users as $user) {
-            $assign_projects  = new AssignProject();
+            $assign_projects  = new UserProject();
             $assign_projects->user_id = $user;
             $assign_projects->project_id = $project->id;
             $assign_projects->save();
@@ -71,7 +71,7 @@ class ProjectController extends Controller
 
         $project = Project::find($id);
         $users = User::where('id', '!=', Auth()->user()->id)->get();
-        $users_check = AssignProject::where('project_id', $id)->pluck('user_id')->toArray();
+        $users_check = UserProject::where('project_id', $id)->pluck('user_id')->toArray();
 
         return view("projects.edit", compact('project', 'users', 'users_check'));
     }
@@ -94,10 +94,10 @@ class ProjectController extends Controller
             'name' => $request->name,
             'expected_revenue' => $request->expected_revenue,
         ]);
-        AssignProject::where('project_id', $id)->delete();
         if ($request->users != null) {
+            UserProject::where('project_id', $id)->delete();
             foreach ($request->users as $user) {
-                $assign_projects  = new AssignProject();
+                $assign_projects  = new UserProject();
                 $assign_projects->user_id = $user;
                 $assign_projects->project_id = $id;
                 $assign_projects->save();
@@ -118,7 +118,7 @@ class ProjectController extends Controller
         if ($project->transections()->count()) {
             return Redirect::back()->with("error", "Project hsa income and expense associated so it can't be deleted.");
         } else {
-            $delete_assign_project = AssignProject::where('project_id', $id);
+            $delete_assign_project = UserProject::where('project_id', $id);
             if ($delete_assign_project->count() > 0) {
                 $delete_assign_project->delete();
             }

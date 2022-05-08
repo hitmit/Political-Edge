@@ -19,7 +19,7 @@ class IncomeController extends Controller
     public function index()
     {
         $query = Transaction::where('type', 'income');
-        if (!auth()->getUser()->is_admin) {
+        if (!auth()->getUser()->role == 'admin') {
             $query->where("user_id", Auth::user()->id);
         }
         $incomes = $query->paginate(10);
@@ -34,7 +34,7 @@ class IncomeController extends Controller
     public function create()
     {
         $users = [];
-        if (auth()->getUser()->is_admin) {
+        if (auth()->getUser()->role == 'admin') {
             $users = User::all();
         }
         $projects = Project::all();
@@ -91,7 +91,7 @@ class IncomeController extends Controller
     public function edit($id)
     {
         $users = [];
-        if (auth()->getUser()->is_admin) {
+        if (auth()->getUser()->role == 'admin') {
             $users = User::all();
         }
         $income = Transaction::find($id);

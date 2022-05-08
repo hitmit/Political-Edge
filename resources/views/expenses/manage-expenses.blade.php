@@ -6,7 +6,7 @@
     <div class="page-content">
         @include('include/error')
          
-         @if (auth()->user()->is_admin)
+         @if (auth()->user()->role == 'admin')
         <div class="row mb-4">
             
             <div class="col-md-6">

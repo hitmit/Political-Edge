@@ -18,7 +18,7 @@
                                     <tr>
                                         <th>Project Name</th>
                                         <th>Receivables</th>
-                                        @if(auth()->getUser()->is_admin)
+                                        @if(auth()->getUser()->role == 'admin')
                                             <th>User</th>
                                         @endif
                                         <th>Remark</th>
@@ -31,7 +31,7 @@
                                         <tr>
                                             <td>{{ $income->project()->first()->name }}</td>
                                             <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $income->amount)) }}</td>
-                                            @if(auth()->getUser()->is_admin)
+                                            @if(auth()->getUser()->role == 'admin')
                                                 <td>{{ $income->user()->first()->name }}</td>
                                             @endif
                                             <td>{{ $income->remark }}</td>

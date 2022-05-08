@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Project;
+use App\Models\UserProject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 
-class UserControler extends Controller
+class EmployeeControler extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +18,8 @@ class UserControler extends Controller
      */
     public function index()
     {
-        $users = User::where('role', 'user')->paginate(10);
-        return view("users.manage-user", compact('users'));
+        $users = User::where('role', 'employee')->paginate(10);
+        return view("employee.index", compact('users'));
     }
 
     /**
@@ -27,7 +29,8 @@ class UserControler extends Controller
      */
     public function create()
     {
-        return view("users.create");
+        $projects = Project::all();
+        return view("employee.create", compact('projects'));
     }
 
     /**
@@ -49,15 +52,20 @@ class UserControler extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ], $messages);
 
-
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
-        $user->role = 'user';
+        $user->role = 'employee';
         $user->password = Hash::make($request->password);
         $user->save();
-        return redirect(route("users.index"))->with("status", "User added successfully");
+        foreach ($request->projects as $project_id) {
+            $assign_projects  = new UserProject();
+            $assign_projects->user_id = $user->id;
+            $assign_projects->project_id = $project_id;
+            $assign_projects->save();
+        }
+        return redirect(route("employee.index"))->with("status", "Employee added successfully");
     }
 
     /**
@@ -79,7 +87,10 @@ class UserControler extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        return view("users.edit", array("user" => $user));
+        $projects = Project::all();
+        $selected_projects = UserProject::where('user_id', $id)
+            ->pluck('project_id')->toArray();
+        return view("employee.edit", compact('user', 'projects', 'selected_projects'));
     }
 
     /**
@@ -111,12 +122,21 @@ class UserControler extends Controller
         $account->email = $request->email;
         $account->phone = $request->phone;
         $account->name = $request->name;
-        $account->role = 'user';
+        $account->role = 'employee';
         if ($request->password) {
             $account->password = Hash::make($request->password);    
         }
         $account->save();
-        return redirect(route("users.index"))->with("status", "User updated successfully");
+        if ($request->projects != null) {
+            UserProject::where('user_id', $account->id)->delete();
+            foreach ($request->projects as $project_id) {
+                $assign_projects  = new UserProject();
+                $assign_projects->user_id = $user->id;
+                $assign_projects->project_id = $project_id;
+                $assign_projects->save();
+            }
+        }
+        return redirect(route("employee.index"))->with("status", "Employee updated successfully");
     }
 
     /**

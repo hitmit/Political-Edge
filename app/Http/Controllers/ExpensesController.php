@@ -29,7 +29,7 @@ class ExpensesController extends Controller
         $user_id = Transaction::where('type', 'expense')->pluck('user_id');
         $username = User::whereIN('id', $user_id)->get();
 
-        if (!auth()->getUser()->is_admin) {
+        if (!auth()->getUser()->role == 'admin') {
             $query->where("user_id", Auth::user()->id);
         }
         if (request()->filled('category')) {
@@ -74,7 +74,7 @@ class ExpensesController extends Controller
     {
         $projects = Project::all();
         $users = [];
-        if (auth()->getUser()->is_admin) {
+        if (auth()->getUser()->role == 'admin') {
             $users = User::all();
         }
         $categories = Category::where("status", 1)->get();
@@ -133,7 +133,7 @@ class ExpensesController extends Controller
     public function edit($id)
     {
         $users = [];
-        if (auth()->getUser()->is_admin) {
+        if (auth()->getUser()->role == 'admin') {
             $users = User::all();
         }
         $expense = Transaction::find($id);
