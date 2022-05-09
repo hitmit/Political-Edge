@@ -44,9 +44,9 @@
                                             <th>{{ ++$key }}</th>
                                             <th>{{ $employee_transaction->date }}</th>
                                             <th>{{ $employee_transaction->units }}</th>
-                                            <th>{{ str_replace(['INR', '.00'], '', money_format('%i', $employee_transaction->advance)) }}
+                                            <th>{{ $employee_transaction->advance }}
                                             </th>
-                                            <th>{{ str_replace(['INR', '.00'], '', money_format('%i', $employee_transaction->expense)) }}
+                                            <th>{{ $employee_transaction->expense }}
                                             </th>
                                             <td>
                                                 <form class="my-2"
@@ -81,72 +81,46 @@
     <div class="modal fade" id="addprogress" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Progress</h5>
-                </div>
-                <div class="modal-body">
-                    <form class="forms-sample" action="{{ route('employee-transaction.store') }}" method="POST">
+                <form class="forms-sample" action="{{ route('employee-transaction.store') }}" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Progress</h5>
+                    </div>
+                    <div class="modal-body">
+
                         @csrf
                         <div class="form-group">
                             <label for="exampleInputDate">Date</label>
-                            <div class="input-group date datepicker" id="datePickerExample">
-                                <input type="hidden" name="project_id" value="{{ $project_id }}">
-                                <input type="date" id="date" class="form-control @error('date') is-invalid @enderror"
-                                    name="date" value="{{ old('date') }}">
-                                @error('date')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                            <input type="hidden" name="project_id" id="project_id" value="{{ $project_id }}">
+                            <input type="date" id="date" class="form-control @error('date') is-invalid @enderror"
+                                name="date" value="{{ old('date') }}">
+                            <span class="text-danger date_err">
+                            </span>
                         </div>
 
                         <div class="form-group">
                             <label for="progress">Progress</label>
-                            <div class="input-group">
-                                <input type="number" id="progress"
-                                    class="form-control @error('progress') is-invalid @enderror" name="progress"
-                                    value="{{ old('progress') }}">
-                                @error('progress')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                            <input type="number" id="progress" class="form-control @error('progress') is-invalid @enderror"
+                                name="progress" value="{{ old('progress') }}">
+                            <span class="text-danger error-text progress_err"></span>
                         </div>
                         <div class="form-group">
                             <label for="advance">Advance</label>
-                            <div class="input-group">
-                                <input type="number" id="advance"
-                                    class="form-control @error('advance') is-invalid @enderror" name="advance"
-                                    value="{{ old('advance') }}">
-                                @error('advance')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                            <input type="number" id="advance" class="form-control @error('advance') is-invalid @enderror"
+                                name="advance" value="{{ old('advance') }}">
                         </div>
                         <div class="form-group">
                             <label for="expense">Expense</label>
-                            <div class="input-group" id="expense">
-                                <input type="number" id="expense"
-                                    class="form-control @error('expense') is-invalid @enderror" name="expense"
-                                    value="{{ old('expense') }}">
-                                @error('expense')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                    </form>
+                            <input type="number" id="expense" class="form-control @error('expense') is-invalid @enderror"
+                                name="expense" value="{{ old('expense') }}">
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="submitData" class="btn btn-primary mr-2">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -155,5 +129,44 @@
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+    <script>
+        $("#submitData").click(function(e) {
+            e.preventDefault();
+            var date = $("#date").val();
+            var progress = $("#progress").val();
+            var advance = $("#advance").val();
+            var expense = $("#expense").val();
+            var project_id = $("#project_id").val();
+
+            $.ajax({
+                type: "post",
+                url: "{{ route('employee-transaction.store') }}",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    'date': date,
+                    'progress': progress,
+                    'advance': advance,
+                    'expense': expense,
+                    'project_id': project_id,
+                },
+                success: function(data) {
+                    // $("#addprogress").modal('hide');
+                    location.reload();
+                },
+                error: function(response) {
+                    printErrorMsg(response.responseJSON.errors);
+                    printErrorMsg(response.responseJSON);
+                }
+            });
+
+            function printErrorMsg(msg) {
+                $.each(msg, function(key, value) {
+                    // console.log(key);
+                    // console.log(value);
+                    $('.' + key + '_err').text(value);
+                });
+            }
+        });
     </script>
 @endpush

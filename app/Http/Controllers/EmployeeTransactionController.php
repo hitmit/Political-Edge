@@ -40,10 +40,20 @@ class EmployeeTransactionController extends Controller
     public function store(Request $request)
     {
         $request->validate(['date' => 'required']);
+
         $project_unit = Project::where('id', $request->project_id)->value('units');
+        $total_units = EmployeeTransaction::where('project_id', $request->project_id)->sum('units');
+        $pending_units = $project_unit - $total_units;
+        if ($request->progress > $pending_units) {
+            $error = ['progress' => 'Your progress couldn\'t be saved. Please check your total unit'];
+            return response()->json($error, 422);
+        }
+
+
         if (!$project_unit) {
             return redirect()->back()->with('status', 'Your progress couldn\'t be saved');
         }
+
         $employee_transactions = new EmployeeTransaction();
         $employee_transactions->units = $request->progress;
         $employee_transactions->advance = $request->advance;
@@ -52,7 +62,7 @@ class EmployeeTransactionController extends Controller
         $employee_transactions->date = $request->date;
         $employee_transactions->employee_id = Auth()->user()->id;
         $employee_transactions->save();
-        return redirect()->back()->with('status', 'Progress added successfully!!');
+        return redirect()->route('project.details', $request->project_id);
     }
 
     /**
