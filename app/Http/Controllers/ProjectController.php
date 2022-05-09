@@ -44,9 +44,11 @@ class ProjectController extends Controller
         $this->validate($request, [
             "name" => 'required',
             'expected_revenue' => "required",
+            'units' => 'required',
         ]);
         $project = new Project;
         $project->name = $request->name;
+        $project->units = $request->units;
         $project->expected_revenue = $request->expected_revenue;
         $project->save();
 
@@ -88,11 +90,13 @@ class ProjectController extends Controller
         $this->validate($request, [
             "name" => 'required',
             'expected_revenue' => "required",
+            'units' => 'required',
         ]);
 
         Project::where('id', $request->id)->update([
             'name' => $request->name,
             'expected_revenue' => $request->expected_revenue,
+            'units' => $request->units,
         ]);
         if ($request->users != null) {
             UserProject::where('project_id', $id)->delete();

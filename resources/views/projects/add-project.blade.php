@@ -31,6 +31,15 @@
                                 @enderror
                             </div>
                             <div class="form-group">
+                                <label for="units">Units</label>
+                                <input id="units" class="form-control @error('units') is-invalid @enderror" value="{{ old('units') }}" name="units" type="number">
+                                @error('units')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <label for="users">Users</label><br>
                                 <table >
                                     @foreach ($users as $user)
