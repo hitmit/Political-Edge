@@ -44,8 +44,10 @@
                                             <th>{{ ++$key }}</th>
                                             <th>{{ $employee_transaction->date }}</th>
                                             <th>{{ $employee_transaction->units }}</th>
-                                            <th>{{ $employee_transaction->advance }}</th>
-                                            <th>{{ $employee_transaction->expense }}</th>
+                                            <th>{{ str_replace(['INR', '.00'], '', money_format('%i', $employee_transaction->advance)) }}
+                                            </th>
+                                            <th>{{ str_replace(['INR', '.00'], '', money_format('%i', $employee_transaction->expense)) }}
+                                            </th>
                                             <td>
                                                 <form class="my-2"
                                                     action="{{ route('employee-transaction.destroy', $employee_transaction->id) }}"
