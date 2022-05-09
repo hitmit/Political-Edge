@@ -31,7 +31,7 @@
                                         <tr>
                                             <td>{{ $i }}</td>
                                             <td>{{ $project->name }}</td>
-                                            <td>{{ str_replace(["INR", ".00"], "", money_format("%i",)) }}</td>
+                                            <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $project->expected_revenue)) }}</td>
                                           
                                             <td>{{ date("Y-m-d", strtotime($project->created_at)) }}</td>
                                             <td>

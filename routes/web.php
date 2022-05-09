@@ -4,6 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ManageExpenses;
 use App\Http\Controllers\ManageIncome;
 use App\Http\Controllers\ManageProject;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get("/", function(){
+Route::get("/", function () {
   if (auth()->guest()) {
     return redirect()->route("login");
   } else {
@@ -32,12 +33,13 @@ Route::middleware(['auth'])->group(function () {
   Route::get("update-password", [HomeController::class, "getUpdatePassword"])->name("get.update.password");
   Route::post("update-password", [HomeController::class, "setUpdatePassword"])->name("set.update.password");
   Route::resource('/income', App\Http\Controllers\IncomeController::class);
-  Route::resource("/expenses",App\Http\Controllers\ExpensesController::class);
+  Route::resource("/expenses", App\Http\Controllers\ExpensesController::class);
   Route::get("show-project/{id}", [HomeController::class, "showProject"])->name("project.show");
   Route::resource("/transfer", App\Http\Controllers\TransferController::class)->only([
     'index', 'create', 'store', 'destroy'
   ]);
-  
+  Route::get('project/{project_id}/details',[App\Http\Controllers\EmployeeTransactionController::class,'project_detail'])->name('project.details');
+  Route::resource("/employee-transaction", App\Http\Controllers\EmployeeTransactionController::class);
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -46,8 +48,3 @@ Route::middleware(['auth', 'admin'])->group(function () {
   Route::resource("/employee", App\Http\Controllers\EmployeeControler::class);
   Route::resource("/category", App\Http\Controllers\CategoryController::class);
 });
-
-
-
-
-

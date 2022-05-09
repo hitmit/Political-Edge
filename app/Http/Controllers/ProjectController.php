@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EmployeeTransaction;
 use App\Models\UserProject;
 use App\Models\Project;
 use App\Models\User;
@@ -130,4 +131,7 @@ class ProjectController extends Controller
             return Redirect::back()->with("status", "Project delete successfully");
         }
     }
+
+    
+    
 }
