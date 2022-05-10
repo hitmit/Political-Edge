@@ -86,7 +86,7 @@
                         <h5 class="modal-title" id="exampleModalLabel">Add Progress</h5>
                     </div>
                     <div class="modal-body">
-
+                        
                         @csrf
                         <div class="form-group">
                             <label for="exampleInputDate">Date</label>
@@ -151,19 +151,15 @@
                     'project_id': project_id,
                 },
                 success: function(data) {
-                    // $("#addprogress").modal('hide');
                     location.reload();
                 },
                 error: function(response) {
                     printErrorMsg(response.responseJSON.errors);
-                    printErrorMsg(response.responseJSON);
                 }
             });
 
             function printErrorMsg(msg) {
                 $.each(msg, function(key, value) {
-                    // console.log(key);
-                    // console.log(value);
                     $('.' + key + '_err').text(value);
                 });
             }

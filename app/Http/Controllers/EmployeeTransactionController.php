@@ -6,6 +6,7 @@ use App\Models\EmployeeTransaction;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use App\Rules\EmployeeProgress;
 
 class EmployeeTransactionController extends Controller
 {
@@ -39,20 +40,11 @@ class EmployeeTransactionController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate(['date' => 'required']);
+        $request->validate([
+            'date' => 'required',
+            'progress' => [new EmployeeProgress($request->project_id)],
+        ]);
 
-        $project_unit = Project::where('id', $request->project_id)->value('units');
-        $total_units = EmployeeTransaction::where('project_id', $request->project_id)->sum('units');
-        $pending_units = $project_unit - $total_units;
-        if ($request->progress > $pending_units) {
-            $error = ['progress' => 'Your progress couldn\'t be saved. Please check your total unit'];
-            return response()->json($error, 422);
-        }
-
-
-        if (!$project_unit) {
-            return redirect()->back()->with('status', 'Your progress couldn\'t be saved');
-        }
 
         $employee_transactions = new EmployeeTransaction();
         $employee_transactions->units = $request->progress;
