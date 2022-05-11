@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\EmployeeTransaction;
+use App\Models\EmployeeTransactionCategory;
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use App\Rules\EmployeeProgress;
@@ -17,8 +19,10 @@ class EmployeeTransactionController extends Controller
      */
     public function project_detail($project_id)
     {
-        $employee_transactions = EmployeeTransaction::where('project_id', $project_id)->paginate(10);
-        return view('units.index', compact('employee_transactions', 'project_id'));
+        $emplyee_datas = EmployeeTransaction::where('project_id', $project_id)->get();
+        $categories = EmployeeTransactionCategory::all();
+        $users = User::where('role','user')->get();
+        return view('units.index', compact('emplyee_datas','project_id', 'categories','users'));
     }
 
 
@@ -45,11 +49,8 @@ class EmployeeTransactionController extends Controller
             'progress' => [new EmployeeProgress($request->project_id)],
         ]);
 
-
         $employee_transactions = new EmployeeTransaction();
         $employee_transactions->units = $request->progress;
-        $employee_transactions->advance = $request->advance;
-        $employee_transactions->expense = $request->expense;
         $employee_transactions->project_id = $request->project_id;
         $employee_transactions->date = $request->date;
         $employee_transactions->employee_id = Auth()->user()->id;
