@@ -8,12 +8,24 @@ use Illuminate\Database\Eloquent\Model;
 class EmployeeTransaction extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'units',
         'employee_id',
-        'advance',
-        'expense',
+        'type',
+        'amount',
         'project_id',
         'date'
     ];
+    public $timestamps = false;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function employee_category()
+    {
+        return $this->belongsTo(EmployeeTransactionCategory::class , 'category_id');
+    }
 }

@@ -29,6 +29,10 @@ class EmployeeProgress implements Rule
      */
     public function passes($attribute, $value)
     {
+        if ($value == 0) {
+            $this->message();
+            return 0;
+        }
         $project_unit = Project::where('id', $this->project_id)->value('units');
         $total_units = EmployeeTransaction::where('project_id', $this->project_id)->sum('units');
         $this->progress = $pending_units = $project_unit - $total_units;
@@ -42,6 +46,6 @@ class EmployeeProgress implements Rule
      */
     public function message()
     {
-        return 'Your progress couldn\'t be saved. You can only save ' . $this->progress." progress";
+        return 'Your progress couldn\'t be saved.';
     }
 }

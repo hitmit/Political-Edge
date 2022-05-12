@@ -40,6 +40,8 @@ Route::middleware(['auth'])->group(function () {
   ]);
   Route::get('project/{project_id}/details',[App\Http\Controllers\EmployeeTransactionController::class,'project_detail'])->name('project.details');
   Route::resource("/employee-transaction", App\Http\Controllers\EmployeeTransactionController::class);
+  Route::resource("/employee-transaction-expense", App\Http\Controllers\EmployeeExpenseController::class);
+  Route::resource("/employee-transaction-income", App\Http\Controllers\EmployeeIncomeController::class);
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {

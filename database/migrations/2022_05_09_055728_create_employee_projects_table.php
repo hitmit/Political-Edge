@@ -17,11 +17,12 @@ class CreateEmployeeProjectsTable extends Migration
             $table->id();
             $table->integer('units')->nullable();
             $table->integer('employee_id')->nullable();
-            $table->integer('advance')->nullable();
-            $table->integer('expense')->nullable();
+            $table->integer('category_id')->nullable();
+            $table->string('type')->nullable();
+            $table->string('amount')->nullable();
             $table->integer('project_id')->nullable();
+            $table->integer('user_id')->nullable();
             $table->string('date')->nullable();
-            $table->timestamps();
         });
     }
 
