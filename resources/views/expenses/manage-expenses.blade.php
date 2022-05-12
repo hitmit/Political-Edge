@@ -152,7 +152,7 @@
                                             <td>{{ $expense->user()->first()->name }}</td>
                                             <td>{{ $expense->category()->first()->name }}</td>
                                             <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $expense->amount)) }}</td>
-                                            <th>{{ {{ implode(' ', array_slice(explode(' ', $expense->remark), 0, 10)).'...' }} }}</th>
+                                            <th>{{ substr($expense->remark, 0, 40).'...' }}</th>
                                             <td>{{ $expense->date }}</td>
                                             <td>
                                                 <a href="{{ route('expenses.edit', $expense->id) }}"

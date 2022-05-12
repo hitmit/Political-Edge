@@ -78,7 +78,11 @@ class HomeController extends Controller
         } else {
             $users = User::where('id', auth()->getUser()->id)->get();
         }
-        return view('dashboard.index', compact('projects', 'users', 'total_expense', 'total_income', "total_expected_revenue", "a3", "b3", "c3","total_amount_reduce","receiver_id"));
+        $total_internal = 0;
+        foreach ($users as $account) {
+            $total_internal += $account->totalReceived() - $account->totalSend();
+        }
+        return view('dashboard.index', compact('projects', 'users', 'total_expense', 'total_income', "total_expected_revenue", "a3", "b3", "c3","total_amount_reduce","receiver_id", "total_internal"));
     }
 
     public function getUpdatePassword()

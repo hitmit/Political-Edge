@@ -21,8 +21,9 @@ class EmployeeTransactionController extends Controller
     {
         $emplyee_datas = EmployeeTransaction::where('project_id', $project_id)->get();
         $categories = EmployeeTransactionCategory::all();
+        $project = Project::find($project_id);
         $users = User::where('role','user')->get();
-        return view('units.index', compact('emplyee_datas','project_id', 'categories','users'));
+        return view('units.index', compact('emplyee_datas','project_id', 'project', 'categories','users'));
     }
 
 

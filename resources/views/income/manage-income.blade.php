@@ -34,7 +34,7 @@
                                             @if(auth()->getUser()->role == 'admin')
                                                 <td>{{ $income->user()->first()->name }}</td>
                                             @endif
-                                            <td>{{ $income->remark }}</td>
+                                            <td>{{ substr($income->remark, 0, 40).'...' }}</td>
                                             <td>{{ $income->date }}</td>
                                             <td>
                                                 <a href="{{ route('income.edit', $income->id) }}"

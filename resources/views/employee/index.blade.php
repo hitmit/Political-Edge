@@ -34,7 +34,7 @@
                                             <td>{{ $user->phone }}</td>
                                             <td>{{ $user->created_at }}</td>
                                             <td>
-                                                <a href="{{ route('users.edit', $user->id) }}" class="edit btn btn-primary"><i
+                                                <a href="{{ route('employee.edit', $user->id) }}" class="edit btn btn-primary"><i
                                                         class="fa fa-pencil" aria-hidden="true"></i></a>
                                                 <!--<form class="my-2"
                                                     action="{{ route('users.destroy', $user->id) }}" method="POST">

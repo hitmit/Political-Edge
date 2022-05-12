@@ -30,7 +30,7 @@
                                         <tr>
                                             <th>A</th>
                                             <td>
-                                                {{ str_replace(['INR', '.00'], '', money_format('%i', round(($a3 * 2) / 3))) }}
+                                                {{ str_replace(['INR', '.00'], '', money_format('%i', round(($a3 * 2) / 3) + $total_internal)) }}
                                             </td>
                                             <td>
                                                 {{ str_replace(['INR', '.00'], '', money_format('%i', round(($b3 * 2) / 3))) }}
@@ -42,7 +42,7 @@
                                         <tr>
                                             <th>B</th>
                                             <td>
-                                                {{ str_replace(['INR', '.00'], '', money_format('%i', round(($a3 * 1) / 3))) }}
+                                                {{ str_replace(['INR', '.00'], '', money_format('%i', round(($a3 * 1) / 3) + $total_internal)) }}
                                             </td>
                                             <td>
                                                 {{ str_replace(['INR', '.00'], '', money_format('%i', round(($b3 * 1) / 3))) }}
@@ -265,9 +265,19 @@
                                                 <td>{{ $project->units == 0 ? 0 : ($project->employee_transactions()->sum('units') / $project->units) * 100 }}
                                                     {{-- <td>{{ ($project->employee_transactions()->sum('units') / $project->units) * 100 }} --}}
                                                 </td>
-                                                <td><a href="{{ route('project.details', $project->id) }}"
-                                                        class="btn btn-primary">Add
-                                                        Progress</a></td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <a href="{{ route('project.details', $project->id) }}" class="btn btn-primary">
+                                                            Add Progress
+                                                        </a>
+                                                        <a href="#" class="btn btn-primary">
+                                                            Add Expense
+                                                        </a>
+                                                        <a href="#" class="btn btn-primary">
+                                                            Add Income
+                                                        </a>
+                                                    </div>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>

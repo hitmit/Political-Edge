@@ -19,7 +19,7 @@
             <div class="col-lg-12 col-xl-12 stretch-card">
                 <div class="card add-row">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h6>Employee Transactions</h6>
+                        <h6>{{$project->name}} Transactions</h6>
                         <div class="btn-group btn-group-sm" role="group">
                             <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#addprogress">

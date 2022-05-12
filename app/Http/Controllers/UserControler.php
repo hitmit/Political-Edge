@@ -111,7 +111,7 @@ class UserControler extends Controller
         $account->email = $request->email;
         $account->phone = $request->phone;
         $account->name = $request->name;
-        $account->role = 'user';
+        // $account->role = 'user';
         if ($request->password) {
             $account->password = Hash::make($request->password);    
         }

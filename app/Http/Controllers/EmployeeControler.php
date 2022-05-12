@@ -122,7 +122,7 @@ class EmployeeControler extends Controller
         $account->email = $request->email;
         $account->phone = $request->phone;
         $account->name = $request->name;
-        $account->role = 'employee';
+        // $account->role = 'employee';
         if ($request->password) {
             $account->password = Hash::make($request->password);    
         }
@@ -131,7 +131,7 @@ class EmployeeControler extends Controller
             UserProject::where('user_id', $account->id)->delete();
             foreach ($request->projects as $project_id) {
                 $assign_projects  = new UserProject();
-                $assign_projects->user_id = $user->id;
+                $assign_projects->user_id = $account->id;
                 $assign_projects->project_id = $project_id;
                 $assign_projects->save();
             }
