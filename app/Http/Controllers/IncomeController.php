@@ -22,7 +22,7 @@ class IncomeController extends Controller
         if (!auth()->getUser()->role == 'admin') {
             $query->where("user_id", Auth::user()->id);
         }
-        $incomes = $query->paginate(10);
+        $incomes = $query->orderBy('created_at', 'desc')->paginate(50);
         return view("income.manage-income", compact("incomes"));
     }
 
