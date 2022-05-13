@@ -39,6 +39,9 @@ class HomeController extends Controller
         $a1_of_90 = Transaction::where(['user_id' => 6, 'type' => 'income'])->sum('amount');
         $a2_of_90 = Transaction::where('user_id', 6)->where('type', 'expense')->sum('amount');
 
+        $account_user = User::find(6);
+        $account_internal = $account_user->totalReceived() - $account_user->totalSend();
+        $a1_of_90 += $account_internal;
         // 90% of total received account
         $a1 = ($a1_of_90 * 90) / 100;
         // 90% of total all other user
@@ -74,14 +77,14 @@ class HomeController extends Controller
         $receiver_id = Transfer::select('receiver_id','amount_send')->get()->toArray();
 
         if (auth()->getUser()->role == 'admin') {
-            $users = User::orderBy('created_at', 'Desc')->get();
+            $users = User::where('role', 'user')->orderBy('created_at', 'Desc')->get();
         } else {
-            $users = User::where('id', auth()->getUser()->id)->get();
+            $users = User::where('role', 'user')->where('id', auth()->getUser()->id)->get();
         }
         $total_internal = 0;
-        foreach ($users as $account) {
-            $total_internal += $account->totalReceived() - $account->totalSend();
-        }
+        // foreach ($users as $account) {
+        //     $total_internal += $account->totalReceived() - $account->totalSend();
+        // }
         return view('dashboard.index', compact('projects', 'users', 'total_expense', 'total_income', "total_expected_revenue", "a3", "b3", "c3","total_amount_reduce","receiver_id", "total_internal"));
     }
 
