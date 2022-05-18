@@ -46,6 +46,6 @@ class EmployeeProgress implements Rule
      */
     public function message()
     {
-        return 'Your progress couldn\'t be saved. Please chek your total progress.';
+        return 'Your progress couldn\'t be saved. Please check your total progress.';
     }
 }
