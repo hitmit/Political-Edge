@@ -90,7 +90,9 @@
 
     <!-- add progress modal -->
     <div class="modal fade" id="addprogress" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        {{-- for increasing the size --}}
+        {{-- modal-dialog modal-lg add to this is below line of code --}}
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <form class="forms-sample" action="{{ route('employee-transaction.store') }}" method="POST">
                     <div class="modal-header">
@@ -111,7 +113,7 @@
                         <div class="form-group">
                             <label for="progress">Progress</label>
                             <input type="number" id="progress" class="form-control @error('progress') is-invalid @enderror"
-                                name="progress" value="{{ old('progress') }}">
+                                name="progress" onkeyup="clearProgress(this)" value="{{ old('progress') }}">
                             <span class="text-danger error-text progress_err"></span>
                         </div>
 
@@ -127,7 +129,7 @@
 
                                         <td style="width: 50%;  padding-bottom: 5px;">
                                             <input type="number" name="expense_amount[{{ $category->id }}]"
-                                                id="expense_amount[{{ $category->id }}]" placeholder="Enter amount"
+                                                id="expense_amount[{{ $category->id }}]" placeholder="Enter amount."
                                                 title="Amount" class="form-control">
                                         </td>
                                     </tr>
@@ -171,15 +173,17 @@
         $("#submitProgress").click(function(e) {
             e.preventDefault();
             var project_id = $("#project_id").val();
+            
+            var user_id = $("#user_id").val();
 
             var date = $("#date").val();
             var progress = $("#progress").val();
 
             var amount_income = $("#amount_income").val();
             var expense_amount = [];
-            var user_id = $("#user_id").val();
             var expense_category_arr = [];
             var category_id = [];
+
             $('input[name="expense_category[]"]').each(function() {
                 expense_category_arr.push(this.value);
             });
@@ -221,6 +225,10 @@
             }
         });
 
-      
+        function clearProgress(arg) {
+            var id = arg.getAttribute('id');
+            $('.' + id + '_err').text('');
+            $("#" + id).removeClass('is-invalid');
+        }
     </script>
 @endpush
