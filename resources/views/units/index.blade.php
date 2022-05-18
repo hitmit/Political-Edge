@@ -19,21 +19,12 @@
             <div class="col-lg-12 col-xl-12 stretch-card">
                 <div class="card add-row">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h6>{{$project->name}} Transactions</h6>
+                        <h6>{{ $project->name }} Transactions</h6>
                         <div class="btn-group btn-group-sm" role="group">
                             <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#addprogress">
                                 Add Progress
                             </button>
-                            <button type="button" style="margin-left: 5px;" class="btn btn-sm btn-primary"
-                                data-bs-toggle="modal" data-bs-target="#addexpense">
-                                Add Expense
-                            </button>
-                            <button type="button" style="margin-left: 5px;" class="btn btn-sm btn-primary"
-                                data-bs-toggle="modal" data-bs-target="#addincome">
-                                Add Income
-                            </button>
-
                         </div>
                     </div>
                     <div class="card-body">
@@ -75,7 +66,7 @@
                                                     action="{{ route('employee-transaction.destroy', $emplyee_data->id) }}"
                                                     method="POST">
                                                     @csrf
-                                                    @method("DELETE")
+                                                    @method('DELETE')
                                                     <button type="submit"
                                                         onclick="return confirm('Are you sure want to delete')"
                                                         class="delete btn btn-danger"><i class="fa fa-trash"
@@ -123,81 +114,28 @@
                                 name="progress" value="{{ old('progress') }}">
                             <span class="text-danger error-text progress_err"></span>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" id="submitProgress" class="btn btn-primary mr-2">Submit</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
-    <!-- add expense modal -->
-    <div class="modal fade" id="addexpense" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form class="forms-sample" method="POST">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add Expense</h5>
-                    </div>
-                    <div class="modal-body">
-
-                        @csrf
-                        <div class="form-group">
-                            <label for="exampleInputDate">Date</label>
-                            <input type="hidden" name="project_id" id="project_id" value="{{ $project_id }}">
-                            <input type="date" id="date_expense" class="form-control" name="date"
-                                value="{{ date('Y-m-d') }}">
-                            <span class="text-danger date_expense_err">
-                            </span>
-                        </div>
-
+                        <h5 style="text-align: center" class="modal-title">Expense</h5>
                         <div class="form-group">
                             <label for="category">Category</label>
-                            <select name="category" id="category" class="form-control">
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->category }}</option>
+                            <table class="table">
+                                @foreach ($categories as $key => $category)
+                                    <tr>
+                                        <td><input type="hidden" name="expense_category[]" id="expense_category"
+                                                style="border: none" readonly
+                                                value="{{ $category->id }}">{{ $category->category }}</td>
+
+                                        <td style="width: 50%;  padding-bottom: 5px;">
+                                            <input type="number" name="expense_amount[{{ $category->id }}]"
+                                                id="expense_amount[{{ $category->id }}]" placeholder="Enter amount"
+                                                title="Amount" class="form-control">
+                                        </td>
+                                    </tr>
                                 @endforeach
-                            </select>
-                            <span class="text-danger  category_err"></span>
+                            </table>
                         </div>
 
-                        <div class="form-group">
-                            <label for="amount">Amount</label>
-                            <input type="number" id="amount" class="form-control" name="amount" placeholder="Amount.">
-                            <span class="text-danger amount_err"></span>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" id="submitExpense" class="btn btn-primary mr-2">Submit</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- add income modal -->
-    <div class="modal fade" id="addincome" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form class="forms-sample" method="POST">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add Income</h5>
-                    </div>
-                    <div class="modal-body">
-
-                        @csrf
-                        <div class="form-group">
-                            <label for="exampleInputDate">Date</label>
-                            <input type="hidden" name="project_id" id="project_id" value="{{ $project_id }}">
-                            <input type="date" id="date_income" class="form-control" value="{{ date('Y-m-d') }}"
-                                name="date">
-                            <span class="text-danger date_income_err">
-                            </span>
-                        </div>
-
+                        <h5 style="text-align: center" class="modal-title">Income</h5>
                         <div class="form-group">
                             <label for="category">By Whom</label>
                             <select name="user_id" id="user_id" class="form-control">
@@ -216,7 +154,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" id="submitIncome" class="btn btn-primary mr-2">Submit</button>
+                        <button type="submit" id="submitProgress" class="btn btn-primary mr-2">Submit</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </form>
@@ -232,9 +170,26 @@
     <script>
         $("#submitProgress").click(function(e) {
             e.preventDefault();
+            var project_id = $("#project_id").val();
+
             var date = $("#date").val();
             var progress = $("#progress").val();
-            var project_id = $("#project_id").val();
+
+            var amount_income = $("#amount_income").val();
+            var expense_amount = [];
+            var user_id = $("#user_id").val();
+            var expense_category_arr = [];
+            var category_id = [];
+            $('input[name="expense_category[]"]').each(function() {
+                expense_category_arr.push(this.value);
+            });
+
+            for (let index = 1; index <= expense_category_arr.length; index++) {
+                if ($("input[name='expense_amount[" + index + "]']").val() != '') {
+                    expense_amount.push($("input[name='expense_amount[" + index + "]']").val());
+                    category_id.push(index);
+                }
+            }
 
             $.ajax({
                 type: "post",
@@ -244,6 +199,10 @@
                     'date': date,
                     'progress': progress,
                     'project_id': project_id,
+                    'expense_amount': expense_amount,
+                    'category_id': category_id,
+                    'amount_income': amount_income,
+                    'user_id': user_id,
                 },
                 success: function(data) {
                     location.reload();
@@ -257,86 +216,11 @@
                 $.each(msg, function(key, value) {
                     $('.' + key + '_err').text(value);
                     $("#" + key).addClass('is-invalid');
+                    $('.is-invalid').focus();
                 });
             }
         });
 
-        $("#submitExpense").click(function(e) {
-            e.preventDefault();
-            var date_expense = $("#date_expense").val();
-            var amount = $("#amount").val();
-            var category = $("#category").val();
-            var project_id = $("#project_id").val();
-
-            $.ajax({
-                type: "post",
-                url: "{{ route('employee-transaction-expense.store') }}",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    'date_expense': date_expense,
-                    'amount': amount,
-                    'category': category,
-                    'project_id': project_id,
-                },
-                success: function(data) {
-                    if (data) {
-                        location.reload();
-                    } else {
-                        location.reload();
-                    }
-                },
-                error: function(response) {
-                    printErrorMsg(response.responseJSON.errors);
-                }
-            });
-
-            function printErrorMsg(msg) {
-                $.each(msg, function(key, value) {
-                    $('.' + key + '_err').text(value);
-                    console.log(key);
-
-                    $("#" + key).addClass('is-invalid');
-                });
-            }
-        });
-
-        $("#submitIncome").click(function(e) {
-            e.preventDefault();
-            var date_income = $("#date_income").val();
-            var amount_income = $("#amount_income").val();
-            var user_id = $("#user_id").val();
-            var project_id = $("#project_id").val();
-
-            $.ajax({
-                type: "post",
-                url: "{{ route('employee-transaction-income.store') }}",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    'date_income': date_income,
-                    'amount_income': amount_income,
-                    'user_id': user_id,
-                    'project_id': project_id,
-                },
-                success: function(data) {
-                    if (data) {
-                        location.reload();
-                    } else {
-                        location.reload();
-                    }
-                },
-                error: function(response) {
-                    printErrorMsg(response.responseJSON.errors);
-                }
-            });
-
-            function printErrorMsg(msg) {
-                $.each(msg, function(key, value) {
-                    $('.' + key + '_err').text(value);
-                    console.log(key);
-
-                    $("#" + key).addClass('is-invalid');
-                });
-            }
-        });
+      
     </script>
 @endpush

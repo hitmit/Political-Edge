@@ -270,12 +270,6 @@
                                                         <a href="{{ route('project.details', $project->id) }}" class="btn btn-primary">
                                                             Add Progress
                                                         </a>
-                                                        <a href="#" class="btn btn-primary">
-                                                            Add Expense
-                                                        </a>
-                                                        <a href="#" class="btn btn-primary">
-                                                            Add Income
-                                                        </a>
                                                     </div>
                                                 </td>
                                             </tr>

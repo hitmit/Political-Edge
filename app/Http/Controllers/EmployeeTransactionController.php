@@ -22,8 +22,8 @@ class EmployeeTransactionController extends Controller
         $emplyee_datas = EmployeeTransaction::where('project_id', $project_id)->get();
         $categories = EmployeeTransactionCategory::all();
         $project = Project::find($project_id);
-        $users = User::where('role','user')->get();
-        return view('units.index', compact('emplyee_datas','project_id', 'project', 'categories','users'));
+        $users = User::where('role', 'user')->get();
+        return view('units.index', compact('emplyee_datas', 'project_id', 'project', 'categories', 'users'));
     }
 
 
@@ -47,15 +47,47 @@ class EmployeeTransactionController extends Controller
     {
         $request->validate([
             'date' => 'required',
-            'progress' => [new EmployeeProgress($request->project_id)],
         ]);
+        if (!empty($request->progress)) {
+            $request->validate([
+                'progress' => [new EmployeeProgress($request->project_id)],
+            ]);
+        }
 
-        $employee_transactions = new EmployeeTransaction();
-        $employee_transactions->units = $request->progress;
-        $employee_transactions->project_id = $request->project_id;
-        $employee_transactions->date = $request->date;
-        $employee_transactions->employee_id = Auth()->user()->id;
-        $employee_transactions->save();
+        if (!empty($request->expense_amount)) {
+            $category_ids = $request->category_id;
+            $expense_amount = $request->expense_amount;
+            foreach ($category_ids as $key => $category_id) {
+                $employee_transaction = new EmployeeTransaction();
+                $employee_transaction->category_id = $category_id;
+                $employee_transaction->project_id = $request->project_id;
+                $employee_transaction->type = "expense";
+                $employee_transaction->date = $request->date;
+                $employee_transaction->amount = $expense_amount[$key];
+                $employee_transaction->employee_id = Auth()->user()->id;
+                $employee_transaction->save();
+            }
+        }
+        if (!empty($request->amount_income)) {
+            $employee_transaction = new EmployeeTransaction();
+            $employee_transaction->user_id = $request->user_id;
+            $employee_transaction->type = "income";
+            $employee_transaction->date = $request->date;
+            $employee_transaction->amount = $request->amount_income;
+            $employee_transaction->project_id = $request->project_id;
+            $employee_transaction->employee_id = Auth()->user()->id;
+            $employee_transaction->save();
+        }
+
+
+        if (!empty($request->progress)) {
+            $employee_transactions = new EmployeeTransaction();
+            $employee_transactions->units = $request->progress;
+            $employee_transactions->project_id = $request->project_id;
+            $employee_transactions->date = $request->date;
+            $employee_transactions->employee_id = Auth()->user()->id;
+            $employee_transactions->save();
+        }
         return redirect()->route('project.details', $request->project_id);
     }
 
