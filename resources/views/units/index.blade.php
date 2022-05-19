@@ -21,6 +21,7 @@
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h6>{{ $project->name }} Transactions</h6>
                         <div class="btn-group btn-group-sm" role="group">
+                            <h6 style="margin-right:10px;">Total Expense: {{ $employee_total_expense }}</h6>
                             <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#addprogress">
                                 Add Progress
@@ -173,7 +174,7 @@
         $("#submitProgress").click(function(e) {
             e.preventDefault();
             var project_id = $("#project_id").val();
-            
+
             var user_id = $("#user_id").val();
 
             var date = $("#date").val();

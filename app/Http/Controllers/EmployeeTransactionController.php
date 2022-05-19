@@ -23,7 +23,14 @@ class EmployeeTransactionController extends Controller
         $categories = EmployeeTransactionCategory::all();
         $project = Project::find($project_id);
         $users = User::where('role', 'user')->get();
-        return view('units.index', compact('emplyee_datas', 'project_id', 'project', 'categories', 'users'));
+
+        /**
+         * total expense of employee
+         * @return sum of expense
+         */
+        $employee_total_expense = EmployeeTransaction::where('employee_id', Auth()->user()->id)->where('type', 'expense')->where('project_id', $project_id)->sum('amount');
+
+        return view('units.index', compact('emplyee_datas', 'project_id', 'project', 'categories', 'users','employee_total_expense'));
     }
 
 

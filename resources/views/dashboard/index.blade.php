@@ -261,8 +261,8 @@
                                                 <td>{{ ++$key }}</td>
                                                 <td>{{ $project->project()->first()->name }}</td>
                                                 <td>{{ $project->units }}</td>
-                                                <td>{{ $project->employee_transactions()->sum('units') }}</td>
-                                                <td>{{ $project->units == 0 ? 0 : ($project->employee_transactions()->sum('units') / $project->units) * 100 }}
+                                                <td>{{ $project->employee_transactions()->sum('units') }} / {{$project->units}}</td>
+                                                <td>{{ round($project->units == 0 ? 0 : ($project->employee_transactions()->sum('units') / $project->units) * 100,2) }}
                                                     {{-- <td>{{ ($project->employee_transactions()->sum('units') / $project->units) * 100 }} --}}
                                                 </td>
                                                 <td>
