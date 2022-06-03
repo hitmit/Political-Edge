@@ -261,13 +261,20 @@
                                                 <td>{{ ++$key }}</td>
                                                 <td>{{ $project->project()->first()->name }}</td>
                                                 <td>{{ $project->units }}</td>
-                                                <td>{{ $project->employee_transactions()->sum('units') }} / {{$project->units}}</td>
-                                                <td>{{ round($project->units == 0 ? 0 : ($project->employee_transactions()->sum('units') / $project->units) * 100,2) }}
+                                                <td>{{ $project->employee_transactions()->sum('units') }} /
+                                                    {{ $project->units }}</td>
+                                                <td>{{ round($project->units == 0 ? 0 : ($project->employee_transactions()->sum('units') / $project->units) * 100, 2) }}
                                                     {{-- <td>{{ ($project->employee_transactions()->sum('units') / $project->units) * 100 }} --}}
                                                 </td>
                                                 <td>
                                                     <div class="btn-group">
-                                                        <a href="{{ route('project.details', $project->id) }}" class="btn btn-primary">
+                                                        <a href="{{ route('project.details', $project->id) }}"
+                                                            class="btn btn-info">
+                                                            <i class="fa fa-eye" aria-hidden="true"></i> View
+                                                        </a>
+                                                        <a href="#" class="btn btn-sm btn-primary" id="addProgress"
+                                                            data-bs-toggle="modal" data-bs-target="#addprogress"
+                                                            data-id="{{ $project->id }}" class="btn btn-primary">
                                                             Add Progress
                                                         </a>
                                                     </div>
@@ -286,4 +293,154 @@
         <div class="modal fade transection_modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
         </div>
     </div>
+
+    <!-- add progress modal -->
+    <div class="modal fade" id="addprogress" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        {{-- for increasing the size --}}
+        {{-- modal-dialog modal-lg add to this is below line of code --}}
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form class="forms-sample" action="{{ route('employee-transaction.store') }}" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Progress</h5>
+                    </div>
+                    <div class="modal-body">
+
+                        @csrf
+                        <div class="form-group">
+                            <label for="exampleInputDate">Date</label>
+                            <input type="hidden" name="project_id" id="project_id">
+                            <input type="date" id="date" class="form-control @error('date') is-invalid @enderror"
+                                name="date" value="{{ date('Y-m-d') }}">
+                            <span class="text-danger date_err">
+                            </span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="progress">Progress</label>
+                            <input type="number" id="progress" class="form-control @error('progress') is-invalid @enderror"
+                                name="progress" onkeyup="clearProgress(this)" value="{{ old('progress') }}">
+                            <span class="text-danger error-text progress_err"></span>
+                        </div>
+
+                        <h5 style="text-align: center" class="modal-title">Expense</h5>
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <table class="table">
+                                @foreach ($categories as $key => $category)
+                                    <tr>
+                                        <td><input type="hidden" name="expense_category[]" id="expense_category"
+                                                style="border: none" readonly
+                                                value="{{ $category->id }}">{{ $category->category }}</td>
+
+                                        <td style="width: 50%;  padding-bottom: 5px;">
+                                            <input type="number" name="expense_amount[{{ $category->id }}]"
+                                                id="expense_amount[{{ $category->id }}]" placeholder="Enter amount."
+                                                title="Amount" class="form-control">
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
+
+                        <h5 style="text-align: center" class="modal-title">Income</h5>
+                        <div class="form-group">
+                            <label for="category">By Whom</label>
+                            <select name="user_id" id="user_id" class="form-control">
+                                @foreach ($employee_users as $user)
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                @endforeach
+                            </select>
+                            <span class="text-danger  user_id_err"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="amount_income">Amount</label>
+                            <input type="number" id="amount_income" class="form-control" name="amount"
+                                placeholder="Amount.">
+                            <span class="text-danger amount_income_err"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="submitProgress" class="btn btn-primary mr-2">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
+
+
+
+@push('js')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+    <script>
+        $(document).on("click", "#addProgress", function() {
+            window.project_id = $(this).data('id');
+        });
+        $("#submitProgress").click(function(e) {
+            e.preventDefault();
+
+            var project_id = window.project_id;
+            console.log(project_id  + "dd");
+            var user_id = $("#user_id").val();
+
+            var date = $("#date").val();
+            var progress = $("#progress").val();
+
+            var amount_income = $("#amount_income").val();
+            var expense_amount = [];
+            var expense_category_arr = [];
+            var category_id = [];
+
+            $('input[name="expense_category[]"]').each(function() {
+                expense_category_arr.push(this.value);
+            });
+
+            for (let index = 1; index <= expense_category_arr.length; index++) {
+                if ($("input[name='expense_amount[" + index + "]']").val() != '') {
+                    expense_amount.push($("input[name='expense_amount[" + index + "]']").val());
+                    category_id.push(index);
+                }
+            }
+
+            $.ajax({
+                type: "post",
+                url: "{{ route('employee-transaction.store') }}",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    'date': date,
+                    'progress': progress,
+                    'project_id': project_id,
+                    'expense_amount': expense_amount,
+                    'category_id': category_id,
+                    'amount_income': amount_income,
+                    'user_id': user_id,
+                },
+                success: function(data) {
+                    location.reload();
+                },
+                error: function(response) {
+                    printErrorMsg(response.responseJSON.errors);
+                }
+            });
+
+            function printErrorMsg(msg) {
+                $.each(msg, function(key, value) {
+                    $('.' + key + '_err').text(value);
+                    $("#" + key).addClass('is-invalid');
+                    $('.is-invalid').focus();
+                });
+            }
+        });
+
+        function clearProgress(arg) {
+            var id = arg.getAttribute('id');
+            $('.' + id + '_err').text('');
+            $("#" + id).removeClass('is-invalid');
+        }
+    </script>
+@endpush
