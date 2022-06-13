@@ -19,7 +19,7 @@ class IncomeController extends Controller
     public function index()
     {
         $query = Transaction::where('type', 'income');
-        if (!auth()->getUser()->role == 'admin') {
+        if (auth()->getUser()->role != 'admin') {
             $query->where("user_id", Auth::user()->id);
         }
         $incomes = $query->orderBy('created_at', 'desc')->paginate(50);

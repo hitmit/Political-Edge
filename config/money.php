@@ -698,7 +698,7 @@ return [
     'INR' => [
         'name'                => 'Indian Rupee',
         'code'                => 356,
-        'precision'           => 2,
+        'precision'           => 0,
         'subunit'             => 1,
         'symbol'              => '₹',
         'symbol_first'        => true,

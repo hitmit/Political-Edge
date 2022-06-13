@@ -151,7 +151,7 @@
                                         <tr>
                                             <td>{{ $expense->user()->first()->name }}</td>
                                             <td>{{ $expense->category()->first()->name }}</td>
-                                            <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $expense->amount)) }}</td>
+                                            <td>@money($expense->amount, "INR")</td>
                                             <th>{{ substr($expense->remark, 0, 40).'...' }}</th>
                                             <td>{{ $expense->date }}</td>
                                             <td>

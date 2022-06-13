@@ -8,8 +8,8 @@
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card add-row">
                     <div class="card-body">
-                        <h6 class="card-title">Manage Users <a href="{{ route('employee.create') }}"
-                                class="add-element add-element btn btn-primary">Add User</a></h6>
+                        <h6 class="card-title">Manage Employees <a href="{{ route('employee.create') }}"
+                                class="add-element add-element btn btn-primary">Add Employee</a></h6>
                         <div class="table-responsive">
                             <table id="dataTableExample" class="table">
                                 <thead>

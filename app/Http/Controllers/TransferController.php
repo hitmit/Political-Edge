@@ -30,7 +30,7 @@ class TransferController extends Controller
      */
     public function create()
     {
-        $users = User::where('id', '!=', auth()->user()->id)->get();
+        $users = User::where('id', '!=', auth()->user()->id)->whereNotIn('role', ['admin', 'employee'])->get();
         return view('transfer.create',compact('users'));
     }
 

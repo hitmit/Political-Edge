@@ -4,30 +4,33 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "54cb29674a40888fd53f9d193b0ed5b3",
+    "content-hash": "63ec9b614bf3ab90a48bcc85b5708b74",
     "packages": [
         {
             "name": "akaunting/laravel-money",
-            "version": "1.2.3",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/akaunting/laravel-money.git",
-                "reference": "e97cbb9735540fac995e5e0b17395ef4ba33ac38"
+                "reference": "22336631239eb008e26d322faa208cbc50757a38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/akaunting/laravel-money/zipball/e97cbb9735540fac995e5e0b17395ef4ba33ac38",
-                "reference": "e97cbb9735540fac995e5e0b17395ef4ba33ac38",
+                "url": "https://api.github.com/repos/akaunting/laravel-money/zipball/22336631239eb008e26d322faa208cbc50757a38",
+                "reference": "22336631239eb008e26d322faa208cbc50757a38",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": ">=5.4",
-                "illuminate/view": ">=5.4",
-                "php": ">=5.6.4"
+                "illuminate/contracts": "^8.67|^9.0",
+                "illuminate/support": "^8.67|^9.0",
+                "illuminate/view": "^8.67|^9.0",
+                "php": "^8.0",
+                "vlucas/phpdotenv": "^5.4.1"
             },
             "require-dev": {
-                "mockery/mockery": ">=1.0",
-                "phpunit/phpunit": ">=5.7"
+                "orchestra/testbench": "^6.23|^7.4",
+                "phpunit/phpunit": "^9.5",
+                "vimeo/psalm": "^4.23"
             },
             "type": "library",
             "extra": {
@@ -42,7 +45,7 @@
                     "src/helpers.php"
                 ],
                 "psr-4": {
-                    "Akaunting\\Money\\": "./src"
+                    "Akaunting\\Money\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -67,9 +70,9 @@
             ],
             "support": {
                 "issues": "https://github.com/akaunting/laravel-money/issues",
-                "source": "https://github.com/akaunting/laravel-money/tree/1.2.3"
+                "source": "https://github.com/akaunting/laravel-money/tree/3.0.1"
             },
-            "time": "2021-09-28T06:19:54+00:00"
+            "time": "2022-05-11T06:34:38+00:00"
         },
         {
             "name": "asm89/stack-cors",
@@ -8500,5 +8503,5 @@
         "php": "^7.3|^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }

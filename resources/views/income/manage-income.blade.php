@@ -30,7 +30,7 @@
                                     @foreach ($incomes as $income)
                                         <tr>
                                             <td>{{ $income->project()->first()->name }}</td>
-                                            <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $income->amount)) }}</td>
+                                            <td>@money($income->amount, "INR")</td>
                                             @if(auth()->getUser()->role == 'admin')
                                                 <td>{{ $income->user()->first()->name }}</td>
                                             @endif

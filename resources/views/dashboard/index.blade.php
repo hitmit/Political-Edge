@@ -30,25 +30,25 @@
                                         <tr>
                                             <th>A</th>
                                             <td>
-                                                {{ str_replace(['INR', '.00'], '', money_format('%i', round(($a3 * 2) / 3) + $total_internal)) }}
+                                                @money((($a3 * 2) / 3) + $total_internal, "INR")
                                             </td>
                                             <td>
-                                                {{ str_replace(['INR', '.00'], '', money_format('%i', round(($b3 * 2) / 3))) }}
+                                                @money((($b3 * 2) / 3), "INR")
                                             </td>
                                             <td>
-                                                {{ str_replace(['INR', '.00'], '', money_format('%i', round(($c3 * 2) / 3))) }}
+                                                @money((($c3 * 2) / 3), "INR")
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>B</th>
                                             <td>
-                                                {{ str_replace(['INR', '.00'], '', money_format('%i', round(($a3 * 1) / 3) + $total_internal)) }}
+                                                @money((($a3 * 1) / 3) + $total_internal, "INR")
                                             </td>
                                             <td>
-                                                {{ str_replace(['INR', '.00'], '', money_format('%i', round(($b3 * 1) / 3))) }}
+                                                @money((($b3 * 1) / 3), "INR")
                                             </td>
                                             <td>
-                                                {{ str_replace(['INR', '.00'], '', money_format('%i', round(($c3 * 1) / 3))) }}
+                                                @money((($c3 * 1) / 3), "INR")
                                             </td>
                                         </tr>
                                     </tbody>
@@ -99,13 +99,13 @@
                                             <tr>
                                                 <td>{{ ++$key }}</td>
                                                 <td>{{ $user->name }}</td>
-                                                <td>{{ str_replace(['INR', '.00'], '', money_format('%i', $incomes)) }}
+                                                <td>@money($incomes, "INR")
                                                 </td>
-                                                <td>{{ str_replace(['INR', '.00'], '', money_format('%i', $transfer)) }}
+                                                <td>@money($transfer, "INR")
                                                 </td>
-                                                <td>{{ str_replace(['INR', '.00'], '', money_format('%i', $expenses)) }}
+                                                <td>@money($expenses, "INR")
                                                 </td>
-                                                <td>{{ str_replace(['INR', '.00'], '', money_format('%i', $incomes + $transfer - $expenses)) }}
+                                                <td>@money($incomes + $transfer - $expenses, "INR")
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -130,20 +130,20 @@
                                             <div class="col">
                                                 <h6 class="">Expected</h6>
                                                 <p class="num-pt">
-                                                    {{ str_replace(['INR', '.00'], '', money_format('%i', $total_expected_revenue)) }}
+                                                    @money($total_expected_revenue, "INR")
                                                 </p>
                                             </div>
                                             <div class="col">
                                                 <h6 class="">Receivables</h6>
                                                 <p class="num-pt">
-                                                    {{ str_replace(['INR', '.00'], '', money_format('%i', $total_income)) }}
+                                                    @money($total_income, "INR")
                                                 </p>
                                             </div>
 
                                             <div class="col">
                                                 <h6 class="">Balance</h6>
                                                 <p class="num-pt">
-                                                    {{ str_replace(['INR', '.00'], '', money_format('%i', $total_expected_revenue - $total_income)) }}
+                                                    @money($total_expected_revenue - $total_income, "INR")
                                                 </p>
                                             </div>
                                         @endif
@@ -197,12 +197,12 @@
                                                             data-href="{{ route('project.show', $project->id) }}">{{ $project->name }}</span>
                                                     </td>
                                                     @if (auth()->getUser()->role == 'admin')
-                                                        <td>{{ str_replace(['INR', '.00'], '', money_format('%i', $exrev)) }}
+                                                        <td>@money($exrev, "INR")
                                                         </td>
                                                     @endif
-                                                    <td>{{ str_replace(['INR', '.00'], '', money_format('%i', $incomes)) }}
+                                                    <td>@money($incomes, "INR")
                                                     </td>
-                                                    <td>{{ str_replace(['INR', '.00'], '', money_format('%i', $balance)) }}
+                                                    <td>@money($balance, "INR")
                                                     </td>
                                                 </tr>
                                             @else
@@ -213,12 +213,12 @@
                                                             data-href="{{ route('project.show', $project->id) }}">{{ $project->name }}</span>
                                                     </td>
                                                     @if (auth()->getUser()->role == 'admin')
-                                                        <td>{{ str_replace(['INR', '.00'], '', money_format('%i', $exrev)) }}
+                                                        <td>@money($exrev, "INR")
                                                         </td>
                                                     @endif
-                                                    <td>{{ str_replace(['INR', '.00'], '', money_format('%i', $incomes)) }}
+                                                    <td>@money($incomes, "INR")
                                                     </td>
-                                                    <td>{{ str_replace(['INR', '.00'], '', money_format('%i', $balance)) }}
+                                                    <td>@money($balance, "INR")
                                                     </td>
                                                 </tr>
                                             @endif
