@@ -27,7 +27,7 @@
                                         <tr>
                                             <td>{{ ++$key }}</td>
                                             <td>{{ $income->user()->first()->name }}</td>
-                                            <td>{{ str_replace(["INR", ".00"], "", money_format("%i", $income->amount)) }}</td>
+                                            <td>@money($income->amount, "INR")</td>
                                             <td>{{ date("Y-m-d", strtotime($income->created_at)) }}</td>
                                         </tr>
                                     @endforeach
