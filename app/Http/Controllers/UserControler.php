@@ -16,7 +16,7 @@ class UserControler extends Controller
      */
     public function index()
     {
-        $users = User::where('role', 'user')->paginate(10);
+        $users = User::where('role', '!=', 'admin')->where('role', '!=', 'employee')->paginate(10);
         return view("users.manage-user", compact('users'));
     }
 
@@ -54,7 +54,7 @@ class UserControler extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
-        $user->role = 'user';
+        $user->role = $request->is_manager ? 'is_manager' : 'user';
         $user->password = Hash::make($request->password);
         $user->save();
         return redirect(route("users.index"))->with("status", "User added successfully");
@@ -97,6 +97,7 @@ class UserControler extends Controller
             'name' => 'required|max:120',
         ];
         $account = User::find($id);
+
         if ($account->email != $request->email) {
             $rules['email'] = 'required|unique:users,email';
         }
@@ -111,9 +112,9 @@ class UserControler extends Controller
         $account->email = $request->email;
         $account->phone = $request->phone;
         $account->name = $request->name;
-        // $account->role = 'user';
+        $account->role =  $request->is_manager ? 'is_manager' : 'user';
         if ($request->password) {
-            $account->password = Hash::make($request->password);    
+            $account->password = Hash::make($request->password);
         }
         $account->save();
         return redirect(route("users.index"))->with("status", "User updated successfully");

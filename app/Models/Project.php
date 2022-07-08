@@ -23,4 +23,17 @@ class Project extends Model
     {
         return $this->hasMany(EmployeeTransaction::class);
     }
+    public function advance_total()
+    {
+        return Transaction::where('project_id', $this->id)->where('type', 'income')->sum('amount');
+    }
+    public function expense_total()
+    {
+        return Transaction::where('project_id', $this->id)->where('type', 'expense')->sum('amount');
+    }
+    public function getusername()
+    {
+        $user_id = UserProject::where('project_id', $this->id)->value('user_id');
+        return User::find($user_id)->name;
+    }
 }

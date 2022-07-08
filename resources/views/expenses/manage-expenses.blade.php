@@ -5,118 +5,136 @@
 @section('content')
     <div class="page-content">
         @include('include/error')
-         
-         @if (auth()->user()->role == 'admin')
-        <div class="row mb-4">
-            
-            <div class="col-md-6">
-                <div class="card add-row">
-                    <form action="{{ route('expenses.index') }}" method="GET">
-                        <div class="card-body">
-                            <div class="row">
-                            
-                            <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="category">Category</label>
-                                <select name="category" id="category" class="form-control ">
-                                    <option value="">--Select category--</option>
-                                    @foreach ($categorys as $category)
-                                        @if (request()->has('category') && request('category') == $category->id)
-                                            <option selected value="{{ $category->id }}">
-                                            @else
-                                            <option value="{{ $category->id }}">
-                                        @endif
-                                        {{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div></div>
-                            
-                            <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="start data">Start Date</label>
-                                <input type="date" value="{{ request('start_date') ? request('start_date') : '' }}"
-                                    name="start_date" class="form-control ">
-                            </div></div>
-                            
-                            <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="start data">End Date</label>
-                                <input type="date" value="{{ request('end_date') ? request('end_date') : '' }}"
-                                    name="end_date" class="form-control ">
-                            </div></div>
-                            
-                            <div class="col-md-12">
-                            <div class="card-footer text-center">
-                                <input type="submit" value="Filter" class="btn btn-primary ">
-                                <a href="{{ route('expenses.index') }}" class="btn btn-danger">Reset
-                                    Filter</a>
-                                <input type="submit" name="export" value="Export" class="btn btn-success">
-                            </div></div>
-                            
-                            
+
+        @if (auth()->user()->role == 'admin')
+            <div class="row mb-4">
+
+                <div class="col-md-6">
+                    <div class="card add-row">
+                        <form action="{{ route('expenses.index') }}" method="GET">
+                            <div class="card-body">
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="category">Category</label>
+                                            <select name="category" id="category" class="form-control ">
+                                                <option value="">--Select category--</option>
+                                                @foreach ($categorys as $category)
+                                                    @if (request()->has('category') && request('category') == $category->id)
+                                                        <option selected value="{{ $category->id }}">
+                                                        @else
+                                                        <option value="{{ $category->id }}">
+                                                    @endif
+                                                    {{ $category->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="start data">User</label>
+                                            <input type="text" value="{{ request('user') ? request('user') : '' }}"
+                                                name="user" class="form-control" placeholder="Enter user name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="start data">Start Date</label>
+                                            <input type="date"
+                                                value="{{ request('start_date') ? request('start_date') : '' }}"
+                                                name="start_date" class="form-control ">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="start data">End Date</label>
+                                            <input type="date"
+                                                value="{{ request('end_date') ? request('end_date') : '' }}"
+                                                name="end_date" class="form-control ">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="card-footer text-center">
+                                            <input type="submit" value="Filter" class="btn btn-primary ">
+                                            <a href="{{ route('expenses.index') }}" class="btn btn-danger">Reset
+                                                Filter</a>
+                                            <input type="submit" name="export" value="Export" class="btn btn-success">
+                                        </div>
+                                    </div>
+
+
+                                </div>
                             </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-           
-            <div class="col-md-6">
-                <div class="card add-row">
-                    <div class="card-body">
-                        <div id="piechart" style="width: 500px; height: 220px;"></div>
+                        </form>
                     </div>
                 </div>
+
+                <div class="col-md-6">
+                    <div class="card add-row">
+                        <div class="card-body">
+                            <div id="piechart" style="width: 500px; height: 220px;"></div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-           
-        </div>
- @endif
-        
-         <div class="row mb-4" id="user{{ auth()->user()->id }}">
+        @endif
+
+        <div class="row mb-4" id="user{{ auth()->user()->id }}">
             <div class="col-md-12">
                 <div class="card add-row">
                     <form action="{{ route('expenses.index') }}" method="GET">
                         <div class="card-body">
                             <div class="row">
-                            
-                            <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="category">Category</label>
-                                <select name="category" id="category" class="form-control ">
-                                    <option value="">--Select category--</option>
-                                    @foreach ($categorys as $category)
-                                        @if (request()->has('category') && request('category') == $category->id)
-                                            <option selected value="{{ $category->id }}">
-                                            @else
-                                            <option value="{{ $category->id }}">
-                                        @endif
-                                        {{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div></div>
-                            
-                            <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="start data">Start Date</label>
-                                <input type="date" value="{{ request('start_date') ? request('start_date') : '' }}"
-                                    name="start_date" class="form-control ">
-                            </div></div>
-                            
-                            <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="start data">End Date</label>
-                                <input type="date" value="{{ request('end_date') ? request('end_date') : '' }}"
-                                    name="end_date" class="form-control ">
-                            </div></div>
-                            
-                            <div class="col-md-4 text-center">
-                            <label for="start data" class="mar-15"></label><br/>
-                                <input type="submit" value="Filter" class="btn btn-primary ">
-                                <a href="{{ route('expenses.index') }}" class="btn btn-danger">Reset
-                                    Filter</a>
-                                <input type="submit" name="export" value="Export" class="btn btn-success">
-                            </div>
-                            
-                            
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="category">Category</label>
+                                        <select name="category" id="category" class="form-control ">
+                                            <option value="">--Select category--</option>
+                                            @foreach ($categorys as $category)
+                                                @if (request()->has('category') && request('category') == $category->id)
+                                                    <option selected value="{{ $category->id }}">
+                                                    @else
+                                                    <option value="{{ $category->id }}">
+                                                @endif
+                                                {{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="start data">Start Date</label>
+                                        <input type="date"
+                                            value="{{ request('start_date') ? request('start_date') : '' }}"
+                                            name="start_date" class="form-control ">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="start data">End Date</label>
+                                        <input type="date"
+                                            value="{{ request('end_date') ? request('end_date') : '' }}" name="end_date"
+                                            class="form-control ">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 text-center">
+                                    <label for="start data" class="mar-15"></label><br />
+                                    <input type="submit" value="Filter" class="btn btn-primary ">
+                                    <a href="{{ route('expenses.index') }}" class="btn btn-danger">Reset
+                                        Filter</a>
+                                    <input type="submit" name="export" value="Export" class="btn btn-success">
+                                </div>
+
+
                             </div>
                         </div>
                     </form>
@@ -124,7 +142,7 @@
             </div>
         </div>
 
-       
+
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card add-row">
@@ -151,8 +169,8 @@
                                         <tr>
                                             <td>{{ $expense->user()->first()->name }}</td>
                                             <td>{{ $expense->category()->first()->name }}</td>
-                                            <td>@money($expense->amount, "INR")</td>
-                                            <th>{{ substr($expense->remark, 0, 40).'...' }}</th>
+                                            <td>@money($expense->amount, 'INR')</td>
+                                            <th>{{ substr($expense->remark, 0, 40) . '...' }}</th>
                                             <td>{{ $expense->date }}</td>
                                             <td>
                                                 <a href="{{ route('expenses.edit', $expense->id) }}"
@@ -160,9 +178,10 @@
                                                         aria-hidden="true"></i></a>
 
                                                 <form class="my-2"
-                                                    action="{{ route('expenses.destroy', $expense->id) }}" method="POST">
+                                                    action="{{ route('expenses.destroy', $expense->id) }}"
+                                                    method="POST">
                                                     @csrf
-                                                    @method("DELETE")
+                                                    @method('DELETE')
                                                     <button type="submit"
                                                         onclick="return confirm('Are you sure want to delete')"
                                                         class="delete btn btn-danger"><i class="fa fa-trash"
@@ -202,7 +221,7 @@
 
             var data = google.visualization.arrayToDataTable([
                 ['Category', 'Amount'],
-                <?php echo $chartData;?>
+                <?php echo $chartData; ?>
             ]);
 
             var options = {

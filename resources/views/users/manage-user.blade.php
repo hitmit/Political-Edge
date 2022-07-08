@@ -12,56 +12,65 @@
                                 class="add-element add-element btn btn-primary">Add User</a></h6>
 
 
-                    
-                    <div class="table-responsive">
-                        <table id="dataTableExample" class="table">
-                            <thead>
-                                <tr>
-                                    <th>Sr.no</th>
-                                    <th>Name</th>
-                                    <th>Username</th>
-                                    <th>Mobile</th>
-                                    <th>Created</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php
-                                    $i = 1;
-                                @endphp
-                                @foreach ($users as $user)
+
+                        <div class="table-responsive">
+                            <table id="dataTableExample" class="table">
+                                <thead>
                                     <tr>
-                                        <td>{{ $i }}</td>
-                                        <td>{{ $user->name }}</td>
-                                        <td>{{ $user->email }}</td>
-                                        <td>{{ $user->phone }}</td>
-                                        <td>{{ $user->created_at }}</td>
-                                        <td>
-                                            <a href="{{ route('users.edit', $user->id) }}" class="edit btn btn-primary"><i
-                                                    class="fa fa-pencil" aria-hidden="true"></i></a>
-                                            <!--<form class="my-2"
-                                                action="{{ route('users.destroy', $user->id) }}" method="POST">
-                                                @csrf
-                                                @method("DELETE")
-                                                <button type="submit"
-                                                    onclick="return confirm('Are you sure want to delete')"
-                                                    class="delete btn btn-danger"><i class="fa fa-trash"
-                                                        aria-hidden="true"></i></button>
-                                            </form>-->
-                                        </td>
-                                        </td>
+                                        <th>Sr.no</th>
+                                        <th>Name</th>
+                                        <th>Role</th>
+                                        <th>Username</th>
+                                        <th>Mobile</th>
+                                        <th>Created</th>
+                                        <th>Action</th>
                                     </tr>
+                                </thead>
+                                <tbody>
                                     @php
-                                        $i++;
+                                        $i = 1;
                                     @endphp
-                                @endforeach
-                            </tbody>
-                        </table>
+                                    @foreach ($users as $user)
+                                        <tr>
+                                            <td>{{ $i }}</td>
+                                            <td>{{ $user->name }}</td>
+                                            <td>
+                                                @if ($user->role == 'is_manager')
+                                                    {{ 'Manager' }}
+                                                @elseif($user->role == 'user')
+                                                    {{ 'User' }}
+                                                @endif
+                                            </td>
+                                            <td>{{ $user->email }}</td>
+                                            <td>{{ $user->phone }}</td>
+                                            <td>{{ $user->created_at }}</td>
+                                            <td>
+                                                <a href="{{ route('users.edit', $user->id) }}"
+                                                    class="edit btn btn-primary"><i class="fa fa-pencil"
+                                                        aria-hidden="true"></i></a>
+                                                <!--<form class="my-2"
+                                                                action="{{ route('users.destroy', $user->id) }}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit"
+                                                                    onclick="return confirm('Are you sure want to delete')"
+                                                                    class="delete btn btn-danger"><i class="fa fa-trash"
+                                                                        aria-hidden="true"></i></button>
+                                                            </form>-->
+                                            </td>
+                                            </td>
+                                        </tr>
+                                        @php
+                                            $i++;
+                                        @endphp
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer">
+                            {{ $users->links() }}
+                        </div>
                     </div>
-                    <div class="card-footer">
-                        {{ $users->links() }}
-                    </div>
-</div>
                 </div>
             </div>
         </div>

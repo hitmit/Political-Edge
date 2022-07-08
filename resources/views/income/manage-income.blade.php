@@ -18,7 +18,7 @@
                                     <tr>
                                         <th>Project Name</th>
                                         <th>Receivables</th>
-                                        @if(auth()->getUser()->role == 'admin')
+                                        @if (auth()->getUser()->role == 'admin')
                                             <th>User</th>
                                         @endif
                                         <th>Remark</th>
@@ -30,21 +30,21 @@
                                     @foreach ($incomes as $income)
                                         <tr>
                                             <td>{{ $income->project()->first()->name }}</td>
-                                            <td>@money($income->amount, "INR")</td>
-                                            @if(auth()->getUser()->role == 'admin')
+                                            <td>@money($income->amount, 'INR')</td>
+                                            @if (auth()->getUser()->role == 'admin')
                                                 <td>{{ $income->user()->first()->name }}</td>
                                             @endif
-                                            <td>{{ substr($income->remark, 0, 40).'...' }}</td>
+                                            <td>{{ substr($income->remark, 0, 40) }}</td>
                                             <td>{{ $income->date }}</td>
                                             <td>
                                                 <a href="{{ route('income.edit', $income->id) }}"
                                                     class="edit btn btn-primary"><i class="fa fa-pencil"
                                                         aria-hidden="true"></i></a>
 
-                                                <form class="my-2"
-                                                    action="{{ route('income.destroy', $income->id) }}" method="POST">
+                                                <form class="my-2" action="{{ route('income.destroy', $income->id) }}"
+                                                    method="POST">
                                                     @csrf
-                                                    @method("DELETE")
+                                                    @method('DELETE')
                                                     <button type="submit"
                                                         onclick="return confirm('Are you sure want to delete')"
                                                         class="delete btn btn-danger"><i class="fa fa-trash"

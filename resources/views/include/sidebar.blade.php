@@ -12,13 +12,15 @@
     </div>
     <div class="sidebar-body">
         <ul class="nav">
-            <li class="nav-item nav-category">Main</li>
-            <li class="nav-item">
-                <a href="{{ route('home') }}" class="nav-link">
-                    <i class="link-icon" data-feather="box"></i>
-                    <span class="link-title">Dashboard</span>
-                </a>
-            </li>
+            @if (auth()->getUser()->role != 'is_manager')
+                <li class="nav-item nav-category">Main</li>
+                <li class="nav-item">
+                    <a href="{{ route('home') }}" class="nav-link">
+                        <i class="link-icon" data-feather="box"></i>
+                        <span class="link-title">Dashboard</span>
+                    </a>
+                </li>
+            @endif
 
             @if (auth()->getUser()->role == 'admin')
                 <li class="nav-item nav-category">Manage Project</li>
@@ -78,42 +80,44 @@
                     </a>
                 </li>
             @endif
-            @if (auth()->getUser()->role == 'admin')
-                <li class="nav-item nav-category">Manage Category</li>
-                <li class="nav-item">
-                    <a href="{{ route('category.index') }}" class="nav-link">
-                        <i class="link-icon" data-feather="calendar"></i>
-                        <span class="link-title">Manage Category</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('category.create') }}" class="nav-link">
-                        <i class="link-icon" data-feather="credit-card"></i>
-                        <span class="link-title">Add Category</span>
-                    </a>
-                </li>
+            @if (auth()->getUser()->role == 'admin' || auth()->getUser()->role == 'is_manager')
+                @if (auth()->getUser()->role == 'admin')
+                    <li class="nav-item nav-category">Manage Category</li>
+                    <li class="nav-item">
+                        <a href="{{ route('category.index') }}" class="nav-link">
+                            <i class="link-icon" data-feather="calendar"></i>
+                            <span class="link-title">Manage Category</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('category.create') }}" class="nav-link">
+                            <i class="link-icon" data-feather="credit-card"></i>
+                            <span class="link-title">Add Category</span>
+                        </a>
+                    </li>
 
 
-                {{-- <li class="nav-item">
+                    {{-- <li class="nav-item">
                     <a href="{{ route('category.create') }}" class="nav-link">
                         <i class="link-icon" data-feather="credit-card"></i>
                         <span class="link-title">Add Category</span>
                     </a>
                 </li> --}}
 
-                <li class="nav-item nav-category">Manage Users</li>
-                <li class="nav-item">
-                    <a href="{{ route('users.index') }}" class="nav-link">
-                        <i class="link-icon" data-feather="users"></i>
-                        <span class="link-title">Manage Users</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('users.create') }}" class="nav-link">
-                        <i class="link-icon" data-feather="user"></i>
-                        <span class="link-title">Add User</span>
-                    </a>
-                </li>
+                    <li class="nav-item nav-category">Manage Users</li>
+                    <li class="nav-item">
+                        <a href="{{ route('users.index') }}" class="nav-link">
+                            <i class="link-icon" data-feather="users"></i>
+                            <span class="link-title">Manage Users</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('users.create') }}" class="nav-link">
+                            <i class="link-icon" data-feather="user"></i>
+                            <span class="link-title">Add User</span>
+                        </a>
+                    </li>
+                @endif
 
                 <li class="nav-item nav-category">Manage Employees</li>
                 <li class="nav-item">
@@ -126,6 +130,12 @@
                     <a href="{{ route('employee.create') }}" class="nav-link">
                         <i class="link-icon" data-feather="user"></i>
                         <span class="link-title">Add employee</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('employee-report.index') }}" class="nav-link">
+                        <i class="link-icon" data-feather="user"></i>
+                        <span class="link-title">Employee Report</span>
                     </a>
                 </li>
             @endif

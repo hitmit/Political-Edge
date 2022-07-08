@@ -27,7 +27,6 @@ Route::get("/", function () {
 });
 
 Auth::routes(['register' => true, 'reset' => false]);
-
 Route::middleware(['auth'])->group(function () {
   Route::get("home", [HomeController::class, "index"])->name("home");
   Route::get("update-password", [HomeController::class, "getUpdatePassword"])->name("get.update.password");
@@ -38,7 +37,7 @@ Route::middleware(['auth'])->group(function () {
   Route::resource("/transfer", App\Http\Controllers\TransferController::class)->only([
     'index', 'create', 'store', 'destroy'
   ]);
-  Route::get('project/{project_id}/details',[App\Http\Controllers\EmployeeTransactionController::class,'project_detail'])->name('project.details');
+  Route::get('project/{project_id}/details', [App\Http\Controllers\EmployeeTransactionController::class, 'project_detail'])->name('project.details');
   Route::resource("/employee-transaction", App\Http\Controllers\EmployeeTransactionController::class);
   Route::resource("/employee-transaction-expense", App\Http\Controllers\EmployeeExpenseController::class);
   Route::resource("/employee-transaction-income", App\Http\Controllers\EmployeeIncomeController::class);
@@ -47,6 +46,8 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
   Route::resource('/project', App\Http\Controllers\ProjectController::class)->except(['show']);
   Route::resource("/users", App\Http\Controllers\UserControler::class);
-  Route::resource("/employee", App\Http\Controllers\EmployeeControler::class);
   Route::resource("/category", App\Http\Controllers\CategoryController::class);
 });
+
+Route::resource("/employee", App\Http\Controllers\EmployeeControler::class)->middleware(['manager']);
+Route::resource('employee-report', App\Http\Controllers\EmployeeReportController::class)->middleware(['manager']);

@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\EmployeeTransactionCategory;
-use Illuminate\Database\Seeder;
+use Illuminate\Database\Sseeder;
 
 class EmployeeTransactionCategorySeeder extends Seeder
 {

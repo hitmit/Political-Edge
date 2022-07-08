@@ -30,25 +30,25 @@
                                         <tr>
                                             <th>A</th>
                                             <td>
-                                                @money((($a3 * 2) / 3) + $total_internal, "INR")
+                                                @money(($a3 * 2) / 3 + $total_internal, 'INR')
                                             </td>
                                             <td>
-                                                @money((($b3 * 2) / 3), "INR")
+                                                @money(($b3 * 2) / 3, 'INR')
                                             </td>
                                             <td>
-                                                @money((($c3 * 2) / 3), "INR")
+                                                @money(($c3 * 2) / 3, 'INR')
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>B</th>
                                             <td>
-                                                @money((($a3 * 1) / 3) + $total_internal, "INR")
+                                                @money(($a3 * 1) / 3 + $total_internal, 'INR')
                                             </td>
                                             <td>
-                                                @money((($b3 * 1) / 3), "INR")
+                                                @money(($b3 * 1) / 3, 'INR')
                                             </td>
                                             <td>
-                                                @money((($c3 * 1) / 3), "INR")
+                                                @money(($c3 * 1) / 3, 'INR')
                                             </td>
                                         </tr>
                                     </tbody>
@@ -99,13 +99,13 @@
                                             <tr>
                                                 <td>{{ ++$key }}</td>
                                                 <td>{{ $user->name }}</td>
-                                                <td>@money($incomes, "INR")
+                                                <td>@money($incomes, 'INR')
                                                 </td>
-                                                <td>@money($transfer, "INR")
+                                                <td>@money($transfer, 'INR')
                                                 </td>
-                                                <td>@money($expenses, "INR")
+                                                <td>@money($expenses, 'INR')
                                                 </td>
-                                                <td>@money($incomes + $transfer - $expenses, "INR")
+                                                <td>@money($incomes + $transfer - $expenses, 'INR')
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -130,20 +130,20 @@
                                             <div class="col">
                                                 <h6 class="">Expected</h6>
                                                 <p class="num-pt">
-                                                    @money($total_expected_revenue, "INR")
+                                                    @money($total_expected_revenue, 'INR')
                                                 </p>
                                             </div>
                                             <div class="col">
                                                 <h6 class="">Receivables</h6>
                                                 <p class="num-pt">
-                                                    @money($total_income, "INR")
+                                                    @money($total_income, 'INR')
                                                 </p>
                                             </div>
 
                                             <div class="col">
                                                 <h6 class="">Balance</h6>
                                                 <p class="num-pt">
-                                                    @money($total_expected_revenue - $total_income, "INR")
+                                                    @money($total_expected_revenue - $total_income, 'INR')
                                                 </p>
                                             </div>
                                         @endif
@@ -197,12 +197,12 @@
                                                             data-href="{{ route('project.show', $project->id) }}">{{ $project->name }}</span>
                                                     </td>
                                                     @if (auth()->getUser()->role == 'admin')
-                                                        <td>@money($exrev, "INR")
+                                                        <td>@money($exrev, 'INR')
                                                         </td>
                                                     @endif
-                                                    <td>@money($incomes, "INR")
+                                                    <td>@money($incomes, 'INR')
                                                     </td>
-                                                    <td>@money($balance, "INR")
+                                                    <td>@money($balance, 'INR')
                                                     </td>
                                                 </tr>
                                             @else
@@ -213,12 +213,12 @@
                                                             data-href="{{ route('project.show', $project->id) }}">{{ $project->name }}</span>
                                                     </td>
                                                     @if (auth()->getUser()->role == 'admin')
-                                                        <td>@money($exrev, "INR")
+                                                        <td>@money($exrev, 'INR')
                                                         </td>
                                                     @endif
-                                                    <td>@money($incomes, "INR")
+                                                    <td>@money($incomes, 'INR')
                                                     </td>
-                                                    <td>@money($balance, "INR")
+                                                    <td>@money($balance, 'INR')
                                                     </td>
                                                 </tr>
                                             @endif
@@ -249,9 +249,9 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Projects</th>
-                                            <th>Units</th>
+                                            <th>Advance</th>
+                                            <th>Expenses</th>
                                             <th>Unit Completed</th>
-                                            <th>Progress (%)</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -260,15 +260,17 @@
                                             <tr>
                                                 <td>{{ ++$key }}</td>
                                                 <td>{{ $project->project()->first()->name }}</td>
-                                                <td>{{ $project->units }}</td>
-                                                <td>{{ $project->employee_transactions()->sum('units') }} / {{$project->units}}</td>
-                                                <td>{{ round($project->units == 0 ? 0 : ($project->employee_transactions()->sum('units') / $project->units) * 100,2) }}
-                                                    {{-- <td>{{ ($project->employee_transactions()->sum('units') / $project->units) * 100 }} --}}
+                                                <td>{{ $project->advance_total() }}</td>
+                                                <td>{{ $project->expense_total() }}</td>
+                                                <td>{{ $project->employee_transactions()->sum('units') }} /
+                                                    {{ $project->units }}</td>
+                                                {{-- <td>{{ ($project->employee_transactions()->sum('units') / $project->units) * 100 }} --}}
                                                 </td>
                                                 <td>
                                                     <div class="btn-group">
-                                                        <a href="{{ route('project.details', $project->id) }}" class="btn btn-primary">
-                                                            Add Progress
+                                                        <a href="{{ route('project.details', $project->id) }}"
+                                                            class="btn btn-primary">
+                                                            Add Data
                                                         </a>
                                                     </div>
                                                 </td>

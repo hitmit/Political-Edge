@@ -25,7 +25,7 @@ class ExpensesController extends Controller
     {
 
         $categorys = Category::all();
-        $query = Transaction::where('type', 'expense');
+        $query = Transaction::select('transactions.*', 'users.name')->where('type', 'expense')->join('users', 'transactions.user_id', '=', 'users.id');
         $user_id = Transaction::where('type', 'expense')->pluck('user_id');
         $username = User::whereIN('id', $user_id)->get();
 
@@ -34,6 +34,9 @@ class ExpensesController extends Controller
         }
         if (request()->filled('category')) {
             $query->where('category_id', request()->get('category'));
+        }
+        if (request()->filled('user')) {
+            $query->where('users.name', 'like', '%' . request()->get('user') . '%');
         }
 
         if (request()->filled('start_date') && !request()->filled('end_date')) {
@@ -57,7 +60,7 @@ class ExpensesController extends Controller
 
         $chartLists = "";
         foreach ($categorysChart as $list) {
-            $totalAmount = Transaction::where('category_id', $list->id)->where('type','expense')->sum('amount');
+            $totalAmount = Transaction::where('category_id', $list->id)->where('type', 'expense')->sum('amount');
             $chartLists .= "['" . $list->name . "'," . $totalAmount . "],";
         }
 
