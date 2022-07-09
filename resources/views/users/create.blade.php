@@ -11,9 +11,6 @@
                     <div class="card add-row">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h6 class="">Add User</h6>
-                            <div>
-                                <input type="checkbox" class="form-check-input" name="is_manager" value="1" id="manager" /><label for="manager">Is Manager</label>
-                            </div>
                         </div>
                         <div class="card-body">
                             <fieldset>

@@ -19,9 +19,9 @@ class EmployeeTransactionController extends Controller
      */
     public function project_detail($project_id)
     {
-        $progress = EmployeeTransaction::where('project_id', $project_id)->where('type', '=', null)->get();
-        $expenses = EmployeeTransaction::where('project_id', $project_id)->where('type', 'expense')->get();
-        $incomes = EmployeeTransaction::where('project_id', $project_id)->where('type', 'income')->get();
+        $progress = EmployeeTransaction::where('employee_id', Auth()->user()->id)->where('project_id', $project_id)->where('type', '=', null)->get();
+        $expenses = EmployeeTransaction::where('employee_id', Auth()->user()->id)->where('project_id', $project_id)->where('type', 'expense')->get();
+        $incomes = EmployeeTransaction::where('employee_id', Auth()->user()->id)->where('project_id', $project_id)->where('type', 'income')->get();
         $categories = EmployeeTransactionCategory::all();
         $project = Project::find($project_id);
         $users = User::where('role', 'user')->get();
@@ -31,8 +31,10 @@ class EmployeeTransactionController extends Controller
          * @return sum of expense
          */
         $employee_total_expense = EmployeeTransaction::where('employee_id', Auth()->user()->id)->where('type', 'expense')->where('project_id', $project_id)->sum('amount');
+        $employee_total_advance = EmployeeTransaction::where('employee_id', Auth()->user()->id)->where('type', 'income')->where('project_id', $project_id)->sum('amount');
+        $employee_total_progress = EmployeeTransaction::where('employee_id', Auth()->user()->id)->where('project_id', $project_id)->sum('units');
 
-        return view('units.index', compact('expenses', 'incomes', 'progress', 'project_id', 'project', 'categories', 'users', 'employee_total_expense'));
+        return view('units.index', compact('expenses', 'incomes', 'progress', 'project_id', 'project', 'categories', 'users', 'employee_total_expense','employee_total_advance','employee_total_progress'));
     }
 
 

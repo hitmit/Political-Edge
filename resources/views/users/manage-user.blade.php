@@ -19,7 +19,6 @@
                                     <tr>
                                         <th>Sr.no</th>
                                         <th>Name</th>
-                                        <th>Role</th>
                                         <th>Username</th>
                                         <th>Mobile</th>
                                         <th>Created</th>
@@ -34,13 +33,6 @@
                                         <tr>
                                             <td>{{ $i }}</td>
                                             <td>{{ $user->name }}</td>
-                                            <td>
-                                                @if ($user->role == 'is_manager')
-                                                    {{ 'Manager' }}
-                                                @elseif($user->role == 'user')
-                                                    {{ 'User' }}
-                                                @endif
-                                            </td>
                                             <td>{{ $user->email }}</td>
                                             <td>{{ $user->phone }}</td>
                                             <td>{{ $user->created_at }}</td>

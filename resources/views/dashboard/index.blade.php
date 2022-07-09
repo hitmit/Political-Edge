@@ -249,8 +249,8 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Projects</th>
-                                            <th>Advance</th>
                                             <th>Expenses</th>
+                                            <th>Advance</th>
                                             <th>Unit Completed</th>
                                             <th>Action</th>
                                         </tr>
@@ -260,8 +260,8 @@
                                             <tr>
                                                 <td>{{ ++$key }}</td>
                                                 <td>{{ $project->project()->first()->name }}</td>
-                                                <td>{{ $project->advance_total() }}</td>
                                                 <td>{{ $project->expense_total() }}</td>
+                                                <td>{{ $project->advance_total() }}</td>
                                                 <td>{{ $project->employee_transactions()->sum('units') }} /
                                                     {{ $project->units }}</td>
                                                 {{-- <td>{{ ($project->employee_transactions()->sum('units') / $project->units) * 100 }} --}}

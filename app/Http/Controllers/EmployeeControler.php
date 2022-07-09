@@ -56,15 +56,18 @@ class EmployeeControler extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
-        $user->role = 'employee';
+        $user->role = $request->is_manager ? 'is_manager' : 'employee';
         $user->password = Hash::make($request->password);
         $user->save();
-        foreach ($request->projects as $project_id) {
-            $assign_projects  = new UserProject();
-            $assign_projects->user_id = $user->id;
-            $assign_projects->project_id = $project_id;
-            $assign_projects->save();
+        if ($request->projects) {
+            foreach ($request->projects as $project_id) {
+                $assign_projects  = new UserProject();
+                $assign_projects->user_id = $user->id;
+                $assign_projects->project_id = $project_id;
+                $assign_projects->save();
+            }
         }
+
         return redirect(route("employee.index"))->with("status", "Employee added successfully");
     }
 
@@ -122,9 +125,9 @@ class EmployeeControler extends Controller
         $account->email = $request->email;
         $account->phone = $request->phone;
         $account->name = $request->name;
-        // $account->role = 'employee';
+        $account->role = $request->is_manager ? 'is_manager' : 'employee';
         if ($request->password) {
-            $account->password = Hash::make($request->password);    
+            $account->password = Hash::make($request->password);
         }
         $account->save();
         if ($request->projects != null) {

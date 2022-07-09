@@ -16,10 +16,13 @@ class ManagerMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $user = Auth()->user();
-        if ($user->role == 'is_manager' || $user->role == 'admin') {
-            return $next($request);
+        if (!Auth()->guest()) {
+            $user = Auth()->user();
+            if ($user->role == 'is_manager' || $user->role == 'admin') {
+                return $next($request);
+            }
+            return redirect()->route('home');
         }
-        return redirect()->route('home');
+        return redirect(route('login'));
     }
 }

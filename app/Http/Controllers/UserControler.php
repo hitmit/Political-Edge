@@ -16,7 +16,7 @@ class UserControler extends Controller
      */
     public function index()
     {
-        $users = User::where('role', '!=', 'admin')->where('role', '!=', 'employee')->paginate(10);
+        $users = User::where('role', 'user')->where('role', '!=', 'employee')->paginate(10);
         return view("users.manage-user", compact('users'));
     }
 
@@ -54,7 +54,7 @@ class UserControler extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
-        $user->role = $request->is_manager ? 'is_manager' : 'user';
+        $user->role = 'user';
         $user->password = Hash::make($request->password);
         $user->save();
         return redirect(route("users.index"))->with("status", "User added successfully");
@@ -112,7 +112,7 @@ class UserControler extends Controller
         $account->email = $request->email;
         $account->phone = $request->phone;
         $account->name = $request->name;
-        $account->role =  $request->is_manager ? 'is_manager' : 'user';
+        $account->role = 'user';
         if ($request->password) {
             $account->password = Hash::make($request->password);
         }

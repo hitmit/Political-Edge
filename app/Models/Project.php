@@ -25,11 +25,11 @@ class Project extends Model
     }
     public function advance_total()
     {
-        return Transaction::where('project_id', $this->id)->where('type', 'income')->sum('amount');
+        return EmployeeTransaction::where('project_id', $this->id)->where('type', 'income')->sum('amount');
     }
     public function expense_total()
     {
-        return Transaction::where('project_id', $this->id)->where('type', 'expense')->sum('amount');
+        return EmployeeTransaction::where('project_id', $this->id)->where('type', 'expense')->sum('amount');
     }
     public function getusername()
     {
