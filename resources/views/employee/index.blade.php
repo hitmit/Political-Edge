@@ -29,22 +29,23 @@
                                     @foreach ($users as $user)
                                         <tr>
                                             <td>{{ $i }}</td>
-                                            <td>{{ $user->name }}</td>
+                                            <td>{{ $user->role == 'is_manager' ? $user->name . ' (M)' : $user->name }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>{{ $user->phone }}</td>
                                             <td>{{ $user->created_at }}</td>
                                             <td>
-                                                <a href="{{ route('employee.edit', $user->id) }}" class="edit btn btn-primary"><i
-                                                        class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                <a href="{{ route('employee.edit', $user->id) }}"
+                                                    class="edit btn btn-primary"><i class="fa fa-pencil"
+                                                        aria-hidden="true"></i></a>
                                                 <!--<form class="my-2"
-                                                    action="{{ route('users.destroy', $user->id) }}" method="POST">
-                                                    @csrf
-                                                    @method("DELETE")
-                                                    <button type="submit"
-                                                        onclick="return confirm('Are you sure want to delete')"
-                                                        class="delete btn btn-danger"><i class="fa fa-trash"
-                                                            aria-hidden="true"></i></button>
-                                                </form>-->
+                                                        action="{{ route('users.destroy', $user->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            onclick="return confirm('Are you sure want to delete')"
+                                                            class="delete btn btn-danger"><i class="fa fa-trash"
+                                                                aria-hidden="true"></i></button>
+                                                    </form>-->
                                             </td>
                                             </td>
                                         </tr>

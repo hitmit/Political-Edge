@@ -25,12 +25,19 @@ class HomeController extends Controller
 
         $project_ids = UserProject::where('user_id', Auth()->user()->id)->pluck('project_id')->toArray();
         $project_ids = array_unique($project_ids);
-        if(Auth()->user()->role == 'admin'){
-            $projects = Project::orderBy('created_at', 'Desc')->get();           
-        }else{
-            $projects = Project::whereIN('id',$project_ids)->orderBy('created_at', 'Desc')->get();
+        if (Auth()->user()->role == 'admin') {
+            $projects = Project::orderBy('created_at', 'Desc')->get();
+        } elseif (Auth()->user()->role == 'is_manager') {
+            $employees = User::where('role', 'employee')->pluck('id')->toArray();
+            $projects = [];
+            foreach ($employees as $employee) {
+                $assign_project = UserProject::where('user_id', $employee)->pluck('project_id')->toArray();
+                $projects[$employee] = Project::whereIn('id', $assign_project)->orderBy('id', 'DESC')->get();
+            }
+        } else {
+            $projects = Project::whereIN('id', $project_ids)->orderBy('created_at', 'Desc')->get();
         }
-        
+
         $total_expense = Transaction::where('type', 'expense')->sum('amount');
         $total_expected_revenue = Project::sum('expected_revenue');
         $total_income = Transaction::where('type', 'income')->sum('amount');
@@ -47,14 +54,14 @@ class HomeController extends Controller
         // 90% of total all other user
         $a2 = $a2_of_90;
         // sum of above 2
-        $a3 = ($a1 - $a2);// 1443585.24
+        $a3 = ($a1 - $a2); // 1443585.24
         // dd($a3);
 
         // B1 Total expense by account
         $b1_of_90 = Transaction::where('user_id', '!=', 6)->where('type', 'income')->sum('amount');
 
         $b1 = ($b1_of_90 * 90) / 100;
-        
+
         // B2 Total Expense of other user account
         $b2 = Transaction::where('user_id', '!=', 6)->where('type', 'expense')->sum('amount');
 
@@ -71,10 +78,10 @@ class HomeController extends Controller
 
         /**
          * amount transfer
-        */
-        
-        $total_amount_reduce = Transfer::where('sender_id',Auth()->user()->id)->sum('amount_send');
-        $receiver_id = Transfer::select('receiver_id','amount_send')->get()->toArray();
+         */
+
+        $total_amount_reduce = Transfer::where('sender_id', Auth()->user()->id)->sum('amount_send');
+        $receiver_id = Transfer::select('receiver_id', 'amount_send')->get()->toArray();
 
         if (auth()->getUser()->role == 'admin') {
             $users = User::where('role', 'user')->orderBy('created_at', 'Desc')->get();
@@ -85,7 +92,7 @@ class HomeController extends Controller
         // foreach ($users as $account) {
         //     $total_internal += $account->totalReceived() - $account->totalSend();
         // }
-        return view('dashboard.index', compact('projects', 'users', 'total_expense', 'total_income', "total_expected_revenue", "a3", "b3", "c3","total_amount_reduce","receiver_id", "total_internal"));
+        return view('dashboard.index', compact('projects', 'users', 'total_expense', 'total_income', "total_expected_revenue", "a3", "b3", "c3", "total_amount_reduce", "receiver_id", "total_internal"));
     }
 
     public function getUpdatePassword()

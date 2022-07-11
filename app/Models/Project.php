@@ -15,26 +15,20 @@ class Project extends Model
         return $this->hasMany(Transaction::class);
     }
 
-    public function project()
+    public function employee_transactions($user_id)
     {
-        return $this->belongsTo(\App\Models\Project::class, 'id');
+        return EmployeeTransaction::where('project_id', $this->id)->where('employee_id', $user_id)->sum('units');
     }
-    public function employee_transactions()
+    public function advance_total($user_id)
     {
-        return $this->hasMany(EmployeeTransaction::class);
+        return EmployeeTransaction::where('project_id', $this->id)->where('employee_id', $user_id)->where('type', 'income')->sum('amount');
     }
-    public function advance_total()
+    public function expense_total($user_id)
     {
-        return EmployeeTransaction::where('project_id', $this->id)->where('type', 'income')->sum('amount');
+        return EmployeeTransaction::where('project_id', $this->id)->where('employee_id', $user_id)->where('type', 'expense')->sum('amount');
     }
-    public function expense_total()
+    public function getUSer($user_id)
     {
-        return EmployeeTransaction::where('project_id', $this->id)->where('type', 'expense')->sum('amount');
+        return User::where('role', 'employee')->where('id', $user_id)->first()->name;
     }
-    public function getusername()
-    {
-        $user_id = UserProject::where('project_id', $this->id)->pluck("user_id")->toArray();
-        return User::where('role', 'employee')->whereIn('id', $user_id)->value('name');
-    }
-
 }

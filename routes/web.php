@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmployeeReportController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ManageExpenses;
 use App\Http\Controllers\ManageIncome;
@@ -50,4 +51,5 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 Route::resource("/employee", App\Http\Controllers\EmployeeControler::class)->middleware(['manager']);
+Route::get('/employee-report/{user_id}/project/{project_id}', [EmployeeReportController::class, 'show'])->name('employee.report.show');
 Route::resource('employee-report', App\Http\Controllers\EmployeeReportController::class)->middleware(['manager']);

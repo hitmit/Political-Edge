@@ -18,7 +18,7 @@ class EmployeeControler extends Controller
      */
     public function index()
     {
-        $users = User::where('role', 'employee')->paginate(10);
+        $users = User::where('role','!=','user')->where('role','!=','admin')->paginate(10);
         return view("employee.index", compact('users'));
     }
 
