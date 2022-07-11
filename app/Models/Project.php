@@ -34,6 +34,7 @@ class Project extends Model
     public function getusername()
     {
         $user_id = UserProject::where('project_id', $this->id)->value('user_id');
-        return User::find($user_id)->name;
+        return User::where('role','employee')->where('id',$user_id)->value('name');
     }
+
 }

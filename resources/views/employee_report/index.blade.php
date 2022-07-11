@@ -14,7 +14,7 @@
                                 <thead>
                                     <tr>
                                         <th>Sr.no</th>
-                                        <th>Name</th>
+                                        <!-- <th>Name</th> -->
                                         <th>Projects</th>
                                         <th>Advance</th>
                                         <th>Expenses</th>
@@ -29,7 +29,7 @@
                                     @foreach ($projects as $project)
                                         <tr>
                                             <td>{{ $i }}</td>
-                                            <td>{{ $project->getusername() }}</td>
+                                            <!-- <td>{{ $project->getusername() }}</td> -->
                                             <td>{{ $project->project()->first()->name }}</td>
                                             <td>{{ $project->advance_total() }}</td>
                                             <td>{{ $project->expense_total() }}</td>

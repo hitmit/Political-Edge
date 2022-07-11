@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\User;
 use App\Models\UserProject;
 use CreateAssignProjectsTable;
 use Illuminate\Http\Request;
@@ -17,7 +18,8 @@ class EmployeeReportController extends Controller
      */
     public function index()
     {
-        $assign_project = UserProject::pluck('project_id')->toArray();
+        $employees = User::where('role','employee')->pluck('id')->toArray();
+        $assign_project = UserProject::whereIn('user_id',$employees)->pluck('project_id')->toArray();
         $projects = Project::whereIn('id', $assign_project)->orderBy('id', 'DESC')->paginate(10);
         return view('employee_report.index', compact('projects'));
     }
