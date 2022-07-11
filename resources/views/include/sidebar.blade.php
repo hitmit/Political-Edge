@@ -12,17 +12,15 @@
     </div>
     <div class="sidebar-body">
         <ul class="nav">
-            @if (auth()->getUser()->role != 'is_manager')
-                <li class="nav-item nav-category">Main</li>
-                <li class="nav-item">
-                    <a href="{{ route('home') }}" class="nav-link">
-                        <i class="link-icon" data-feather="box"></i>
-                        <span class="link-title">Dashboard</span>
-                    </a>
-                </li>
-            @endif
+            <li class="nav-item nav-category">Main</li>
+            <li class="nav-item">
+                <a href="{{ route('home') }}" class="nav-link">
+                    <i class="link-icon" data-feather="box"></i>
+                    <span class="link-title">Dashboard</span>
+                </a>
+            </li>
 
-            @if (auth()->getUser()->role == 'admin')
+            @if (Auth()->user()->role == 'admin')
                 <li class="nav-item nav-category">Manage Project</li>
                 <li class="nav-item">
                     <a href="{{ route('project.index') }}" class="nav-link">
@@ -37,7 +35,7 @@
                     </a>
                 </li>
             @endif
-            @if (auth()->getUser()->role == 'admin' || auth()->getUser()->role == 'user')
+            @if (Auth()->user()->role == 'admin' || Auth()->user()->role == 'user')
                 <li class="nav-item nav-category">Manage Receivables</li>
                 <li class="nav-item">
                     <a href="{{ route('income.index') }}" class="nav-link">
@@ -80,8 +78,8 @@
                     </a>
                 </li>
             @endif
-            @if (auth()->getUser()->role == 'admin' || auth()->getUser()->role == 'is_manager')
-                @if (auth()->getUser()->role == 'admin')
+            @if (Auth()->user()->role == 'admin' || Auth()->user()->role == 'is_manager')
+                @if (Auth()->user()->role == 'admin')
                     <li class="nav-item nav-category">Manage Category</li>
                     <li class="nav-item">
                         <a href="{{ route('category.index') }}" class="nav-link">
@@ -135,7 +133,7 @@
                 <li class="nav-item">
                     <a href="{{ route('employee-report.index') }}" class="nav-link">
                         <i class="link-icon" data-feather="user"></i>
-                        <span class="link-title">Employee Report</span>
+                        <span class="link-title">Reports</span>
                     </a>
                 </li>
             @endif
