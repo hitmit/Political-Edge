@@ -15,10 +15,11 @@
                                     <tr>
                                         <th>Sr.no</th>
                                         <!-- <th>Name</th> -->
+                                        <th>Unit Completed</th>
                                         <th>Projects</th>
                                         <th>Advance</th>
                                         <th>Expenses</th>
-                                        <th>Unit Completed</th>
+                                        <th>Balance</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -29,12 +30,13 @@
                                     @foreach ($projects as $project)
                                         <tr>
                                             <td>{{ $i }}</td>
-                                            <!-- <td>{{ $project->getusername() }}</td> -->
+                                            <td>{{ $project->getusername() }}</td>
+                                            <td>{{ $project->employee_transactions()->sum('units') }} /
+                                                {{ $project->units }}</td>
                                             <td>{{ $project->project()->first()->name }}</td>
                                             <td>{{ $project->advance_total() }}</td>
                                             <td>{{ $project->expense_total() }}</td>
-                                            <td>{{ $project->employee_transactions()->sum('units') }} /
-                                                {{ $project->units }}</td>
+                                            <td>{{ $project->expense_total() - $project->advance_total() }}</td>
                                             <td>
                                                 <form class="my-2"
                                                     action="{{ route('employee-report.destroy', $project->id) }}"
