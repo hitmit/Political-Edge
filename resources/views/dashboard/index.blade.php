@@ -266,14 +266,18 @@
                                                 <td>{{ $project->name }}</td>
                                                 <td>{{ $project->advance_total(Auth()->user()->id) }}</td>
                                                 <td>{{ $project->expense_total(Auth()->user()->id) }}</td>
-                                                <td>{{ $project->expense_total(Auth()->user()->id) - $project->advance_total(Auth()->user()->id) }}
+                                                <td>{{ $project->advance_total(Auth()->user()->id) - $project->expense_total(Auth()->user()->id) }}
                                                 </td>
                                                 <td>
-                                                    <div class="btn-group">
+                                                    <div class="btn-group btn-group-sm">
                                                         <a href="{{ route('project.details', $project->id) }}"
-                                                            class="btn btn-primary">
-                                                            Add Data
+                                                            title="View Details"
+                                                            class="btn btn-success">
+                                                            <i class="fa fa-eye"></i> View
                                                         </a>
+                                                        <button type="button" id="add_details"  data-id = {{ $project->id }} class="btn btn-primary" data-toggle="modal" data-target="#addprogress">
+                                                            <i class="fa fa-plus"></i> Add Details
+                                                        </button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -338,7 +342,7 @@
                                                                 method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
-                                                                <button type="submit"
+                                                                <button type="submit" 
                                                                     onclick="return confirm('Are you sure want to delete')"
                                                                     class="delete btn btn-danger"><i class="fa fa-trash"
                                                                         aria-hidden="true"></i></button>
@@ -364,4 +368,77 @@
         <div class="modal fade transection_modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
         </div>
     </div>
+
+    @if (auth()->user()->role == 'employee')
+        @include('progress-modal.modal')
+    @endif
 @endsection
+
+@push('js')
+<script>
+    var myBookId = $(this).data('id');
+
+    $("#submitProgress").click(function(e) {
+        e.preventDefault();
+        let project_id = $("#project_id").val();
+
+        let user_id = $("#user_id").val();
+
+        let date = $("#date").val();
+        let progress = $("#progress_data").val();
+
+        let amount_income = $("#amount_income").val();
+        let remark = $("#remark").val();
+        let expense_amount = [];
+        let expense_category_arr = [];
+        let category_id = [];
+
+        $('input[name="expense_category[]"]').each(function() {
+            expense_category_arr.push(this.value);
+        });
+
+        for (let index = 1; index <= expense_category_arr.length; index++) {
+            if ($("input[name='expense_amount[" + index + "]']").val() != '') {
+                expense_amount.push($("input[name='expense_amount[" + index + "]']").val());
+                category_id.push(index);
+            }
+        }
+
+        $.ajax({
+            type: "post",
+            url: "{{ route('employee-transaction.store') }}",
+            data: {
+                "_token": "{{ csrf_token() }}",
+                'date': date,
+                'progress': progress,
+                'project_id': project_id,
+                'expense_amount': expense_amount,
+                'category_id': category_id,
+                'amount_income': amount_income,
+                'user_id': user_id,
+                'remark':remark,
+            },
+            success: function(data) {
+                location.reload();
+            },
+            error: function(response) {
+                printErrorMsg(response.responseJSON.errors);
+            }
+        });
+
+        function printErrorMsg(msg) {
+            $.each(msg, function(key, value) {
+                $('.' + key + '_err').text(value);
+                $("#" + key).addClass('is-invalid');
+                $('.is-invalid').focus();
+            });
+        }
+    });
+
+    function clearProgress(arg) {
+        let id = arg.getAttribute('id');
+        $('.' + id + '_err').text('');
+        $("#" + id).removeClass('is-invalid');
+    }
+</script>
+@endpush
