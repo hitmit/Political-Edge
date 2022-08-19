@@ -41,8 +41,9 @@
                                                 </td>
                                                 <td>
                                                     <div class="btn-group">
-                                                        <a href="" class="delete m-2 btn btn-primary"><i
-                                                                class="fa fa-eye"></i></a>
+                                                    <a href="{{ route('employee.report.show', [$user_id, $project->id]) }}"
+                                                                class="delete m-2 btn btn-primary"><i
+                                                                    class="fa fa-eye"></i></a>
                                                         <form class="my-2"
                                                             action="{{ route('employee-report.destroy', $project->id) }}"
                                                             method="POST">
@@ -65,8 +66,6 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                    <div class="card-footer">
                     </div>
                 </div>
             </div>

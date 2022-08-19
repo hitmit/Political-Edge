@@ -293,7 +293,7 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-lg-2 col-12">
-                                    <h6 class="card-title">Projects</h6>
+                                    <h6 class="card-title">Reports</h6>
                                 </div>
                             </div>
                         </div>

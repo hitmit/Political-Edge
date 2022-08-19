@@ -136,6 +136,12 @@
                         <span class="link-title">Reports</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="link-icon" data-feather="user"></i>
+                        <span class="link-title">List Reports</span>
+                    </a>
+                </li>
             @endif
         </ul>
     </div>

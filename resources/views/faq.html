@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="V1X9bY2gb09EKDRYtihNeJoTACtPt4XbTRg1GWzn">
+
+    <title>Clever App | Management Tool</title>
+    
+        <!-- core:css -->
+<link rel="stylesheet" href="https://cleverapp.in/pe/public/assets/vendors/core/core.css">
+<!-- plugin css for this page -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- end plugin css for this page -->
+
+<link rel="stylesheet" href="https://cleverapp.in/pe/public/assets/css/style.css">
+<link rel="stylesheet" href="https://cleverapp.in/pe/public/assets/css/custom.css">
+<!-- End layout styles 
+<link rel="shortcut icon" href="https://cleverapp.in/pe/public/assets/images/fav.png" />-->
+
+<link rel="shortcut icon" href="https://cleverapp.in/pe/public/assets/images/lock.png" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+<style>
+    .faq {
+  padding: 20px 0;
+}
+.collapse {
+    margin-top: 20px;
+}
+.faq .faq-list {
+  padding: 0;
+  list-style: none;
+}
+.faq .faq-list li {
+    background-color: transparent;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    padding: 10px 40px;
+    border: 1px solid #000;
+}
+.faq .faq-list a {
+    display: block;
+    position: relative;
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+    text-decoration: none;
+}
+.collapse p{
+    color: #000;
+}
+.faq .faq-list i {
+  font-size: 16px;
+  position: absolute;
+  left: -25px;
+  top: 6px;
+  transition: 1s;
+}
+.faq-title {
+    text-align: center;
+    font-size: 17px;
+    border-bottom: 2px dashed #ffffff;
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    color: #ffffff;
+}
+
+.faq .faq-list p {
+  padding-top: 5px;
+  margin-bottom: 5px;
+  font-size: 15px;
+}
+
+a.f-right {
+    /* float: right; */
+    display: block;
+    text-align: right;
+    margin-top: 20px;
+}
+.collapsed i.fas.fa-arrow-up {
+    
+}
+.collapsed i.fas.fa-arrow-up {
+    transform: rotate(180deg);
+}
+span.txt-ac {
+    text-align: right;
+    float: right;
+}
+</style>
+</head>
+
+<body>
+    <div id="app" class="main-wrapper">
+        <!-- partial: -->
+<nav class="sidebar">
+    <div class="sidebar-header">
+        <a href="index.php" class="sidebar-brand">
+            <img src="https://cleverapp.in/pe/public/assets/images/lock.png"></span>
+        </a>
+        <div class="sidebar-toggler not-active">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    <div class="sidebar-body">
+        <ul class="nav">
+            <li class="nav-item nav-category">Main</li>
+            <li class="nav-item">
+                <a href="https://cleverapp.in/pe/home" class="nav-link">
+                    <i class="link-icon" data-feather="box"></i>
+                    <span class="link-title">Dashboard</span>
+                </a>
+            </li>
+
+                                                    
+                <li class="nav-item nav-category">Manage Employees</li>
+                <li class="nav-item">
+                    <a href="https://cleverapp.in/pe/employee" class="nav-link">
+                        <i class="link-icon" data-feather="users"></i>
+                        <span class="link-title">Manage Employees</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://cleverapp.in/pe/employee/create" class="nav-link">
+                        <i class="link-icon" data-feather="user"></i>
+                        <span class="link-title">Add employee</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://cleverapp.in/pe/employee-report" class="nav-link">
+                        <i class="link-icon" data-feather="user"></i>
+                        <span class="link-title">Reports</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://cleverapp.in/pe/employee-report" class="nav-link">
+                        <i class="link-icon" data-feather="report"></i>
+                        <span class="link-title">List Reports</span>
+                    </a>
+                </li>
+                    </ul>
+    </div>
+</nav>
+        <div class="page-wrapper">
+            <!-- partial:partials/ -->
+<nav class="navbar">
+    <a href="#" class="sidebar-toggler">
+        <i data-feather="menu"></i>
+    </a>
+    <div class="navbar-content">
+        <!--<form class="search-form">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i data-feather="search"></i>
+                    </div>
+                </div>
+                <input type="text" class="form-control" id="navbarForm" placeholder="Search here...">
+            </div>
+        </form>-->
+        <ul class="navbar-nav">
+
+           
+            <li class="nav-item dropdown nav-profile">
+                <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <img src="https://cleverapp.in/pe/assets/images/user.png" alt="profile">
+                </a>
+                <div class="dropdown-menu" aria-labelledby="profileDropdown">
+                    <div class="dropdown-header d-flex flex-column align-items-center">
+                        <div class="figure mb-3">
+                            <img src="https://cleverapp.in/pe/assets/images/user.png" alt="">
+                        </div>
+                        <div class="info text-center">
+                            <p class="name font-weight-bold mb-0">jaipratap</p>
+                            <p class="email text-muted mb-3">jaipratap</p>
+                        </div>
+                    </div>
+                    <div class="dropdown-body">
+                        <ul class="profile-nav p-0 pt-3">
+                            <li class="nav-item">
+                                <a class="nav-link" href="https://cleverapp.in/pe/update-password">
+                                    Update Password
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="https://cleverapp.in/pe/logout"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        Logout
+                                    </a>
+
+                                    <form id="logout-form" action="https://cleverapp.in/pe/logout" method="POST" class="d-none">
+                                        <input type="hidden" name="_token" value="V1X9bY2gb09EKDRYtihNeJoTACtPt4XbTRg1GWzn">                                    </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!-- partial -->
+
+
+            
+                    <div class="page-content dashboard">
+                                            <div class="row mb-4">
+                <div class="col-lg-12 col-xl-12 stretch-card">
+                    <div class="card add-row">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-lg-2 col-12">
+                                    <h6 class="card-title">Reports</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                        
+                         <section class="faq">
+      <ul class="faq-list">
+          <li data-aos="fade-up" data-aos-delay="100" class="aos-init aos-animate">
+            <a data-toggle="collapse" class="collapsed" href="#faq1" aria-expanded="false"> Himmatnagar <i class="fas fa-arrow-up"></i> <span class="txt-ac">302</span></a>
+            <div id="faq1" class="collapse" data-parent=".faq-list" style="">
+              <p>Progress<span class="txt-ac">150/350</span></p>
+              <div class="rightmove">
+                  <p>Rent<span class="txt-ac">150/350</span></p>
+                  <p>Print<span class="txt-ac">150/350</span></p>
+                  <p>Mobile<span class="txt-ac">150/350</span></p>
+                  <p>Misc<span class="txt-ac">150/350</span></p>
+                  <p><a href="#"  class="f-right">View Report ></a></p>
+              </div>
+            </div>
+          </li>
+
+          <li data-aos="fade-up" data-aos-delay="200" class="aos-init aos-animate">
+            <a data-toggle="collapse" href="#faq2" class="collapsed"> Himmatnagar <i class="fas fa-arrow-up"></i> <span class="txt-ac">302</span></a>
+            <div id="faq2" class="collapse" data-parent=".faq-list">
+              <p>Progress<span class="txt-ac">150/350</span></p>
+              <div class="rightmove">
+                  <p>Rent<span class="txt-ac">150/350</span></p>
+                  <p>Print<span class="txt-ac">150/350</span></p>
+                  <p>Mobile<span class="txt-ac">150/350</span></p>
+                  <p>Misc<span class="txt-ac">150/350</span></p>
+                  <p><a href="#"  class="f-right">View Report ></a></p>
+              </div>
+            </div>
+          </li>
+
+          <li data-aos="fade-up" data-aos-delay="300" class="aos-init aos-animate">
+            <a data-toggle="collapse" href="#faq3" class="collapsed"> Vapi <i class="fas fa-arrow-up"></i> <span class="txt-ac">302</span></a>
+            <div id="faq3" class="collapse" data-parent=".faq-list">
+              <p>Progress<span class="txt-ac">150/350</span></p>
+              <div class="rightmove">
+                  <p>Rent<span class="txt-ac">150/350</span></p>
+                  <p>Print<span class="txt-ac">150/350</span></p>
+                  <p>Mobile<span class="txt-ac">150/350</span></p>
+                  <p>Misc<span class="txt-ac">150/350</span></p>
+                  <p><a href="#"  class="f-right">View Report ></a></p>
+              </div>
+            </div>
+          </li>
+
+          <li data-aos="fade-up" data-aos-delay="400" class="aos-init aos-animate">
+            <a data-toggle="collapse" href="#faq4" class="collapsed"> Valsaad <i class="fas fa-arrow-up"></i> <span class="txt-ac">302</span></a>
+            <div id="faq4" class="collapse" data-parent=".faq-list">
+              <p>Progress<span class="txt-ac">150/350</span></p>
+              <div class="rightmove">
+                  <p>Rent<span class="txt-ac">150/350</span></p>
+                  <p>Print<span class="txt-ac">150/350</span></p>
+                  <p>Mobile<span class="txt-ac">150/350</span></p>
+                  <p>Misc<span class="txt-ac">150/350</span></p>
+                  <p><a href="#"  class="f-right">View Report ></a></p>
+              </div>
+            </div>
+          </li>
+
+          <li data-aos="fade-up" data-aos-delay="500" class="aos-init aos-animate">
+            <a data-toggle="collapse" href="#faq5" class="collapsed"> Ahemdabad <i class="fas fa-arrow-up"></i> <span class="txt-ac">302</span></a>
+            <div id="faq5" class="collapse" data-parent=".faq-list">
+              <p>Progress<span class="txt-ac">150/350</span></p>
+              <div class="rightmove">
+                  <p>Rent<span class="txt-ac">150/350</span></p>
+                  <p>Print<span class="txt-ac">150/350</span></p>
+                  <p>Mobile<span class="txt-ac">150/350</span></p>
+                  <p>Misc<span class="txt-ac">150/350</span></p>
+                  <p><a href="#"  class="f-right">View Report ></a></p>
+              </div>
+            </div>
+          </li>
+
+          <li data-aos="fade-up" data-aos-delay="600" class="aos-init aos-animate">
+            <a data-toggle="collapse" href="#faq6" class="collapsed"> Anand <i class="fas fa-arrow-up"></i> <span class="txt-ac">302</span></a>
+            <div id="faq6" class="collapse" data-parent=".faq-list">
+              <p>Progress<span class="txt-ac">150/350</span></p>
+              <div class="rightmove">
+                  <p>Rent<span class="txt-ac">150/350</span></p>
+                  <p>Print<span class="txt-ac">150/350</span></p>
+                  <p>Mobile<span class="txt-ac">150/350</span></p>
+                  <p>Misc<span class="txt-ac">150/350</span></p>
+                  <p><a href="#"  class="f-right">View Report ></a></p>
+              </div>
+            </div>
+          </li>
+        </ul>
+    </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        <div class="modal fade transection_modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+        </div>
+    </div>
+
+
+            <!-- partial:partials/ -->
+<footer class="footer d-flex text-center flex-column flex-md-row align-items-center justify-content-between">
+    <p class="text-muted text-center">Copyright © 2022 Maintained & Developed By <a href="https://www.ndimensionstudio.com/" target="_blank">nDimensionstudio</a></p>
+</footer>
+<!-- partial -->
+
+
+        </div>
+    </div>
+    <script src="https://unpkg.com/feather-icons"></script>
+
+<script>
+    feather.replace()
+</script>
+<!-- core:js -->
+<script src="https://cleverapp.in/pe/public/js/app.js"></script>
+<!-- endinject -->
+<!-- plugin js for this page -->
+<script src="https://cleverapp.in/pe/public/assets/vendors/progressbar.js/progressbar.min.js"></script>
+
+<!-- plugin js for this page -->
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+<!-- custom js for this page -->
+<!-- choose one -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        var body = $('body');
+        var mainWrapper = $('.main-wrapper');
+        var footer = $('footer');
+        var sidebar = $('.sidebar');
+        var navbar = $('.navbar').not('.top-navbar');
+        // Sidebar toggle to sidebar-folded
+        $('.sidebar-toggler').on('click', function(e) {
+            $(this).toggleClass('active');
+            $(this).toggleClass('not-active');
+            if (window.matchMedia('(min-width: 992px)').matches) {
+                e.preventDefault();
+                body.toggleClass('sidebar-folded');
+            } else if (window.matchMedia('(max-width: 991px)').matches) {
+                e.preventDefault();
+                body.toggleClass('sidebar-open');
+            }
+        });
+    });
+    $(document).on('click', '.btn-modal', function(e) {
+        e.preventDefault();
+        var container = $(this).data('container');
+
+        $.ajax({
+            url: $(this).data('href'),
+            dataType: 'html',
+            success: function(result) {
+                $(container)
+                    .html(result)
+                    .modal('show');
+            },
+        });
+    });
+</script>
+<!-- plugin js for this page -->
+</body>
+
+</html>
