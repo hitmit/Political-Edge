@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EmployeeTransactionCategory;
 use App\Models\UserProject;
 use Illuminate\Http\Request;
 use App\Models\Project;
@@ -89,10 +90,14 @@ class HomeController extends Controller
             $users = User::where('role', 'user')->where('id', auth()->getUser()->id)->get();
         }
         $total_internal = 0;
-        // foreach ($users as $account) {
-        //     $total_internal += $account->totalReceived() - $account->totalSend();
-        // }
-        return view('dashboard.index', compact('projects', 'users', 'total_expense', 'total_income', "total_expected_revenue", "a3", "b3", "c3", "total_amount_reduce", "receiver_id", "total_internal"));
+    
+        // get employee transaction category for show modal category while add data.
+        $categories = EmployeeTransactionCategory::all();
+
+        // get user for showing when employee add advanced to progress.
+        $users = User::where('role', 'user')->get();
+
+        return view('dashboard.index', compact('projects', 'users', 'total_expense', 'total_income', "total_expected_revenue", "a3", "b3", "c3", "total_amount_reduce", "receiver_id", "total_internal","categories","users"));
     }
 
     public function getUpdatePassword()

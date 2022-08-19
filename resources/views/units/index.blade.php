@@ -20,12 +20,11 @@
                 <div class="card add-row">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h6>{{ $project->name }}</h6>
-                        <div class="btn-group btn-group-sm" role="group">
-                            <h6 id="total_amount" style="margin-right:10px;">
-                            </h6>
-                            <button type="button" class="pt-2 btn btn-sm btn-primary" data-bs-toggle="modal"
+                        <div class="btn-group" role="group">
+                            <h6 id="total_amount" class="m-2"></h6>
+                            <button type="button" id="add_details"  data-id = {{ $project->id }}  class="pt-2 btn btn-sm btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#addprogress">
-                                Add Data
+                               <i class="fa fa-plus"></i> Add Details
                             </button>
                         </div>
                     </div>
@@ -44,7 +43,7 @@
                                     <a class="nav-link" data-toggle="tab" id="active_progress" href="#progress"
                                         role="tab" <a class="nav-link" data-toggle="tab" id="active_progress"
                                         href="#progress" role="tab" aria-controls="progress"
-                                        aria-selected="true">Progress</a>
+                                        aria-selected="true">Booths Completed</a>
                                 </li>
                             </ul>
                             <div class="tab-content mt-3 mx-0">
@@ -56,6 +55,7 @@
                                                     <th>SNO</th>
                                                     <th>Expense</th>
                                                     <th>Category</th>
+                                                    <th>Remark</th>
                                                     <th>Date</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -71,6 +71,9 @@
                                                                 <td></td>
                                                             @endif
                                                             <td>{{ $expense->employee_category()->first()->category ?? '' }}
+                                                            </td>
+                                                            <td>
+                                                                {{isset($expense->remark) && $expense->remark != '' ? $expense->remark:'-'}}
                                                             </td>
                                                             <td>{{ $expense->date }}</td>
                                                             <td>
@@ -89,7 +92,7 @@
                                                     @endforeach
                                                 @else
                                                     <tr>
-                                                        <td colspan="5">No record found.</td>
+                                                        <td colspan="6">No record found.</td>
                                                     </tr>
                                                 @endif
                                             </tbody>
@@ -145,7 +148,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>SNO</th>
-                                                    <th>Progress</th>
+                                                    <th>Booths Completed</th>
                                                     <th>Date</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -190,83 +193,9 @@
                 </div>
             </div>
 
-            <!-- add progress modal -->
-            <div class="modal fade" id="addprogress" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <form class="forms-sample" action="{{ route('employee-transaction.store') }}" method="POST">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Add Progress</h5>
-                            </div>
-                            <div class="modal-body">
-
-                                @csrf
-                                <div class="form-group">
-                                    <label for="exampleInputDate">Date</label>
-                                    <input type="hidden" name="project_id" id="project_id"
-                                        value="{{ $project_id }}">
-                                    <input type="date" id="date"
-                                        class="form-control @error('date') is-invalid @enderror" name="date"
-                                        value="{{ date('Y-m-d') }}">
-                                    <span class="text-danger date_err">
-                                    </span>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="progress_data">Progress</label>
-                                    <input type="number" id="progress_data"
-                                        class="form-control @error('progress_data') is-invalid @enderror"
-                                        name="progress_data" value="{{ old('progress_data') }}">
-                                    <span class="text-danger error-text progress_err"></span>
-                                </div>
-
-                                <h5 style="text-align: center" class="modal-title">Expense</h5>
-                                <div class="form-group">
-                                    <label for="category">Category</label>
-                                    <table class="table">
-                                        @foreach ($categories as $key => $category)
-                                            <tr>
-                                                <td><input type="hidden" name="expense_category[]" id="expense_category"
-                                                        style="border: none" readonly
-                                                        value="{{ $category->id }}">{{ $category->category }}</td>
-
-                                                <td style="width: 50%;  padding-bottom: 5px;">
-                                                    <input type="number" name="expense_amount[{{ $category->id }}]"
-                                                        id="expense_amount[{{ $category->id }}]"
-                                                        placeholder="Enter amount." title="Amount" class="form-control">
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </table>
-                                </div>
-
-                                <h5 style="text-align: center" class="modal-title">Advance</h5>
-                                <div class="form-group">
-                                    <label for="category">By Whom</label>
-                                    <select name="user_id" id="user_id" class="form-control">
-                                        @foreach ($users as $user)
-                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <span class="text-danger  user_id_err"></span>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="amount_income">Amount</label>
-                                    <input type="number" id="amount_income" class="form-control" name="amount"
-                                        placeholder="Amount.">
-                                    <span class="text-danger amount_income_err"></span>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" id="submitProgress" class="btn btn-primary mr-2">Submit</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            @if (auth()->user()->role == 'employee')
+                @include('progress-modal.modal',['project_id'=>$project->id])
+            @endif
         </div>
     </div>
 @endsection

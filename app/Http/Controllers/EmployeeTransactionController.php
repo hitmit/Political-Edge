@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use App\Rules\EmployeeProgress;
+use Illuminate\Support\Facades\Session;
 
 class EmployeeTransactionController extends Controller
 {
@@ -19,9 +20,9 @@ class EmployeeTransactionController extends Controller
      */
     public function project_detail($project_id)
     {
-        $progress = EmployeeTransaction::where('employee_id', Auth()->user()->id)->where('project_id', $project_id)->where('type', '=', null)->get();
-        $expenses = EmployeeTransaction::where('employee_id', Auth()->user()->id)->where('project_id', $project_id)->where('type', 'expense')->get();
-        $incomes = EmployeeTransaction::where('employee_id', Auth()->user()->id)->where('project_id', $project_id)->where('type', 'income')->get();
+        $progress = EmployeeTransaction::where('employee_id', Auth()->user()->id)->where('project_id', $project_id)->where('type', '=', null)->orderBy('id','DESC')->get();
+        $expenses = EmployeeTransaction::where('employee_id', Auth()->user()->id)->where('project_id', $project_id)->where('type', 'expense')->orderBy('id','DESC')->get();
+        $incomes = EmployeeTransaction::where('employee_id', Auth()->user()->id)->where('project_id', $project_id)->where('type', 'income')->orderBy('id','DESC')->get();
         $categories = EmployeeTransactionCategory::all();
         $project = Project::find($project_id);
         $users = User::where('role', 'user')->get();
@@ -55,7 +56,7 @@ class EmployeeTransactionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
         $request->validate([
             'date' => 'required',
         ]);
@@ -64,7 +65,6 @@ class EmployeeTransactionController extends Controller
                 'progress' => [new EmployeeProgress($request->project_id)],
             ]);
         }
-
         if (!empty($request->expense_amount)) {
             $category_ids = $request->category_id;
             $expense_amount = $request->expense_amount;
@@ -76,6 +76,9 @@ class EmployeeTransactionController extends Controller
                 $employee_transaction->date = $request->date;
                 $employee_transaction->amount = $expense_amount[$key];
                 $employee_transaction->employee_id = Auth()->user()->id;
+                if($category_id == 8){
+                    $employee_transaction->remark = $request->remark;
+                }
                 $employee_transaction->save();
             }
         }
@@ -99,7 +102,7 @@ class EmployeeTransactionController extends Controller
             $employee_transactions->employee_id = Auth()->user()->id;
             $employee_transactions->save();
         }
-        return redirect()->route('project.details', $request->project_id);
+        return redirect()->route('project.details', $request->project_id)->with('status','Your progress is updated successfully.');
     }
 
     /**
