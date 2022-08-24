@@ -215,6 +215,7 @@
             var progress = $("#progress_data").val();
 
             var amount_income = $("#amount_income").val();
+            let remark = $("#remark").val();
             var expense_amount = [];
             var expense_category_arr = [];
             var category_id = [];
@@ -242,6 +243,7 @@
                     'category_id': category_id,
                     'amount_income': amount_income,
                     'user_id': user_id,
+                    'remark':remark,
                 },
                 success: function(data) {
                     location.reload();
